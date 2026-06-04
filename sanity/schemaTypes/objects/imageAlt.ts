@@ -12,10 +12,10 @@ export default defineType({
       name: "alt",
       type: "string",
       description: "Entrez le texte alternatif pour l'image",
-      validation: (Rule) => Rule.required(),
-    }),
+      validation: (Rule) => Rule.required()
+    })
   ],
   options: {
-    hotspot: true,
-  },
+    hotspot: true
+  }
 });

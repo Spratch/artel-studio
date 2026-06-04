@@ -8,15 +8,20 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "cdn.sanity.io",
-        port: "",
+        port: ""
       },
       {
         protocol: "https",
         hostname: "image.mux.com",
-        port: "",
+        port: ""
       },
-    ],
-  },
+      {
+        protocol: "https",
+        hostname: "www.google.com",
+        port: ""
+      }
+    ]
+  }
 };
 
 export default nextConfig;
