@@ -27,7 +27,6 @@
     "sanity": "^5.29.0",
     "sanity-plugin-iframe-pane": "^5.0.13",
     "sanity-plugin-mux-input": "^2.19.0",
-    "sanity-plugin-tags-v4": "^1.0.18",
     "slugify": "^1.6.9"
   },
   "devDependencies": {

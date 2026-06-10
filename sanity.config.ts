@@ -1,10 +1,10 @@
-import { MicrophoneIcon } from "@sanity/icons";
+import { DatabaseIcon, MicrophoneIcon } from "@sanity/icons";
 import { frFRLocale } from "@sanity/locale-fr-fr";
 import { defineConfig } from "sanity";
 import { muxInput } from "sanity-plugin-mux-input";
-import { tags } from "sanity-plugin-tags-v4";
 import { structureTool } from "sanity/structure";
 import { defaultDocumentNode } from "./sanity/config/deskStructure";
+import { dataStructure } from "./sanity/dataStructure";
 import { apiVersion, dataset, projectId, title } from "./sanity/env";
 import { listDocs, schema } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
@@ -16,7 +16,18 @@ const config = defineConfig({
   title,
   basePath: "/admin",
   plugins: [
-    structureTool({ structure, defaultDocumentNode }),
+    structureTool({
+      structure,
+      defaultDocumentNode,
+      name: "content",
+      title: "Contenus"
+    }),
+    structureTool({
+      structure: dataStructure,
+      name: "data",
+      title: "Données",
+      icon: DatabaseIcon
+    }),
     frFRLocale(),
     muxInput({
       disableUploadConfig: true,
@@ -24,8 +35,7 @@ const config = defineConfig({
         title: "Vidéos",
         icon: MicrophoneIcon
       }
-    }),
-    tags()
+    })
   ],
   document: {
     newDocumentOptions: (prev, { creationContext }) => {

@@ -2,7 +2,7 @@ import {
   BlockContentIcon,
   CaseIcon,
   InfoOutlineIcon,
-  PackageIcon
+  StarIcon
 } from "@sanity/icons";
 import {
   ALL_FIELDS_GROUP,
@@ -13,6 +13,7 @@ import {
 } from "sanity";
 import slugify from "slugify";
 import { getClient } from "../config/client-config";
+import { LayoutPickerInput } from "./objects/layoutPicker";
 
 async function asyncSlugifier(input: string) {
   const clientSlug = await getClient().fetch(
@@ -34,17 +35,19 @@ async function asyncSlugifier(input: string) {
 export const projectSchema = defineType({
   name: "project",
   title: "Projet",
+  description:
+    "Un projet peut inclure plusieurs services et un client peut être référencé dans plusieurs projets. Le site a une page dédiée pour chaque projet.",
   type: "document",
-  icon: PackageIcon,
+  icon: StarIcon,
   groups: [
     {
       name: "infos",
       title: "Informations",
-      default: true,
       icon: InfoOutlineIcon
     },
     {
       name: "page",
+      default: true,
       title: "Page",
       icon: BlockContentIcon
     },
@@ -183,14 +186,162 @@ export const projectSchema = defineType({
       name: "services",
       title: "Services",
       description: "Liste des services vendus sur ce projet",
-      type: "tags",
-      options: {
-        includeFromReference: "service",
-        customLabel: "name",
-        customValue: "slug"
-      },
+      type: "array",
+      of: [
+        defineArrayMember({
+          name: "service",
+          title: "Service",
+          type: "reference",
+          to: [{ type: "service" }]
+        })
+      ],
       validation: (Rule) => Rule.required().min(1),
       group: "infos"
+    }),
+    defineField({
+      name: "pageContent",
+      title: "Contenu de la page",
+      description: "Éditer le contenu de la page rangée par rangée",
+      type: "array",
+      of: [
+        defineArrayMember({
+          name: "row",
+          title: "Rangée",
+          description:
+            "Éditer le contenu de la rangée dans une grille de 3 colonnes",
+          type: "object",
+          preview: {
+            select: {
+              layout: "layout",
+              element1: "elements.0._type",
+              element2: "elements.1._type",
+              element3: "elements.2._type",
+              first: "elements.0"
+            },
+            prepare: (value) => {
+              const layout = value.layout || "non défini";
+              const elements: string[] = [
+                value.element1,
+                value.element2,
+                value.element3
+              ].filter(Boolean);
+              const types = {
+                textCol: "Texte",
+                imageAlt: "Image"
+              };
+              return {
+                title: `${layout.replaceAll("0", "▒ ").replaceAll("1", "▓ ").replaceAll("-", "").replaceAll("2", "▓▓\xa0")} • ${value.first._type === "textCol" ? value.first.title : value.first.alt}`,
+                subtitle: elements
+                  ? `${elements
+                      .map((el) => {
+                        return types[el as keyof typeof types] || el;
+                      })
+                      .join(
+                        ", "
+                      )}${value.first._type === "textCol" ? " : " + value.first.body[0].children[0].text : ""}`
+                  : "Rangée vide",
+                media:
+                  value.first && value.first._type === "imageAlt"
+                    ? value.first
+                    : BlockContentIcon
+              };
+            }
+          },
+          fields: [
+            defineField({
+              name: "layout",
+              title: "Disposition",
+              type: "string",
+              description:
+                "Choisir la disposition de la rangée. Sur petit écran, les rangées s'affichent toujours en une colonne.",
+              components: {
+                input: LayoutPickerInput
+              },
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "elements",
+              title: "Éléments",
+              type: "array",
+              description:
+                "Ajouter du texte ou une image dans chaque colonne de la rangée. Le nombre d'éléments doit correspondre à la disposition choisie.",
+              of: [
+                defineArrayMember({
+                  name: "textCol",
+                  title: "Texte",
+                  icon: BlockContentIcon,
+                  type: "object",
+                  fields: [
+                    defineField({
+                      name: "title",
+                      title: "Titre",
+                      type: "string"
+                    }),
+                    defineField({
+                      name: "body",
+                      title: "Corps de texte",
+                      type: "customBlock",
+                      validation: (Rule) => Rule.required()
+                    })
+                  ],
+                  preview: {
+                    select: {
+                      title: "title",
+                      text: "body.0.children.0.text"
+                    },
+                    prepare: (value) => ({
+                      title: value.title || "Texte sans titre",
+                      subtitle: value.text
+                    })
+                  }
+                }),
+                defineArrayMember({
+                  title: "Image",
+                  type: "imageAlt",
+                  validation: (Rule) => Rule.required()
+                })
+              ],
+
+              validation: (Rule) =>
+                Rule.custom((columns, context) => {
+                  const layout = (
+                    context.parent as { layout: string | undefined }
+                  ).layout;
+                  if (!layout) return true;
+
+                  const requiredItems =
+                    {
+                      "3": 1,
+                      "2-0": 1,
+                      "0-2": 1,
+                      "1-1-0": 2,
+                      "0-1-1": 2,
+                      "1-0-1": 2,
+                      "1-1-1": 3
+                    }[layout] ?? 0;
+
+                  if (!columns || (columns as []).length !== requiredItems) {
+                    return `La disposition de cette rangée nécessite exactement ${requiredItems} item${requiredItems > 1 ? "s" : ""}`;
+                  }
+                  return true;
+                })
+            })
+          ]
+        })
+      ],
+      group: "page"
     })
-  ]
+  ],
+  preview: {
+    select: {
+      title: "title",
+      client: "client.name",
+      cover: "cover"
+    },
+    prepare: (value) => ({
+      title: value.title,
+      subtitle: value.client,
+      media: value.cover
+    })
+  }
 });

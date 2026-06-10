@@ -11,7 +11,8 @@ export default defineType({
       title: "Texte alternatif",
       name: "alt",
       type: "string",
-      description: "Entrez le texte alternatif pour l'image",
+      description:
+        "Description de l’image pour l’accessibilité. Décrivez ce qui est important à comprendre dans l’image en une phrase concise",
       validation: (Rule) => Rule.required()
     })
   ],
