@@ -1,8 +1,9 @@
 import {
   BlockContentIcon,
   CaseIcon,
-  InfoOutlineIcon,
-  StarIcon
+  CommentIcon,
+  ComponentIcon,
+  InfoOutlineIcon
 } from "@sanity/icons";
 import {
   ALL_FIELDS_GROUP,
@@ -11,7 +12,6 @@ import {
   defineType,
   SanityDocument
 } from "sanity";
-import slugify from "slugify";
 import { getClient } from "../config/client-config";
 import { LayoutPickerInput } from "./objects/layoutPicker";
 
@@ -20,15 +20,15 @@ async function asyncSlugifier(input: string) {
     '*[_type=="client" && _id == $clientRef][0].slug.current',
     { clientRef: input }
   );
-  const slug = slugify(clientSlug);
+
   const query = 'count(*[_type=="project" && slug.current == $slug]{_id})';
   return getClient()
-    .fetch(query, { slug })
+    .fetch(query, { slug: clientSlug })
     .then((count) => {
       if (count > 0) {
-        return `${slug}-${count + 1}`;
+        return `${clientSlug}-${count + 1}`;
       }
-      return slug;
+      return clientSlug;
     });
 }
 
@@ -38,7 +38,7 @@ export const projectSchema = defineType({
   description:
     "Un projet peut inclure plusieurs services et un client peut être référencé dans plusieurs projets. Le site a une page dédiée pour chaque projet.",
   type: "document",
-  icon: StarIcon,
+  icon: ComponentIcon,
   groups: [
     {
       name: "infos",
@@ -86,7 +86,8 @@ export const projectSchema = defineType({
           (doc as SanityDocument & { client: { _ref: string } }).client._ref,
         slugify: asyncSlugifier
       },
-      group: "infos"
+      group: "infos",
+      validation: (Rule) => Rule.required()
     }),
     defineField({
       name: "subtitle",
@@ -215,35 +216,49 @@ export const projectSchema = defineType({
               layout: "layout",
               element1: "elements.0._type",
               element2: "elements.1._type",
-              element3: "elements.2._type",
-              first: "elements.0"
+              first: "elements.0",
+              reviewTitle: "elements.0.text.0.children.0.text",
+              reviewPerson: "elements.0.person.name"
             },
             prepare: (value) => {
               const layout = value.layout || "non défini";
               const elements: string[] = [
                 value.element1,
-                value.element2,
-                value.element3
+                value.element2
               ].filter(Boolean);
-              const types = {
-                textCol: "Texte",
-                imageAlt: "Image"
+              const titleLayoutPrefix = `${layout.replaceAll("0", "▒ ").replaceAll("1", "▓ ").replaceAll("-", "").replaceAll("2", "▓▓\xa0")} • `;
+
+              const elementTitle = {
+                textCol: value.first.title,
+                imageAlt: value.first.alt,
+                review: value.reviewTitle
               };
+              const elementTypes = {
+                textCol: "Texte",
+                imageAlt: "Image",
+                review: `Témoignage (${value.reviewPerson})`
+              };
+              const elementMedia = {
+                textCol: BlockContentIcon,
+                imageAlt: value.first,
+                review: CommentIcon
+              };
+
               return {
-                title: `${layout.replaceAll("0", "▒ ").replaceAll("1", "▓ ").replaceAll("-", "").replaceAll("2", "▓▓\xa0")} • ${value.first._type === "textCol" ? value.first.title : value.first.alt}`,
+                title: `${titleLayoutPrefix}${elementTitle[value.first._type as keyof typeof elementTitle] || value.first._type}`,
                 subtitle: elements
                   ? `${elements
                       .map((el) => {
-                        return types[el as keyof typeof types] || el;
+                        return (
+                          elementTypes[el as keyof typeof elementTypes] || el
+                        );
                       })
                       .join(
                         ", "
                       )}${value.first._type === "textCol" ? " : " + value.first.body[0].children[0].text : ""}`
                   : "Rangée vide",
                 media:
-                  value.first && value.first._type === "imageAlt"
-                    ? value.first
-                    : BlockContentIcon
+                  elementMedia[value.first._type as keyof typeof elementMedia]
               };
             }
           },
@@ -297,8 +312,13 @@ export const projectSchema = defineType({
                 }),
                 defineArrayMember({
                   title: "Image",
-                  type: "imageAlt",
-                  validation: (Rule) => Rule.required()
+                  type: "imageAlt"
+                }),
+                defineArrayMember({
+                  name: "review",
+                  title: "Témoignage",
+                  type: "reference",
+                  to: [{ type: "review" }]
                 })
               ],
 

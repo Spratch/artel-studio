@@ -26,8 +26,7 @@
     "react-dom": "19.2.4",
     "sanity": "^5.29.0",
     "sanity-plugin-iframe-pane": "^5.0.13",
-    "sanity-plugin-mux-input": "^2.19.0",
-    "slugify": "^1.6.9"
+    "sanity-plugin-mux-input": "^2.19.0"
   },
   "devDependencies": {
     "@sanity/types": "^5.29.0",

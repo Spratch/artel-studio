@@ -20,7 +20,8 @@ export const clientSchema = defineType({
       description:
         "Identifiant unique de l'entreprise, cliquer sur Générer après avoir renseigné le nom du client ci-dessus",
       type: "slug",
-      options: { source: "name" }
+      options: { source: "name" },
+      validation: (Rule) => Rule.required()
     }),
     defineField({
       name: "logo",

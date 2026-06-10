@@ -9,6 +9,7 @@ import imageAlt from "./objects/imageAlt";
 import seoFields from "./objects/seoFields";
 import { personSchema } from "./person";
 import { projectSchema } from "./project";
+import { reviewSchema } from "./review";
 import { serviceSchema } from "./service";
 import { settingsSchema } from "./settings";
 import { typefaceSchema } from "./typeface";
@@ -21,7 +22,8 @@ export const listDocs = [
   personSchema,
   serviceSchema,
   typefaceSchema,
-  foundrySchema
+  foundrySchema,
+  reviewSchema
 ];
 const objects = [favicon, imageAlt, colorInput, customBlock, seoFields];
 export const schema: SchemaPluginOptions = {

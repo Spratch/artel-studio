@@ -1,4 +1,9 @@
-import { ControlsIcon, DocumentsIcon, PackageIcon } from "@sanity/icons";
+import {
+  CaseIcon,
+  ControlsIcon,
+  DocumentsIcon,
+  TiersIcon
+} from "@sanity/icons";
 import type { StructureResolver } from "sanity/structure";
 
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
@@ -20,8 +25,8 @@ export const structure: StructureResolver = (S) => {
   return S.list()
     .title("Contenus")
     .items([
-      li("project", "Projets", PackageIcon, "list"),
-      li("service", "Services", PackageIcon, "list"),
+      li("project", "Projets", TiersIcon, "list"),
+      li("service", "Services", CaseIcon, "list"),
 
       S.divider(),
 

@@ -10,12 +10,15 @@ export const personSchema = defineType({
     defineField({
       name: "name",
       title: "Nom",
+      description: "Nom complet de la personne",
       type: "string",
       validation: (Rule) => Rule.required()
     }),
     defineField({
       name: "slug",
       title: "Slug",
+      description:
+        "Identifiant unique de la personne. Cliquer sur Générer après avoir renseigné son nom.",
       type: "slug",
       options: {
         source: "name"
@@ -25,7 +28,16 @@ export const personSchema = defineType({
     defineField({
       name: "position",
       title: "Position",
+      description:
+        "Renseigner la position actuelle de la personne au sein de l'entreprise",
       type: "string"
+    }),
+    defineField({
+      name: "company",
+      title: "Entreprise",
+      description: "Renseigner l'entreprise actuelle",
+      type: "reference",
+      to: [{ type: "client" }]
     })
   ],
   preview: {
