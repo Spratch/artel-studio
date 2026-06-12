@@ -1,3 +1,5 @@
+"use client";
+
 import { DatabaseIcon, MicrophoneIcon } from "@sanity/icons";
 import { frFRLocale } from "@sanity/locale-fr-fr";
 import { defineConfig } from "sanity";

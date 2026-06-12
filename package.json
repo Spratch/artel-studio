@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "create:colors": "tsx ./create-colors.ts"
   },
   "dependencies": {
     "@mux/mux-video-react": "^0.31.0",

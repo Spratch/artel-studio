@@ -43,7 +43,14 @@ export const personSchema = defineType({
   preview: {
     select: {
       title: "name",
-      subtitle: "position"
+      position: "position",
+      company: "company.name"
+    },
+    prepare(value) {
+      return {
+        title: value.title,
+        subtitle: [value.company, value.position].filter(Boolean).join(" - ")
+      };
     }
   }
 });

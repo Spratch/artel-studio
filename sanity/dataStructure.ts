@@ -1,6 +1,7 @@
 import {
   CommentIcon,
   DocumentsIcon,
+  DropIcon,
   HomeIcon,
   StringIcon,
   UsersIcon
@@ -29,6 +30,11 @@ export const dataStructure: StructureResolver = (S) => {
       li("review", "Témoignages", CommentIcon, "list"),
       li("client", "Clients", HomeIcon, "list"),
       li("person", "Personnes", UsersIcon, "list"),
+
+      S.divider(),
+
+      li("paletteColor", "Palette de couleurs", DropIcon, "list"),
+      li("otherColor", "Couleurs hors palette", DropIcon, "list"),
 
       S.divider(),
 

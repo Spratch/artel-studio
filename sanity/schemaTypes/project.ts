@@ -43,11 +43,11 @@ export const projectSchema = defineType({
     {
       name: "infos",
       title: "Informations",
+      default: true,
       icon: InfoOutlineIcon
     },
     {
       name: "page",
-      default: true,
       title: "Page",
       icon: BlockContentIcon
     },
@@ -200,10 +200,42 @@ export const projectSchema = defineType({
       group: "infos"
     }),
     defineField({
+      name: "colors",
+      title: "Couleurs du projet",
+      description:
+        "Couleurs utilisées pour cette page. Attention aux contrastes, prévisualiser en ouvrant un volet 'aperçu' avec l'icône en haut à droite.",
+      type: "object",
+      options: {
+        columns: 2
+      },
+      fields: [
+        defineField({
+          name: "primary",
+          title: "Couleur principale",
+          description: "Fond de la page",
+          type: "colorRef",
+          initialValue: {
+            _ref: "R4ugbcAV6zqTaKrvgR7o1y"
+          },
+          validation: (Rule) => Rule.required()
+        }),
+        defineField({
+          name: "secondary",
+          title: "Couleur secondaire",
+          description: "Texte et éléments graphiques",
+          type: "colorRef",
+          initialValue: { _ref: "R4ugbcAV6zqTaKrvgRLdgC" },
+          validation: (Rule) => Rule.required()
+        })
+      ],
+      group: "page"
+    }),
+    defineField({
       name: "pageContent",
       title: "Contenu de la page",
       description: "Éditer le contenu de la page rangée par rangée",
       type: "array",
+      group: "page",
       of: [
         defineArrayMember({
           name: "row",
@@ -348,8 +380,7 @@ export const projectSchema = defineType({
             })
           ]
         })
-      ],
-      group: "page"
+      ]
     })
   ],
   preview: {
