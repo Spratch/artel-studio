@@ -5,3 +5,8 @@ allowBuilds:
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+minimumReleaseAgeExclude:
+  - sanity-plugin-iframe-pane@5.0.14
+  - sanity-plugin-utils@2.0.1
+  - next-sanity@13.1.0
+  - sanity-plugin-mux-input@3.0.0
