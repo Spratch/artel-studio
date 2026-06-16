@@ -19,7 +19,7 @@ export default defineField({
       name: "seoTitle",
       title: "Titre SEO",
       type: "string",
-      description: "Entrez le titre SEO pour cette page",
+      description: "Entrer le titre SEO pour cette page",
       components: {
         input: SeoInput
       },
@@ -36,7 +36,7 @@ export default defineField({
       components: {
         input: SeoInput
       },
-      description: "Entrez la description SEO pour cette page",
+      description: "Entrer la description SEO pour cette page",
       validation: (Rule: Rule) =>
         Rule.max(160).warning(
           "La description SEO doit contenir moins de 160 caractères"
@@ -46,7 +46,7 @@ export default defineField({
       name: "seoImage",
       title: "Image",
       type: "image",
-      description: "Sélectionnez l'image SEO pour cette page"
+      description: "Sélectionner l'image SEO pour cette page"
     }
   ]
 });

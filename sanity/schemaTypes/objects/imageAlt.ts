@@ -12,7 +12,7 @@ export default defineType({
       name: "alt",
       type: "string",
       description:
-        "Description de l’image pour l’accessibilité. Décrivez ce qui est important à comprendre dans l’image en une phrase concise",
+        "Description de l’image pour l’accessibilité. Décrire ce qui est important à comprendre dans l’image en une phrase concise",
       validation: (Rule) => Rule.required()
     })
   ],

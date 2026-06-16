@@ -43,5 +43,5 @@ export default defineField({
     Rule.regex(/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/, {
       name: "hex color",
       invert: false
-    }).error("Entrez une couleur hexadécimale valide")
+    }).error("Entrer une couleur hexadécimale valide")
 });

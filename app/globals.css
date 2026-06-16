@@ -5,11 +5,8 @@
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --text-2xs: 0.625rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,7 +24,6 @@ body {
 
 /* Sanity */
 /* Title */
-
 [data-ui="Stack"]:has(h2) {
   margin-bottom: 2.5rem;
 }
@@ -58,5 +54,15 @@ body {
         display: none;
       }
     }
+  }
+
+  /* Fields descriptions */
+  & [id^="desc_"] span {
+    white-space: pre-line;
+  }
+
+  /* Object gap */
+  & [class^="FormRowContainer"] .object-section-colors > [data-ui="Stack"] {
+    row-gap: 2rem;
   }
 }

@@ -14,28 +14,28 @@ export const settingsSchema = defineType({
       validation: (Rule) =>
         Rule.required()
           .max(60)
-          .warning("Le titre du site doit contenir moins de 60 caractères"),
+          .warning("Le titre du site doit contenir moins de 60 caractères")
     }),
     defineField({
       name: "description",
       title: "Description",
       type: "text",
       rows: 3,
-      description: "Entrez la description du site",
+      description: "Entrer la description du site",
       validation: (Rule) =>
         Rule.required()
           .max(160)
           .warning(
-            "La description du site doit contenir moins de 160 caractères",
-          ),
+            "La description du site doit contenir moins de 160 caractères"
+          )
     }),
     defineField({
       name: "favicon",
       title: "Favicon",
       type: "object",
-      description: "Entrez les favicons à utiliser sur le site",
+      description: "Entrer les favicons à utiliser sur le site",
       options: {
-        columns: 2,
+        columns: 2
       },
       fields: [
         {
@@ -43,16 +43,16 @@ export const settingsSchema = defineType({
           title: "Foncé",
           type: "favicon",
           description:
-            "Choisissez le favicon foncé utilisé sur les fonds clairs (PNG)",
+            "Choisir le favicon foncé utilisé sur les fonds clairs (PNG)"
         },
         {
           name: "light",
           title: "Clair",
           type: "favicon",
           description:
-            "Choisissez le favicon clair utilisé sur les fonds sombres (PNG)",
-        },
-      ],
+            "Choisir le favicon clair utilisé sur les fonds sombres (PNG)"
+        }
+      ]
     }),
     defineField({
       name: "navigation",
@@ -73,7 +73,7 @@ export const settingsSchema = defineType({
               title: "Titre",
               type: "string",
               description: "Le titre de l'élément du menu de navigation",
-              validation: (Rule) => Rule.required(),
+              validation: (Rule) => Rule.required()
             }),
             defineField({
               name: "slug",
@@ -81,35 +81,35 @@ export const settingsSchema = defineType({
               type: "slug",
               options: {
                 source: (_, context) =>
-                  (context.parent as Record<string, unknown>).title as string,
+                  (context.parent as Record<string, unknown>).title as string
               },
               description: "Le slug de l'élément du menu de navigation",
-              validation: (Rule) => Rule.required(),
-            }),
-          ],
-        }),
+              validation: (Rule) => Rule.required()
+            })
+          ]
+        })
       ],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required()
     }),
     defineField({
-        name: "colors",
-        title: "Couleurs",
-        type: "object",
-        description: "Entrez les couleurs à utiliser sur le site",
-        fields: [
-            defineField({
-                name: "primary",
-                title: "Couleur principale",
-                type: "colorInput",
-                description: "Entrez la couleur principale (textes)"
-            }),
-            defineField({
-                name: "secondary",
-                title: "Couleur secondaire",
-                type: "colorInput",
-                description: "Entrez la couleur secondaire (fonds)"
-            })
-        ]
+      name: "colors",
+      title: "Couleurs",
+      type: "object",
+      description: "Entrer les couleurs à utiliser sur le site",
+      fields: [
+        defineField({
+          name: "primary",
+          title: "Couleur principale",
+          type: "colorInput",
+          description: "Entrer la couleur principale (textes)"
+        }),
+        defineField({
+          name: "secondary",
+          title: "Couleur secondaire",
+          type: "colorInput",
+          description: "Entrer la couleur secondaire (fonds)"
+        })
+      ]
     })
-  ],
+  ]
 });
