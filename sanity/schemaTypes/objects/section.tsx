@@ -171,14 +171,15 @@ export default defineType({
               type: "number",
               options: {
                 list: [
+                  { title: "Pas de description", value: 0 },
                   { title: "1 colonne", value: 1 },
                   { title: "2 colonnes", value: 2 },
                   { title: "3 colonnes", value: 3 }
                 ],
                 layout: "dropdown"
               },
-              initialValue: 2,
-              validation: (Rule) => Rule.required().min(1).max(3)
+              initialValue: 0,
+              validation: (Rule) => Rule.required().min(0).max(3)
             }),
             defineField({
               name: "position",
@@ -201,7 +202,18 @@ export default defineType({
           title: "Colonne 1",
           type: "customBlock",
           description: "Contenu de la première colonne",
-          validation: (Rule) => Rule.required()
+          hidden: ({ parent }) => parent?.layout.columns < 1,
+          validation: (Rule) =>
+            Rule.custom((value, context) => {
+              if (
+                (context.parent as { layout: { columns: number } })?.layout
+                  .columns >= 1 &&
+                !value
+              ) {
+                return "Veuillez fournir un contenu pour la deuxième colonne.";
+              }
+              return true;
+            })
         }),
         defineField({
           name: "column2",
@@ -260,6 +272,107 @@ export default defineType({
       group: "content"
     }),
     defineField({
+      name: "projects",
+      title: "Projets",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "project" }] }],
+      group: "content",
+      hidden: ({ parent }) => parent?.contentType !== "projects",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (
+            (context.parent as { contentType: string })?.contentType ===
+              "projects" &&
+            (!value || value.length === 0)
+          ) {
+            return "Veuillez fournir au moins un projet.";
+          }
+          return true;
+        })
+    }),
+    defineField({
+      name: "services",
+      title: "Services",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "service" }] }],
+      group: "content",
+      hidden: ({ parent }) => parent?.contentType !== "services",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (
+            (context.parent as { contentType: string })?.contentType ===
+              "services" &&
+            (!value || value.length === 0)
+          ) {
+            return "Veuillez fournir au moins un service.";
+          }
+          return true;
+        })
+    }),
+    defineField({
+      name: "reviews",
+      title: "Témoignages",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "review" }] }],
+      group: "content",
+      hidden: ({ parent }) => parent?.contentType !== "reviews",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (
+            (context.parent as { contentType: string })?.contentType ===
+              "reviews" &&
+            (!value || value.length === 0)
+          ) {
+            return "Veuillez fournir au moins un témoignage.";
+          }
+          return true;
+        })
+    }),
+    defineField({
+      name: "experience",
+      title: "Expériences",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "review" }] }],
+      group: "content",
+      hidden: ({ parent }) => parent?.contentType !== "experience"
+    }),
+    defineField({
+      name: "image",
+      title: "Image",
+      type: "imageAlt",
+      group: "content",
+      hidden: ({ parent }) => parent?.contentType !== "image",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (
+            (context.parent as { contentType: string })?.contentType ===
+              "image" &&
+            !value
+          ) {
+            return "Veuillez fournir une image.";
+          }
+          return true;
+        })
+    }),
+    defineField({
+      name: "video",
+      title: "Vidéo",
+      description: "Courte vidéo sans son",
+      type: "mux.video",
+      hidden: ({ parent }) => parent?.contentType !== "image",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (
+            (context.parent as { contentType: string })?.contentType ===
+              "video" &&
+            !value
+          ) {
+            return "Veuillez fournir une vidéo.";
+          }
+          return true;
+        })
+    }),
+    defineField({
       name: "colors",
       title: "Couleurs",
       type: "object",
@@ -276,6 +389,7 @@ export default defineType({
           description:
             "Couleur de fond de la section,\nattention aux accords avec les autres sections",
           type: "colorRef",
+          initialValue: { _ref: "GmY8EMdQcEdG09jOJ4pWgC" },
           validation: (Rule) => Rule.required()
         }),
         defineField({
@@ -307,5 +421,62 @@ export default defineType({
         })
       ]
     })
-  ]
+  ],
+  preview: {
+    select: {
+      title: "title",
+      subtitle: "subtitle",
+      backgroundColor: "colors.backgroundColor.value",
+      textColor: "colors.textColor.value",
+      buttonColor: "colors.buttonBgColor.value",
+      columns: "description.layout.columns"
+    },
+    prepare(selection) {
+      const {
+        title,
+        subtitle,
+        backgroundColor,
+        textColor,
+        buttonColor,
+        columns
+      } = selection;
+      return {
+        title,
+        subtitle,
+        media: (
+          <div
+            className="flex size-full flex-col items-start justify-between rounded-sm bg-(--section-bg-color) p-0.75"
+            style={
+              {
+                "--section-bg-color": backgroundColor,
+                "--section-fg-color": textColor,
+                "--button-bg-color": buttonColor
+              } as React.CSSProperties
+            }
+          >
+            <div className="flex flex-col gap-0.5">
+              {subtitle && (
+                <span className="h-px w-1 bg-(--section-fg-color)" />
+              )}
+              <span className="h-0.75 w-4.5 bg-(--section-fg-color)" />
+              {columns > 1 && (
+                <div className="flex gap-0.5">
+                  {Array.from({ length: columns }).map((_, index) => (
+                    <div
+                      className="flex flex-col gap-px"
+                      key={index}
+                    >
+                      <span className="h-px w-1.5 bg-(--section-fg-color)" />
+                      <span className="h-px w-1 bg-(--section-fg-color)" />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <span className="size-1.25 bg-(--button-bg-color)" />
+          </div>
+        )
+      };
+    }
+  }
 });
