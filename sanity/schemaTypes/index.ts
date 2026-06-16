@@ -1,4 +1,5 @@
 import type { SchemaPluginOptions } from "sanity";
+import { aboutSchema } from "./about";
 import { clientSchema } from "./client";
 import { foundrySchema } from "./foundry";
 import { homeSchema } from "./home";
@@ -19,7 +20,7 @@ import { serviceSchema } from "./service";
 import { settingsSchema } from "./settings";
 import { typefaceSchema } from "./typeface";
 
-const singltetonDocs = [settingsSchema, homeSchema];
+const singltetonDocs = [settingsSchema, homeSchema, aboutSchema];
 export const listDocs = [
   projectSchema,
   legalSchema,

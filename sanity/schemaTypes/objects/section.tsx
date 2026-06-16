@@ -1,7 +1,13 @@
 "use client";
 
 import { getClient } from "@/sanity/config/client-config";
-import { BlockContentIcon, DropIcon, StringIcon } from "@sanity/icons";
+import {
+  ArrowTopRightIcon,
+  BlockContentIcon,
+  BlockElementIcon,
+  DropIcon,
+  StringIcon
+} from "@sanity/icons";
 import { Flex, Text } from "@sanity/ui";
 import {
   ALL_FIELDS_GROUP,
@@ -106,6 +112,7 @@ export default defineType({
   name: "section",
   title: "Section",
   type: "object",
+  icon: BlockElementIcon,
   groups: [
     {
       name: "texts",
@@ -117,6 +124,11 @@ export default defineType({
       name: "content",
       title: "Contenu",
       icon: BlockContentIcon
+    },
+    {
+      name: "button",
+      title: "Bouton",
+      icon: ArrowTopRightIcon
     },
     {
       name: "colors",
@@ -371,6 +383,50 @@ export default defineType({
           }
           return true;
         })
+    }),
+    defineField({
+      name: "button",
+      title: "Bouton",
+      type: "object",
+      description:
+        "Ajouter un bouton à la section, pour rediriger vers une autre page",
+      group: "button",
+      fields: [
+        defineField({
+          name: "label",
+          title: "Texte",
+          type: "string",
+          description: "Texte du bouton, court et explicite, avec un verbe",
+          validation: (Rule) => Rule.required()
+        }),
+        defineField({
+          name: "page",
+          title: "Page",
+          type: "reference",
+          to: [
+            { type: "about" },
+            // { type: "projects" },
+            // { type: "services" },
+            { type: "project" },
+            { type: "service" }
+          ],
+          description: "Page du site vers laquelle le bouton redirige",
+          validation: (Rule) => Rule.required()
+        }),
+        defineField({
+          name: "position",
+          title: "Position",
+          type: "string",
+          options: {
+            list: [
+              { title: "En haut à droite", value: "top" },
+              { title: "En bas à gauche", value: "bottom" }
+            ],
+            layout: "dropdown"
+          },
+          validation: (Rule) => Rule.required()
+        })
+      ]
     }),
     defineField({
       name: "colors",
