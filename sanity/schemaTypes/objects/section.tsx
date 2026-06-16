@@ -1,7 +1,7 @@
 "use client";
 
 import { getClient } from "@/sanity/config/client-config";
-import { BlockContentIcon, DropIcon } from "@sanity/icons";
+import { BlockContentIcon, DropIcon, StringIcon } from "@sanity/icons";
 import { Flex, Text } from "@sanity/ui";
 import {
   ALL_FIELDS_GROUP,
@@ -85,14 +85,14 @@ function SectionColorsInput(props: ObjectInputProps) {
             }
           >
             <div className="flex flex-col">
-              <p className="text-2xs">Titre de section</p>
+              <p className="font-serif text-2xs">Titre de section</p>
               <p className="text-sm">Sous-titre de section</p>
             </div>
             <div className="flex items-center gap-2">
               <div className="flex aspect-square size-6 items-center justify-center rounded-sm bg-(--buttonBgColor) text-xs text-(--buttonFgColor)">
                 +
               </div>
-              <p className="text-2xs">En savoir plus</p>
+              <p className="font-serif text-2xs">En savoir plus</p>
             </div>
           </div>
         </Flex>
@@ -108,12 +108,17 @@ export default defineType({
   type: "object",
   groups: [
     {
+      name: "texts",
+      title: "Textes",
+      default: true,
+      icon: StringIcon
+    },
+    {
       name: "content",
       title: "Contenu",
       icon: BlockContentIcon
     },
     {
-      default: true,
       name: "colors",
       title: "Couleurs",
       icon: DropIcon
@@ -130,7 +135,7 @@ export default defineType({
       type: "string",
       description:
         "Titre de la section, apparaît soit en grand sans-serif,\nsoit en petit et en serif si un sous-titre est renseigné",
-      group: "content",
+      group: "texts",
       validation: (Rule) => Rule.required()
     }),
     defineField({
@@ -139,6 +144,119 @@ export default defineType({
       type: "text",
       rows: 2,
       description: "Sous-titre de la section, apparaît en grand sans-serif",
+      group: "texts"
+    }),
+    defineField({
+      name: "description",
+      title: "Description",
+      type: "object",
+      description: "Le texte apparaissant sous le titre, en serif",
+      group: "texts",
+      fields: [
+        defineField({
+          name: "layout",
+          title: "Mise en page",
+          description: "Choisir le nombre de colonnes et la position du texte",
+          type: "object",
+          options: {
+            columns: 2,
+            collapsible: true,
+            collapsed: true,
+            modal: { type: "popover" }
+          },
+          fields: [
+            defineField({
+              name: "columns",
+              title: "Colonnes",
+              type: "number",
+              options: {
+                list: [
+                  { title: "1 colonne", value: 1 },
+                  { title: "2 colonnes", value: 2 },
+                  { title: "3 colonnes", value: 3 }
+                ],
+                layout: "dropdown"
+              },
+              initialValue: 2,
+              validation: (Rule) => Rule.required().min(1).max(3)
+            }),
+            defineField({
+              name: "position",
+              title: "Position",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Haut", value: "top" },
+                  { title: "Bas", value: "bottom" }
+                ],
+                layout: "dropdown"
+              },
+              initialValue: "top",
+              validation: (Rule) => Rule.required()
+            })
+          ]
+        }),
+        defineField({
+          name: "column1",
+          title: "Colonne 1",
+          type: "customBlock",
+          description: "Contenu de la première colonne",
+          validation: (Rule) => Rule.required()
+        }),
+        defineField({
+          name: "column2",
+          title: "Colonne 2",
+          type: "customBlock",
+          description: "Contenu de la deuxième colonne",
+          hidden: ({ parent }) => parent?.layout.columns < 2,
+          validation: (Rule) =>
+            Rule.custom((value, context) => {
+              if (
+                (context.parent as { layout: { columns: number } })?.layout
+                  .columns >= 2 &&
+                !value
+              ) {
+                return "Veuillez fournir un contenu pour la deuxième colonne.";
+              }
+              return true;
+            })
+        }),
+        defineField({
+          name: "column3",
+          title: "Colonne 3",
+          type: "customBlock",
+          description: "Contenu de la troisième colonne",
+          hidden: ({ parent }) => parent?.layout.columns < 3,
+          validation: (Rule) =>
+            Rule.custom((value, context) => {
+              if (
+                (context.parent as { layout: { columns: number } })?.layout
+                  .columns >= 3 &&
+                !value
+              ) {
+                return "Veuillez fournir un contenu pour la troisième colonne.";
+              }
+              return true;
+            })
+        })
+      ]
+    }),
+    defineField({
+      name: "contentType",
+      title: "Type de contenu",
+      type: "string",
+      description: "Choisir le type de contenu parmi les options ci-dessous",
+      options: {
+        list: [
+          { title: "Projets", value: "projects" },
+          { title: "Services", value: "services" },
+          { title: "Témoignages", value: "reviews" },
+          { title: "Expérience", value: "experience" },
+          { title: "Image", value: "image" },
+          { title: "Vidéo", value: "video" }
+        ],
+        layout: "dropdown"
+      },
       group: "content"
     }),
     defineField({
