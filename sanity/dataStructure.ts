@@ -4,6 +4,8 @@ import {
   DropIcon,
   HomeIcon,
   StringIcon,
+  TextIcon,
+  TiersIcon,
   UsersIcon
 } from "@sanity/icons";
 import type { StructureResolver } from "sanity/structure";
@@ -27,6 +29,10 @@ export const dataStructure: StructureResolver = (S) => {
   return S.list()
     .title("Données")
     .items([
+      li("project", "Projets", TiersIcon, "list"),
+
+      S.divider(),
+
       li("review", "Témoignages", CommentIcon, "list"),
       li("client", "Clients", HomeIcon, "list"),
       li("person", "Personnes", UsersIcon, "list"),
@@ -38,8 +44,8 @@ export const dataStructure: StructureResolver = (S) => {
 
       S.divider(),
 
-      li("typeface", "Typographies", StringIcon, "list"),
-      li("foundry", "Fonderies", HomeIcon, "list"),
+      li("typeface", "Typographies", TextIcon, "list"),
+      li("foundry", "Fonderies", StringIcon, "list"),
 
       S.divider(),
 

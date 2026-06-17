@@ -2,8 +2,8 @@ import {
   BlockContentIcon,
   CaseIcon,
   CommentIcon,
-  ComponentIcon,
-  InfoOutlineIcon
+  InfoOutlineIcon,
+  TiersIcon
 } from "@sanity/icons";
 import {
   ALL_FIELDS_GROUP,
@@ -38,7 +38,7 @@ export const projectSchema = defineType({
   description:
     "Un projet peut inclure plusieurs services et un client peut être référencé dans plusieurs projets. Le site a une page dédiée pour chaque projet.",
   type: "document",
-  icon: ComponentIcon,
+  icon: TiersIcon,
   groups: [
     {
       name: "infos",

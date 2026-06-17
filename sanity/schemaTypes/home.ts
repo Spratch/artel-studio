@@ -26,6 +26,7 @@ export const homeSchema = defineType({
           name: "type",
           title: "Type de contenu",
           type: "string",
+          description: "Choisir si l'introduction est une vidéo ou un projet",
           options: {
             list: [
               { title: "Vidéo", value: "video" },

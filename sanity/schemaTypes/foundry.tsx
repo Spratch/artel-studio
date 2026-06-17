@@ -1,4 +1,4 @@
-import { HomeIcon } from "@sanity/icons";
+import { HomeIcon, StringIcon } from "@sanity/icons";
 import Image from "next/image";
 import { defineField, defineType } from "sanity";
 
@@ -6,7 +6,7 @@ export const foundrySchema = defineType({
   name: "foundry",
   title: "Fonderie",
   type: "document",
-  icon: HomeIcon,
+  icon: StringIcon,
   fields: [
     defineField({
       name: "name",

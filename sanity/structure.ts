@@ -1,10 +1,10 @@
 import {
   CaseIcon,
+  ComponentIcon,
   ControlsIcon,
   DocumentsIcon,
   HomeIcon,
-  InfoOutlineIcon,
-  TiersIcon
+  InfoOutlineIcon
 } from "@sanity/icons";
 import type { StructureResolver } from "sanity/structure";
 
@@ -32,7 +32,7 @@ export const structure: StructureResolver = (S) => {
 
       S.divider(),
 
-      li("project", "Projets", TiersIcon, "list"),
+      li("projects", "Projets", ComponentIcon, "singleton"),
       li("service", "Services", CaseIcon, "list"),
 
       S.divider(),

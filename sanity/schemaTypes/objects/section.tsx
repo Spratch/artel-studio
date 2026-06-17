@@ -6,7 +6,8 @@ import {
   BlockContentIcon,
   BlockElementIcon,
   DropIcon,
-  StringIcon
+  StringIcon,
+  VideoIcon
 } from "@sanity/icons";
 import { Flex, Text } from "@sanity/ui";
 import {
@@ -276,8 +277,7 @@ export default defineType({
           { title: "Services", value: "services" },
           { title: "Témoignages", value: "reviews" },
           { title: "Expérience", value: "experience" },
-          { title: "Image", value: "image" },
-          { title: "Vidéo", value: "video" }
+          { title: "Médias", value: "medias" }
         ],
         layout: "dropdown"
       },
@@ -349,37 +349,29 @@ export default defineType({
       hidden: ({ parent }) => parent?.contentType !== "experience"
     }),
     defineField({
-      name: "image",
-      title: "Image",
-      type: "imageAlt",
+      name: "medias",
+      title: "Médias",
+      description:
+        "Ajouter images et/ou vidéos, si plus d'un média, ils seront affichés en carrousel",
+      type: "array",
+      of: [
+        { type: "imageAlt" },
+        {
+          type: "mux.video",
+          title: "Vidéo",
+          icon: VideoIcon
+        }
+      ],
       group: "content",
-      hidden: ({ parent }) => parent?.contentType !== "image",
+      hidden: ({ parent }) => parent?.contentType !== "medias",
       validation: (Rule) =>
         Rule.custom((value, context) => {
           if (
             (context.parent as { contentType: string })?.contentType ===
-              "image" &&
-            !value
+              "medias" &&
+            (!value || value.length === 0)
           ) {
-            return "Veuillez fournir une image.";
-          }
-          return true;
-        })
-    }),
-    defineField({
-      name: "video",
-      title: "Vidéo",
-      description: "Courte vidéo sans son",
-      type: "mux.video",
-      hidden: ({ parent }) => parent?.contentType !== "image",
-      validation: (Rule) =>
-        Rule.custom((value, context) => {
-          if (
-            (context.parent as { contentType: string })?.contentType ===
-              "video" &&
-            !value
-          ) {
-            return "Veuillez fournir une vidéo.";
+            return "Veuillez fournir au moins un média.";
           }
           return true;
         })
@@ -405,11 +397,16 @@ export default defineType({
           type: "reference",
           to: [
             { type: "about" },
-            // { type: "projects" },
-            // { type: "services" },
+            { type: "projects" },
             { type: "project" },
             { type: "service" }
           ],
+          options: {
+            creationTypeFilter: (_, toTypes) => {
+              const allowedTypes = ["project", "service"];
+              return toTypes.filter((t) => allowedTypes.includes(t.type));
+            }
+          },
           description: "Page du site vers laquelle le bouton redirige",
           validation: (Rule) => Rule.required()
         }),

@@ -15,12 +15,18 @@ import { otherColorSchema } from "./otherColor";
 import { paletteColorSchema } from "./paletteColor";
 import { personSchema } from "./person";
 import { projectSchema } from "./project";
+import { projectsSchema } from "./projects";
 import { reviewSchema } from "./review";
 import { serviceSchema } from "./service";
 import { settingsSchema } from "./settings";
 import { typefaceSchema } from "./typeface";
 
-const singltetonDocs = [settingsSchema, homeSchema, aboutSchema];
+const singltetonDocs = [
+  settingsSchema,
+  homeSchema,
+  aboutSchema,
+  projectsSchema
+];
 export const listDocs = [
   projectSchema,
   legalSchema,

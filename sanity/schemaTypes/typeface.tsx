@@ -1,4 +1,4 @@
-import { StringIcon } from "@sanity/icons";
+import { StringIcon, TextIcon } from "@sanity/icons";
 import Image from "next/image";
 import { defineField, defineType } from "sanity";
 
@@ -6,7 +6,7 @@ export const typefaceSchema = defineType({
   name: "typeface",
   title: "Typographie",
   type: "document",
-  icon: StringIcon,
+  icon: TextIcon,
   fields: [
     defineField({
       name: "name",
