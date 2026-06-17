@@ -200,33 +200,10 @@ export const projectSchema = defineType({
       group: "infos"
     }),
     defineField({
-      name: "colors",
-      title: "Couleurs du projet",
-      description:
-        "Couleurs utilisées pour cette page. Attention aux contrastes, prévisualiser en ouvrant un volet 'aperçu' avec l'icône en haut à droite.",
-      type: "object",
-      options: {
-        columns: 2
-      },
-      fields: [
-        defineField({
-          name: "primary",
-          title: "Couleur principale",
-          description: "Fond de la page",
-          type: "colorRef",
-          initialValue: { _ref: "R4ugbcAV6zqTaKrvgR7o1y" },
-          validation: (Rule) => Rule.required()
-        }),
-        defineField({
-          name: "secondary",
-          title: "Couleur secondaire",
-          description: "Texte et éléments graphiques",
-          type: "colorRef",
-          initialValue: { _ref: "R4ugbcAV6zqTaKrvgRLdgC" },
-          validation: (Rule) => Rule.required()
-        })
-      ],
-      group: "page"
+      name: "pageColors",
+      title: "Couleurs de la page",
+      group: "page",
+      type: "pageColors"
     }),
     defineField({
       name: "pageContent",

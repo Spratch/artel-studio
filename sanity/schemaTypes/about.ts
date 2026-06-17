@@ -22,7 +22,14 @@ export const aboutSchema = defineType({
       description:
         "Ajouter à la suite les différentes sections pour former la page d'accueil",
       type: "array",
-      of: [{ type: "section" }, { type: "imageAlt" }]
+      of: [
+        { type: "section" },
+        {
+          name: "mediasSection",
+          title: "Section médias",
+          type: "mediasSection"
+        }
+      ]
     })
   ]
 });

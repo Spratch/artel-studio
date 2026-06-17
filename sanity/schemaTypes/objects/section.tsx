@@ -6,8 +6,8 @@ import {
   BlockContentIcon,
   BlockElementIcon,
   DropIcon,
-  StringIcon,
-  VideoIcon
+  OlistIcon,
+  StringIcon
 } from "@sanity/icons";
 import { Flex, Text } from "@sanity/ui";
 import {
@@ -162,109 +162,9 @@ export default defineType({
     defineField({
       name: "description",
       title: "Description",
-      type: "object",
-      description: "Le texte apparaissant sous le titre, en serif",
+      type: "columns",
       group: "texts",
-      fields: [
-        defineField({
-          name: "layout",
-          title: "Mise en page",
-          description: "Choisir le nombre de colonnes et la position du texte",
-          type: "object",
-          options: {
-            columns: 2,
-            collapsible: true,
-            collapsed: true,
-            modal: { type: "popover" }
-          },
-          fields: [
-            defineField({
-              name: "columns",
-              title: "Colonnes",
-              type: "number",
-              options: {
-                list: [
-                  { title: "Pas de description", value: 0 },
-                  { title: "1 colonne", value: 1 },
-                  { title: "2 colonnes", value: 2 },
-                  { title: "3 colonnes", value: 3 }
-                ],
-                layout: "dropdown"
-              },
-              initialValue: 0,
-              validation: (Rule) => Rule.required().min(0).max(3)
-            }),
-            defineField({
-              name: "position",
-              title: "Position",
-              type: "string",
-              options: {
-                list: [
-                  { title: "Haut", value: "top" },
-                  { title: "Bas", value: "bottom" }
-                ],
-                layout: "dropdown"
-              },
-              initialValue: "top",
-              validation: (Rule) => Rule.required()
-            })
-          ]
-        }),
-        defineField({
-          name: "column1",
-          title: "Colonne 1",
-          type: "customBlock",
-          description: "Contenu de la première colonne",
-          hidden: ({ parent }) => parent?.layout.columns < 1,
-          validation: (Rule) =>
-            Rule.custom((value, context) => {
-              if (
-                (context.parent as { layout: { columns: number } })?.layout
-                  .columns >= 1 &&
-                !value
-              ) {
-                return "Veuillez fournir un contenu pour la deuxième colonne.";
-              }
-              return true;
-            })
-        }),
-        defineField({
-          name: "column2",
-          title: "Colonne 2",
-          type: "customBlock",
-          description: "Contenu de la deuxième colonne",
-          hidden: ({ parent }) => parent?.layout.columns < 2,
-          validation: (Rule) =>
-            Rule.custom((value, context) => {
-              if (
-                (context.parent as { layout: { columns: number } })?.layout
-                  .columns >= 2 &&
-                !value
-              ) {
-                return "Veuillez fournir un contenu pour la deuxième colonne.";
-              }
-              return true;
-            })
-        }),
-        defineField({
-          name: "column3",
-          title: "Colonne 3",
-          type: "customBlock",
-          description: "Contenu de la troisième colonne",
-          hidden: ({ parent }) => parent?.layout.columns < 3,
-          validation: (Rule) =>
-            Rule.custom((value, context) => {
-              if (
-                (context.parent as { layout: { columns: number } })?.layout
-                  .columns >= 3 &&
-                !value
-              ) {
-                return "Veuillez fournir un contenu pour la troisième colonne.";
-              }
-              return true;
-            })
-        })
-      ]
+      description: "Le texte apparaissant sous le titre, en serif"
     }),
     defineField({
       name: "contentType",
@@ -276,6 +176,7 @@ export default defineType({
           { title: "Projets", value: "projects" },
           { title: "Services", value: "services" },
           { title: "Témoignages", value: "reviews" },
+          { title: "Méthode", value: "method" },
           { title: "Expérience", value: "experience" },
           { title: "Médias", value: "medias" }
         ],
@@ -305,21 +206,12 @@ export default defineType({
     defineField({
       name: "services",
       title: "Services",
+      description:
+        "Si aucun service n'est sélectionné, tous les services ayant une page dédiée seront affichés (sauf celui de la page courante)",
       type: "array",
       of: [{ type: "reference", to: [{ type: "service" }] }],
       group: "content",
-      hidden: ({ parent }) => parent?.contentType !== "services",
-      validation: (Rule) =>
-        Rule.custom((value, context) => {
-          if (
-            (context.parent as { contentType: string })?.contentType ===
-              "services" &&
-            (!value || value.length === 0)
-          ) {
-            return "Veuillez fournir au moins un service.";
-          }
-          return true;
-        })
+      hidden: ({ parent }) => parent?.contentType !== "services"
     }),
     defineField({
       name: "reviews",
@@ -341,6 +233,38 @@ export default defineType({
         })
     }),
     defineField({
+      name: "method",
+      title: "Méthode",
+      description:
+        "Définir les étapes, elles seront numérotées automatiquement",
+      type: "array",
+      of: [
+        {
+          name: "step",
+          title: "Étape",
+          type: "object",
+          icon: OlistIcon,
+          fields: [
+            defineField({
+              name: "title",
+              title: "Titre",
+              type: "string",
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "description",
+              title: "Description",
+              type: "text",
+              rows: 3,
+              validation: (Rule) => Rule.required()
+            })
+          ]
+        }
+      ],
+      group: "content",
+      hidden: ({ parent }) => parent?.contentType !== "method"
+    }),
+    defineField({
       name: "experience",
       title: "Expériences",
       type: "array",
@@ -351,21 +275,11 @@ export default defineType({
     defineField({
       name: "medias",
       title: "Médias",
-      description:
-        "Ajouter images et/ou vidéos, si plus d'un média, ils seront affichés en carrousel",
-      type: "array",
-      of: [
-        { type: "imageAlt" },
-        {
-          type: "mux.video",
-          title: "Vidéo",
-          icon: VideoIcon
-        }
-      ],
+      type: "medias",
       group: "content",
       hidden: ({ parent }) => parent?.contentType !== "medias",
       validation: (Rule) =>
-        Rule.custom((value, context) => {
+        Rule.custom((value: unknown[], context) => {
           if (
             (context.parent as { contentType: string })?.contentType ===
               "medias" &&

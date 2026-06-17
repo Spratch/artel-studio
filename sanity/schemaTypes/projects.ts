@@ -25,6 +25,11 @@ export const projectsSchema = defineType({
       description: "Sous-titre de la section, apparaît en grand sans-serif"
     }),
     defineField({
+      name: "pageColors",
+      title: "Couleurs de la page",
+      type: "pageColors"
+    }),
+    defineField({
       name: "projectsList",
       title: "Liste des projets",
       description:

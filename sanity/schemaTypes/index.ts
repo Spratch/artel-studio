@@ -6,9 +6,13 @@ import { homeSchema } from "./home";
 import { legalSchema } from "./legal";
 import colorInput from "./objects/colorInput";
 import { colorRef } from "./objects/colorRef";
+import columns from "./objects/columns";
 import customBlock from "./objects/customBlock";
 import favicon from "./objects/favicon";
 import imageAlt from "./objects/imageAlt";
+import medias from "./objects/medias";
+import mediaSection from "./objects/mediaSection";
+import pageColors from "./objects/pageColors";
 import section from "./objects/section";
 import seoFields from "./objects/seoFields";
 import { otherColorSchema } from "./otherColor";
@@ -46,7 +50,11 @@ const objects = [
   customBlock,
   seoFields,
   colorRef,
-  section
+  section,
+  columns,
+  medias,
+  pageColors,
+  mediaSection
 ];
 export const schema: SchemaPluginOptions = {
   types: [...singltetonDocs, ...listDocs, ...objects]
