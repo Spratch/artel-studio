@@ -1,11 +1,11 @@
 "use client";
 
-import { DatabaseIcon, MicrophoneIcon } from "@sanity/icons";
+import { DatabaseIcon, DocumentsIcon, MicrophoneIcon } from "@sanity/icons";
 import { frFRLocale } from "@sanity/locale-fr-fr";
 import { defineConfig } from "sanity";
 import { muxInput } from "sanity-plugin-mux-input";
 import { structureTool } from "sanity/structure";
-import { defaultDocumentNode } from "./sanity/config/deskStructure";
+import { defaultDocumentNode } from "./sanity/config/defaultDocumentNode";
 import { dataStructure } from "./sanity/dataStructure";
 import { apiVersion, dataset, projectId, title } from "./sanity/env";
 import { listDocs, schema } from "./sanity/schemaTypes";
@@ -22,10 +22,12 @@ const config = defineConfig({
       structure,
       defaultDocumentNode,
       name: "content",
-      title: "Contenus"
+      title: "Contenus",
+      icon: DocumentsIcon
     }),
     structureTool({
       structure: dataStructure,
+      defaultDocumentNode,
       name: "data",
       title: "Données",
       icon: DatabaseIcon

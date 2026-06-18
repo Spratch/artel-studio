@@ -7,22 +7,12 @@ import {
   InfoOutlineIcon
 } from "@sanity/icons";
 import type { StructureResolver } from "sanity/structure";
+import { sli, type StructureListItemType } from "./config/structure-builder";
 
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
-export const structure: StructureResolver = (S) => {
-  const li = (
-    id: string,
-    title: string,
-    Icon: React.ComponentType,
-    type: "singleton" | "list"
-  ) => {
-    return type === "list"
-      ? S.documentTypeListItem(id).icon(Icon).title(title)
-      : S.listItem()
-          .title(title)
-          .icon(Icon)
-          .child(S.document().schemaType(id).documentId(id).title(title));
-  };
+export const structure: StructureResolver = (S, context) => {
+  const li = (...a: StructureListItemType) =>
+    sli(S, context, a[0], a[1], a[2], a[3]);
 
   return S.list()
     .title("Contenus")

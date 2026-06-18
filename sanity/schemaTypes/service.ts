@@ -98,5 +98,12 @@ export const serviceSchema = defineType({
       ],
       group: "page"
     })
-  ]
+  ],
+  preview: {
+    select: {
+      title: "name",
+      subtitle: "introduction",
+      media: "introMedia.0"
+    },
+  }
 });
