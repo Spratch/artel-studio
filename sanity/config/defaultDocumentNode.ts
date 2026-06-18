@@ -8,18 +8,16 @@ const routeMap = {
   home: () => ``,
   about: () => `a-propos`,
   projects: () => `projets`,
-  project: (doc: DocType) => `projets/${doc?.slug?.current}`,
-  service: (doc: DocType) => `services/${doc?.slug?.current}`,
+  project: (doc: DocType) => `projets/${doc.slug ? doc.slug.current : ""}`,
+  service: (doc: DocType) => `services/${doc.slug ? doc.slug.current : ""}`,
   settings: () => ``,
-  legal: (doc: DocType) => `legal/${doc?.slug?.current}`
+  legal: (doc: DocType) => `legal/${doc.slug ? doc.slug.current : ""}`
 };
 
 const getPreviewUrl = (doc: DocType, schemaType: string) => {
   const timestamp = new Date().getTime();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const routeBase = doc.slug
-    ? routeMap[schemaType as keyof typeof routeMap]?.(doc)
-    : `${schemaType}`;
+  const routeBase = routeMap[schemaType as keyof typeof routeMap]?.(doc);
   const previewPath = `${siteUrl}/${routeBase}`;
 
   return `${previewPath}?preview=true&revision=${doc._rev}&timestamp=${timestamp}`;
