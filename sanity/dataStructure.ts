@@ -1,6 +1,6 @@
 import {
+  CaseIcon,
   CommentIcon,
-  DocumentsIcon,
   DropIcon,
   HomeIcon,
   StringIcon,
@@ -30,6 +30,7 @@ export const dataStructure: StructureResolver = (S) => {
     .title("Données")
     .items([
       li("project", "Projets", TiersIcon, "list"),
+      li("service", "Services", CaseIcon, "list"),
 
       S.divider(),
 
@@ -45,10 +46,6 @@ export const dataStructure: StructureResolver = (S) => {
       S.divider(),
 
       li("typeface", "Typographies", TextIcon, "list"),
-      li("foundry", "Fonderies", StringIcon, "list"),
-
-      S.divider(),
-
-      li("legal", "Pages légales", DocumentsIcon, "list")
+      li("foundry", "Fonderies", StringIcon, "list")
     ]);
 };

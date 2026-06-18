@@ -44,7 +44,7 @@ export const otherColorSchema = defineType({
       subtitle: value.value,
       media: (
         <div
-          className="flex size-full items-center justify-center rounded-full border border-(--card-border-color) bg-(--drop-color)"
+          className="flex size-[75%] items-center justify-center rounded-full border border-(--card-border-color) bg-(--drop-color)"
           style={{ "--drop-color": value.value } as React.CSSProperties}
         />
       )

@@ -10,14 +10,13 @@ import {
   StringIcon
 } from "@sanity/icons";
 import { Flex, Text } from "@sanity/ui";
+import { useEffect, useState } from "react";
 import {
   ALL_FIELDS_GROUP,
   defineField,
   defineType,
   ObjectInputProps
 } from "sanity";
-
-import { useEffect, useState } from "react";
 
 function SectionColorsInput(props: ObjectInputProps) {
   const { value, renderDefault } = props;
@@ -109,6 +108,15 @@ function SectionColorsInput(props: ObjectInputProps) {
   );
 }
 
+const CONTENT_TYPES = [
+  { title: "Projets", value: "projects" },
+  { title: "Services", value: "services" },
+  { title: "Témoignages", value: "reviews" },
+  { title: "Méthode", value: "method" },
+  { title: "Expérience", value: "experience" },
+  { title: "Médias", value: "medias" }
+];
+
 export default defineType({
   name: "section",
   title: "Section",
@@ -172,14 +180,7 @@ export default defineType({
       type: "string",
       description: "Choisir le type de contenu parmi les options ci-dessous",
       options: {
-        list: [
-          { title: "Projets", value: "projects" },
-          { title: "Services", value: "services" },
-          { title: "Témoignages", value: "reviews" },
-          { title: "Méthode", value: "method" },
-          { title: "Expérience", value: "experience" },
-          { title: "Médias", value: "medias" }
-        ],
+        list: CONTENT_TYPES,
         layout: "dropdown"
       },
       group: "content"
@@ -396,7 +397,8 @@ export default defineType({
       backgroundColor: "colors.backgroundColor.value",
       textColor: "colors.textColor.value",
       buttonColor: "colors.buttonBgColor.value",
-      columns: "description.layout.columns"
+      columns: "description.layout.columns",
+      contentType: "contentType"
     },
     prepare(selection) {
       const {
@@ -405,11 +407,15 @@ export default defineType({
         backgroundColor,
         textColor,
         buttonColor,
-        columns
+        columns,
+        contentType
       } = selection;
+      const contentTypeTitle =
+        contentType &&
+        CONTENT_TYPES.find((c) => c.value === contentType)?.title;
       return {
         title,
-        subtitle,
+        subtitle: `${contentTypeTitle ? `[${contentTypeTitle}] ` : ""}${subtitle || ""}`,
         media: (
           <div
             className="flex size-full flex-col items-start justify-between rounded-sm bg-(--section-bg-color) p-0.75"

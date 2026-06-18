@@ -32,7 +32,7 @@ export const structure: StructureResolver = (S) => {
 
       S.divider(),
 
-      li("projects", "Projets", ComponentIcon, "singleton"),
+      li("projects", "Page projets", ComponentIcon, "singleton"),
       li("service", "Services", CaseIcon, "list"),
 
       S.divider(),
