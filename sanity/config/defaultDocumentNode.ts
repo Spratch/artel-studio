@@ -29,7 +29,6 @@ export const defaultDocumentNode: DefaultDocumentNodeResolver = (
   S,
   { schemaType }
 ) => {
-  console.log(schemaType, " in routeMap: ", schemaType in routeMap);
   return schemaType in routeMap
     ? S.document().views([
         S.view.form().title("Édition"),

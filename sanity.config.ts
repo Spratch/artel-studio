@@ -1,6 +1,6 @@
 "use client";
 
-import { DatabaseIcon, DocumentsIcon, MicrophoneIcon } from "@sanity/icons";
+import { DatabaseIcon, DocumentsIcon, VideoIcon } from "@sanity/icons";
 import { frFRLocale } from "@sanity/locale-fr-fr";
 import { defineConfig } from "sanity";
 import { muxInput } from "sanity-plugin-mux-input";
@@ -15,7 +15,8 @@ const config = defineConfig({
   projectId,
   dataset,
   apiVersion,
-  title,
+  name: title,
+  title: "Artel Studio",
   basePath: "/admin",
   plugins: [
     structureTool({
@@ -37,7 +38,7 @@ const config = defineConfig({
       disableUploadConfig: true,
       tool: {
         title: "Vidéos",
-        icon: MicrophoneIcon
+        icon: VideoIcon
       }
     })
   ],
@@ -50,13 +51,31 @@ const config = defineConfig({
         );
       }
       return prev;
-    }
+    },
+    inspectors: (prev) =>
+      prev.map((inspector) =>
+        inspector.name === "sanity/structure/incoming-references"
+          ? {
+              ...inspector,
+              useMenuItem(props) {
+                return {
+                  ...props,
+                  title: "Références entrantes",
+                  icon: DocumentsIcon,
+                  showAsAction: true
+                };
+              }
+            }
+          : inspector
+      ),
+    comments: { enabled: false }
   },
   schema,
   releases: { enabled: false },
   scheduledDrafts: { enabled: false },
   tasks: { enabled: false },
-  scheduledPublishing: { enabled: false }
+  scheduledPublishing: { enabled: false },
+  announcements: { enabled: false }
 });
 
 export default config;

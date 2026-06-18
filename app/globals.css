@@ -23,6 +23,10 @@ body {
 }
 
 /* Sanity */
+span:has(> [data-testid="button-resources-menu"]) {
+  display: none;
+}
+
 /* Title */
 [data-ui="Stack"]:has(h2) {
   margin-bottom: 2.5rem;
