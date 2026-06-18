@@ -75,7 +75,7 @@ export const homeSchema = defineType({
         })
       ],
       validation: (Rule) =>
-        Rule.custom((value) => {
+        Rule.required().custom((value) => {
           if (!value?.video && !value?.projectRef) {
             return "Veuillez fournir au moins une vidéo ou un projet à mettre en avant.";
           }

@@ -316,12 +316,6 @@ export default defineType({
             { type: "project" },
             { type: "service" }
           ],
-          options: {
-            creationTypeFilter: (_, toTypes) => {
-              const allowedTypes = ["project", "service"];
-              return toTypes.filter((t) => allowedTypes.includes(t.type));
-            }
-          },
           description: "Page du site vers laquelle le bouton redirige",
           validation: (Rule) => Rule.required()
         }),

@@ -1,5 +1,4 @@
-import { InlineElementIcon } from "@sanity/icons";
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const settingsSchema = defineType({
   name: "settings",
@@ -58,58 +57,26 @@ export const settingsSchema = defineType({
       name: "navigation",
       title: "Menu de navigation",
       description:
-        "Renseigner les éléments composant le menu de navigation présent dans le footer",
+        "Renseigner les éléments composant le menu de navigation présent dans le header",
       type: "array",
       of: [
-        defineField({
-          name: "item",
-          title: "Item",
-          description: "Un élément du menu de navigation",
-          icon: InlineElementIcon,
-          type: "object",
-          fields: [
-            defineField({
-              name: "title",
-              title: "Titre",
-              type: "string",
-              description: "Le titre de l'élément du menu de navigation",
-              validation: (Rule) => Rule.required()
-            }),
-            defineField({
-              name: "slug",
-              title: "Slug",
-              type: "slug",
-              options: {
-                source: (_, context) =>
-                  (context.parent as Record<string, unknown>).title as string
-              },
-              description: "Le slug de l'élément du menu de navigation",
-              validation: (Rule) => Rule.required()
-            })
-          ]
+        defineArrayMember({
+          name: "page",
+          title: "Page",
+          type: "reference",
+          to: [
+            { type: "home" },
+            { type: "about" },
+            { type: "projects" },
+            { type: "legal" },
+            { type: "service" }
+            // { type: "contact" }
+          ],
+          description:
+            "Ajouter une page existante pour créer un lien vers cette page"
         })
       ],
       validation: (Rule) => Rule.required()
-    }),
-    defineField({
-      name: "colors",
-      title: "Couleurs",
-      type: "object",
-      description: "Entrer les couleurs à utiliser sur le site",
-      fields: [
-        defineField({
-          name: "primary",
-          title: "Couleur principale",
-          type: "colorInput",
-          description: "Entrer la couleur principale (textes)"
-        }),
-        defineField({
-          name: "secondary",
-          title: "Couleur secondaire",
-          type: "colorInput",
-          description: "Entrer la couleur secondaire (fonds)"
-        })
-      ]
     })
   ]
 });

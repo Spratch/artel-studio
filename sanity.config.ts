@@ -1,7 +1,13 @@
 "use client";
 
-import { DatabaseIcon, DocumentsIcon, VideoIcon } from "@sanity/icons";
+import {
+  DatabaseIcon,
+  DocumentsIcon,
+  SortIcon,
+  VideoIcon
+} from "@sanity/icons";
 import { frFRLocale } from "@sanity/locale-fr-fr";
+import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { muxInput } from "sanity-plugin-mux-input";
 import { structureTool } from "sanity/structure";
@@ -40,11 +46,15 @@ const config = defineConfig({
         title: "Vidéos",
         icon: VideoIcon
       }
-    })
+    }),
+    visionTool()
   ],
   document: {
     newDocumentOptions: (prev, { creationContext }) => {
-      if (creationContext.type === "global") {
+      if (
+        creationContext.type === "global" ||
+        creationContext.type === "document"
+      ) {
         const listDocuments = listDocs.map((doc) => doc.name);
         return prev.filter((item) =>
           (listDocuments as string[]).includes(item.templateId)
@@ -61,7 +71,7 @@ const config = defineConfig({
                 return {
                   ...props,
                   title: "Références entrantes",
-                  icon: DocumentsIcon,
+                  icon: SortIcon,
                   showAsAction: true
                 };
               }

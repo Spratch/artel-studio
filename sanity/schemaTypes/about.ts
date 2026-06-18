@@ -13,8 +13,7 @@ export const aboutSchema = defineType({
       title: "Titre",
       description: "Titre principal de la page à propos",
       type: "string",
-      validation: (Rule) => Rule.required(),
-      hidden: true
+      validation: (Rule) => Rule.required()
     }),
     defineField({
       name: "sections",
