@@ -1080,11 +1080,30 @@ export type HomePageQueryResult = {
   > | null;
 } | null;
 
+// Source: sanity/lib/queries.ts
+// Variable: headerSettingsQuery
+// Query: *[_type == "settings"][0].navigation[]->{    title,    "slug": slug.current  }
+export type HeaderSettingsQueryResult = Array<
+  | {
+      title: string;
+      slug: null;
+    }
+  | {
+      title: null;
+      slug: string;
+    }
+  | {
+      title: string;
+      slug: string;
+    }
+> | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "settings"][0]{\n    title,\n    description,\n    "favicons": favicon{\n      "light": light.asset->url,\n      "dark": dark.asset->url,\n    }\n  }': LayoutSettingsQueryResult;
     '*[_type == "home"][0]{\n    "intro": intro{\n      type,\n      "video": video{\n        "playbackId": coalesce(asset->playbackId, "")\n      },\n      "project": projectRef->{\n  "slug": slug.current,\n  "cover": cover{\n    "src": coalesce(asset->url, ""),\n    crop,\n    hotspot\n  },\n  "tags": services[]->{\n    name\n  }\n},\n    },\n    "logoColor": logoColor->value,\n    "sections": sections[]{\n  title,\n  subtitle,\n  "description": description{\n    layout,\n    "col1": column1[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col2": column2[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col3": column3[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  },\n  contentType,\n  contentType == "project" => {\n    "projects": projects[]->{\n  "slug": slug.current,\n  "cover": cover{\n    "src": coalesce(asset->url, ""),\n    crop,\n    hotspot\n  },\n  "tags": services[]->{\n    name\n  }\n}\n  },\n  contentType == "services" => {\n    "services": coalesce(\n      services[]->{\n        name,\n        "slug": slug.current\n      },\n      *[_type == "service" && hasPage == true && !(_id == ^._id)]{\n        name,\n        "slug": slug.current\n      }\n    )\n  }\n}\n  }': HomePageQueryResult;
+    '*[_type == "settings"][0].navigation[]->{\n    title,\n    "slug": slug.current\n  }': HeaderSettingsQueryResult;
   }
 }

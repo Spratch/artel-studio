@@ -17,6 +17,32 @@ import { apiVersion, dataset, projectId, title } from "./sanity/env";
 import { listDocs, schema } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
 
+const vision = process.env.NODE_ENV === "development" ? visionTool() : null;
+const tools = [
+  structureTool({
+    structure,
+    defaultDocumentNode,
+    name: "site",
+    title: "Site",
+    icon: DocumentsIcon
+  }),
+  structureTool({
+    structure: dataStructure,
+    defaultDocumentNode,
+    name: "content",
+    title: "Contenus",
+    icon: DatabaseIcon
+  }),
+  frFRLocale(),
+  muxInput({
+    disableUploadConfig: true,
+    tool: {
+      title: "Vidéos",
+      icon: VideoIcon
+    }
+  })
+];
+
 const config = defineConfig({
   projectId,
   dataset,
@@ -24,31 +50,12 @@ const config = defineConfig({
   name: title,
   title: "Artel Studio",
   basePath: "/admin",
-  plugins: [
-    structureTool({
-      structure,
-      defaultDocumentNode,
-      name: "content",
-      title: "Contenus",
-      icon: DocumentsIcon
+  plugins: vision ? [...tools, vision] : [...tools],
+  tools: (prev) =>
+    prev.sort((a) => {
+      if (a.name === "site") return -1;
+      return 1;
     }),
-    structureTool({
-      structure: dataStructure,
-      defaultDocumentNode,
-      name: "data",
-      title: "Données",
-      icon: DatabaseIcon
-    }),
-    frFRLocale(),
-    muxInput({
-      disableUploadConfig: true,
-      tool: {
-        title: "Vidéos",
-        icon: VideoIcon
-      }
-    }),
-    visionTool()
-  ],
   document: {
     newDocumentOptions: (prev, { creationContext }) => {
       if (

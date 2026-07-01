@@ -4,7 +4,9 @@
   --text-2xs: 0.625rem;
 }
 
-span:has(> [data-testid="button-resources-menu"]) {
+span:has(> [data-testid="button-resources-menu"]),
+span:has(> [data-testid="tasks-toolbar"]),
+span:has([data-sanity-icon="bolt"]) {
   display: none;
 }
 

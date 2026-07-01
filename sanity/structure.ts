@@ -15,8 +15,9 @@ export const structure: StructureResolver = (S, context) => {
     sli(S, context, a[0], a[1], a[2], a[3]);
 
   return S.list()
-    .title("Contenus")
+    .title("Site")
     .items([
+      S.divider().title("Pages"),
       li("home", "Accueil", HomeIcon, "singleton"),
       li("about", "À propos", InfoOutlineIcon, "singleton"),
 
@@ -25,7 +26,7 @@ export const structure: StructureResolver = (S, context) => {
       li("projects", "Page projets", ComponentIcon, "singleton"),
       li("service", "Services", CaseIcon, "list"),
 
-      S.divider(),
+      S.divider().title("Général"),
 
       li("settings", "Paramètres", ControlsIcon, "singleton"),
       li("legal", "Pages légales", DocumentsIcon, "list")

@@ -22,7 +22,14 @@ const homePageQuery = defineQuery(`*[_type == "home"][0]{
     ${sectionsFragment}
   }`);
 
+const headerSettingsQuery =
+  defineQuery(`*[_type == "settings"][0].navigation[]->{
+    title,
+    "slug": slug.current
+  }`);
+
 export const queries = {
   layoutSettingsQuery,
-  homePageQuery
+  homePageQuery,
+  headerSettingsQuery
 };

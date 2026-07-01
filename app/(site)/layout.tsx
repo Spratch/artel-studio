@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import Header from "@/components/Header";
 import { getLayoutSettings } from "@/sanity/lib/getters";
 import type { Metadata } from "next";
 
@@ -43,7 +44,10 @@ export default function RootLayout({
       lang="fr"
       className={`antialiased`}
     >
-      <body className="">{children}</body>
+      <body className="">
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }

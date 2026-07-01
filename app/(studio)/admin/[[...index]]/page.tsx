@@ -1,8 +1,8 @@
-import "@/app/globals.css";
 import config from "@/sanity.config";
 import { title } from "@/sanity/env";
 import type { Metadata } from "next";
 import { NextStudio, metadata as studioMetadata } from "next-sanity/studio";
+import "./sanity.css";
 
 export const dynamic = "force-static";
 

@@ -7,3 +7,8 @@ export const getLayoutSettings = withPreview(
 );
 
 export const getHomePage = withPreview(() => queries.homePageQuery, ["home"]);
+
+export const getHeaderSettings = withPreview(
+  () => queries.headerSettingsQuery,
+  ["settings"]
+);
