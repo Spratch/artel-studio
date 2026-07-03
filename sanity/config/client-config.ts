@@ -13,7 +13,7 @@ export const client = createClient(config);
 export const previewClient = createClient({
   ...config,
   token: process.env.SANITY_VIEWER_TOKEN,
-  perspective: "previewDrafts"
+  perspective: "drafts"
 });
 
 export const getClient = (preview = false) =>

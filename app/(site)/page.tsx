@@ -3,8 +3,12 @@ import { getHomePage } from "@/sanity/lib/getters";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-export default async function Home() {
-  const home = await getHomePage();
+export default async function Home({
+  searchParams
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const home = await getHomePage({ searchParams: await searchParams });
   if (!home) notFound();
 
   return (
