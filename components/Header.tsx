@@ -4,9 +4,8 @@ import Logo from "./Logo";
 
 export default async function Header() {
   const navigation = await getHeaderSettings();
-  console.log(navigation);
   return (
-    <header className="sticky top-0 flex items-center justify-between p-3">
+    <header className="fixed top-0 flex h-(--h-header) w-full items-center justify-between p-3 font-serif">
       <Link href="/">
         <Logo className="h-5" />
       </Link>

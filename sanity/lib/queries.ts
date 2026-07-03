@@ -31,8 +31,17 @@ const headerSettingsQuery =
     )
   }`);
 
+const paletteColorsQuery = defineQuery(`
+  *[_type == "paletteColor"]{
+    label,
+    "slug": slug.current,
+    value
+  }
+`);
+
 export const queries = {
   layoutSettingsQuery,
   homePageQuery,
-  headerSettingsQuery
+  headerSettingsQuery,
+  paletteColorsQuery
 };

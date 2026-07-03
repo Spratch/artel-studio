@@ -1,6 +1,6 @@
 import "@/app/globals.css";
 import Header from "@/components/Header";
-import { getLayoutSettings } from "@/sanity/lib/getters";
+import { getLayoutSettings, getPaletteColors } from "@/sanity/lib/getters";
 import type { Metadata } from "next";
 import { sagace } from "../fonts";
 
@@ -35,11 +35,12 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const paletteColors = await getPaletteColors();
   return (
     <html
       lang="fr"
@@ -50,6 +51,15 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://use.typekit.net/wuo5zvg.css"
         />
+        <style>
+          {`
+            :root {
+              ${paletteColors
+                .map((color) => `--palette-${color.slug}: ${color.value};`)
+                .join("\n")}
+            }
+          `}
+        </style>
         <Header />
         {children}
       </body>

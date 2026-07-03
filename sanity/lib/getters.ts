@@ -12,3 +12,8 @@ export const getHeaderSettings = withPreview(
   () => queries.headerSettingsQuery,
   ["settings"]
 );
+
+export const getPaletteColors = withPreview(
+  () => queries.paletteColorsQuery,
+  ["paletteColor"]
+);

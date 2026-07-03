@@ -1,6 +1,20 @@
 @import "tailwindcss";
 
+:root {
+  --h-header: calc(var(--spacing) * 16);
+  --h-section: calc(100svh - var(--h-header));
+}
+
 @theme {
   --text-2xs: 0.625rem;
   --font-serif: "rl-horizon", serif;
+
+  --color-creme: var(--palette-creme, #f5eee1);
+  --color-bleu-clair: var(--palette-bleu-clair, #cde7ff);
+  --color-noir-profond: var(--palette-noir-profond, #121212);
+  --color-ardoise: var(--palette-ardoise, #202020);
+  --color-orange: var(--palette-orange, #f79d3d);
+  --color-vert: var(--palette-vert, #b0ac55);
+  --color-bleu: var(--palette-bleu, #c6d3e0);
+  --color-rouge: var(--palette-rouge, #ea6a4c);
 }
