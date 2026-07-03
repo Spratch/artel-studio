@@ -1,6 +1,7 @@
 import Logo from "@/components/Logo";
 import { getHomePage } from "@/sanity/lib/getters";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export default async function Home({
@@ -32,17 +33,19 @@ export default async function Home({
                 fill={true}
               />
 
-              <div className="absolute flex h-2/5 w-full items-start justify-between bg-linear-to-b from-noir-profond to-noir-profond/0 py-4 ps-4.5 pe-4 text-creme">
-                <div className="flex items-center gap-2 py-0.5">
-                  <span className="size-3 rounded-full bg-orange"></span>
-                  <span className="font-serif">Projet récent</span>
+              <div className="absolute flex h-2/5 w-full items-start justify-between bg-linear-to-b from-noir-profond to-noir-profond/0 py-2 text-creme max-sm:px-2.5 sm:py-4 sm:ps-4.5 sm:pe-4">
+                <div className="flex items-center gap-1.5 py-0.5 sm:gap-2">
+                  <span className="size-2 rounded-full bg-orange sm:size-3"></span>
+                  <span className="font-serif text-sm text-nowrap sm:text-base">
+                    Projet récent
+                  </span>
                 </div>
 
                 {home.intro.project.tags.length > 0 && (
-                  <div className="flex justify-end gap-1 text-xs">
+                  <div className="flex justify-end gap-1 text-2xs sm:text-xs">
                     {home.intro.project.tags.slice(0, 3).map((tag) => (
                       <span
-                        className="rounded-lg border border-creme/20 bg-ardoise/15 px-3 py-1.5 backdrop-blur-xs"
+                        className="overflow-hidden rounded-lg border border-creme/20 bg-ardoise/15 px-2 py-1 text-nowrap backdrop-blur-xs max-sm:max-w-[12ch] max-sm:text-ellipsis sm:px-3 sm:py-1.5"
                         key={tag.name}
                       >
                         {tag.name.toLowerCase()}
@@ -51,6 +54,12 @@ export default async function Home({
                   </div>
                 )}
               </div>
+              <Link
+                href={`/project/${home.intro.project.slug}`}
+                className="invisible absolute top-1/2 left-1/2 -translate-1/2 rounded-lg bg-orange px-2.5 py-1.5 font-serif opacity-0 transition-opacity duration-300 ease-out group-hover/thumbnail:visible group-hover/thumbnail:opacity-100 focus-visible:visible focus-visible:opacity-100"
+              >
+                Voir
+              </Link>
             </div>
           )}
         </div>
