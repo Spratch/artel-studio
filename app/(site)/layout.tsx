@@ -2,6 +2,7 @@ import "@/app/globals.css";
 import Header from "@/components/Header";
 import { getLayoutSettings } from "@/sanity/lib/getters";
 import type { Metadata } from "next";
+import { sagace } from "../fonts";
 
 export async function generateMetadata(): Promise<Metadata> {
   const layoutSettings = await getLayoutSettings();
@@ -44,7 +45,11 @@ export default function RootLayout({
       lang="fr"
       className={`antialiased`}
     >
-      <body className="">
+      <body className={`${sagace.className}`}>
+        <link
+          rel="stylesheet"
+          href="https://use.typekit.net/wuo5zvg.css"
+        />
         <Header />
         {children}
       </body>
