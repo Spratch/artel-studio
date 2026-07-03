@@ -24,8 +24,11 @@ const homePageQuery = defineQuery(`*[_type == "home"][0]{
 
 const headerSettingsQuery =
   defineQuery(`*[_type == "settings"][0].navigation[]->{
-    title,
-    "slug": slug.current
+    "title": coalesce(title, name),
+    "slug": select(
+      title != null => slug.current,
+      name != null => "services/" + slug.current,
+    )
   }`);
 
 export const queries = {

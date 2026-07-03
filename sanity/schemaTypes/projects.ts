@@ -18,6 +18,15 @@ export const projectsSchema = defineType({
       validation: (Rule) => Rule.required()
     }),
     defineField({
+      name: "slug",
+      title: "Slug",
+      description: "Slug de la page projets",
+      type: "slug",
+      options: { source: "title" },
+      readOnly: true,
+      validation: (Rule) => Rule.required()
+    }),
+    defineField({
       name: "subtitle",
       title: "Sous-titre",
       type: "text",
@@ -46,5 +55,18 @@ export const projectsSchema = defineType({
       options: {},
       validation: (Rule) => Rule.required().min(1)
     })
-  ]
+  ],
+  preview: {
+    select: {
+      title: "title",
+      subtitle: "slug.current"
+    },
+    prepare({ title, subtitle }) {
+      const displaySubtitle = subtitle ? `artel-studio.com / ${subtitle}` : "";
+      return {
+        title: title,
+        subtitle: displaySubtitle
+      };
+    }
+  }
 });

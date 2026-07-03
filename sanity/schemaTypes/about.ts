@@ -16,6 +16,15 @@ export const aboutSchema = defineType({
       validation: (Rule) => Rule.required()
     }),
     defineField({
+      name: "slug",
+      title: "Slug",
+      description: "Slug de la page à propos",
+      type: "slug",
+      options: { source: "title" },
+      readOnly: true,
+      validation: (Rule) => Rule.required()
+    }),
+    defineField({
       name: "sections",
       title: "Sections",
       description:
@@ -30,5 +39,18 @@ export const aboutSchema = defineType({
         }
       ]
     })
-  ]
+  ],
+  preview: {
+    select: {
+      title: "title",
+      subtitle: "slug.current"
+    },
+    prepare({ title, subtitle }) {
+      const displaySubtitle = subtitle ? `artel-studio.com / ${subtitle}` : "";
+      return {
+        title: title,
+        subtitle: displaySubtitle
+      };
+    }
+  }
 });

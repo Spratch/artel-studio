@@ -1,15 +1,39 @@
-import { defineArrayMember, defineField, defineType } from "sanity";
+import { InfoOutlineIcon, MenuIcon } from "@sanity/icons";
+import {
+  ALL_FIELDS_GROUP,
+  defineArrayMember,
+  defineField,
+  defineType
+} from "sanity";
 
 export const settingsSchema = defineType({
   name: "settings",
   title: "Paramètres",
   type: "document",
+  groups: [
+    {
+      ...ALL_FIELDS_GROUP,
+      hidden: true
+    },
+    {
+      name: "infos",
+      title: "Infos",
+      icon: InfoOutlineIcon,
+      default: true
+    },
+    {
+      name: "header",
+      title: "Menu de navigation",
+      icon: MenuIcon
+    }
+  ],
   fields: [
     defineField({
       name: "title",
       title: "Titre du site",
       description: "Titre du site affiché sur les pages et les métadonnées",
       type: "string",
+      group: "infos",
       validation: (Rule) =>
         Rule.required()
           .max(60)
@@ -21,6 +45,7 @@ export const settingsSchema = defineType({
       type: "text",
       rows: 3,
       description: "Entrer la description du site",
+      group: "infos",
       validation: (Rule) =>
         Rule.required()
           .max(160)
@@ -51,7 +76,8 @@ export const settingsSchema = defineType({
           description:
             "Choisir le favicon clair utilisé sur les fonds sombres (PNG)"
         }
-      ]
+      ],
+      group: "infos"
     }),
     defineField({
       name: "navigation",
@@ -65,7 +91,6 @@ export const settingsSchema = defineType({
           title: "Page",
           type: "reference",
           to: [
-            { type: "home" },
             { type: "about" },
             { type: "projects" },
             { type: "legal" },
@@ -73,9 +98,25 @@ export const settingsSchema = defineType({
             // { type: "contact" }
           ],
           description:
-            "Ajouter une page existante pour créer un lien vers cette page"
+            "Ajouter une page existante pour créer un lien vers cette page",
+          options: {
+            filter: ({ parent }) => {
+              const refs = (parent as { _ref?: string }[])
+                .map((m) => m._ref)
+                .filter(Boolean) as string[];
+              if (refs.length === 0) {
+                return { filter: "true" };
+              }
+              const refList = refs.map((id) => `"${id}"`).join(", ");
+
+              return {
+                filter: `!(_id in [${refList}])`
+              };
+            }
+          }
         })
       ],
+      group: "header",
       validation: (Rule) => Rule.required()
     })
   ]

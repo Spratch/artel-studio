@@ -25,7 +25,7 @@ import { serviceSchema } from "./service";
 import { settingsSchema } from "./settings";
 import { typefaceSchema } from "./typeface";
 
-const singltetonDocs = [
+export const singltetonDocs = [
   settingsSchema,
   homeSchema,
   aboutSchema,

@@ -1844,6 +1844,14 @@
         },
         "optional": false
       },
+      "slug": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "slug"
+        },
+        "optional": false
+      },
       "sections": {
         "type": "objectAttribute",
         "value": {
@@ -1927,6 +1935,14 @@
         "type": "objectAttribute",
         "value": {
           "type": "string"
+        },
+        "optional": false
+      },
+      "slug": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "slug"
         },
         "optional": false
       },
@@ -2729,36 +2745,6 @@
   },
   {
     "type": "type",
-    "name": "home.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "home"
-    }
-  },
-  {
-    "type": "type",
     "name": "legal.reference",
     "value": {
       "type": "object",
@@ -2868,10 +2854,6 @@
           "of": {
             "type": "union",
             "of": [
-              {
-                "type": "inline",
-                "name": "home.reference"
-              },
               {
                 "type": "inline",
                 "name": "about.reference"

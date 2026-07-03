@@ -14,7 +14,7 @@ import { structureTool } from "sanity/structure";
 import { defaultDocumentNode } from "./sanity/config/defaultDocumentNode";
 import { dataStructure } from "./sanity/dataStructure";
 import { apiVersion, dataset, projectId, title } from "./sanity/env";
-import { listDocs, schema } from "./sanity/schemaTypes";
+import { listDocs, schema, singltetonDocs } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
 
 const vision = process.env.NODE_ENV === "development" ? visionTool() : null;
@@ -68,6 +68,16 @@ const config = defineConfig({
         );
       }
       return prev;
+    },
+    actions: (prev, context) => {
+      const singletonDocuments: string[] = singltetonDocs.map(
+        (doc) => doc.name
+      );
+      if (singletonDocuments.includes(context.schemaType)) {
+        return prev.filter((action) => action.action !== "duplicate");
+      } else {
+        return prev;
+      }
     },
     inspectors: (prev) =>
       prev.map((inspector) =>
