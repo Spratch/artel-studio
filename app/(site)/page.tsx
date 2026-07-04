@@ -25,11 +25,15 @@ export default async function Home({
         <Logo className="absolute inset-x-0 bottom-2 z-0" />
         <div className="relative z-10 mx-4 grid h-full grid-cols-6 items-center gap-2.5">
           {home.intro.type === "project" && home.intro.project && (
-            <Thumbnail project={home.intro.project} />
+            <Thumbnail
+              project={home.intro.project}
+              className="col-span-6 mx-auto max-h-[80svh] w-[min(100%,calc(80svh*16/9))] sm:col-span-4 sm:col-start-2"
+              ratio="16/9"
+              isFeatured={true}
+            />
           )}
         </div>
       </section>
-      clsx
       {home.sections &&
         home.sections.map((section, index) => (
           <Section

@@ -66,6 +66,7 @@ export default async function Footer() {
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="lowercase"
               >
                 {social.name}
               </Link>
