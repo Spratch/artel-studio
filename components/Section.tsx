@@ -1,6 +1,7 @@
 import { HomePageQueryResult } from "@/sanity.types";
 import type { Get } from "@sanity/codegen";
 import { PortableText } from "next-sanity";
+import Link from "next/link";
 
 type SectionProps = {
   section: Get<HomePageQueryResult, "sections", number>;
@@ -40,6 +41,25 @@ export default function Section({ section }: SectionProps) {
           <Desctiption description={section.description} />
         )}
       </div>
+
+      {section.button && (
+        <div
+          className={`col-span-2 font-serif ${section.button.position === "top" ? "col-end-7 text-end" : "col-start-1 mt-auto"}`}
+        >
+          <Link
+            href={section.button.page.slug}
+            title={section.button.page.title}
+            className={`flex ${section.button.position === "bottom" ? "flex-row-reverse" : "flex-row"} items-center justify-end gap-6`}
+          >
+            {section.button.label}
+
+            <span className="relative aspect-square h-11 rounded-md bg-(--section-button-bg)">
+              <span className="absolute inset-x-3 inset-y-[calc((var(--spacing)*11)/2-0.75px)] bg-(--section-button-fg)"></span>
+              <span className="absolute inset-x-[calc((var(--spacing)*11)/2-0.75px)] inset-y-3 bg-(--section-button-fg)"></span>
+            </span>
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

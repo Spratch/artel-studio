@@ -41,6 +41,18 @@ export const sectionsFragment = `"sections": sections[]{
     "buttonBgColor": buttonBgColor->value,
     "buttonFgColor": buttonFgColor->value
   },
+  "button": button{
+    label,
+    "page": page->{
+      "title": coalesce(title, name),
+      "slug": select(
+        _type == "project" => "projet/" + slug.current,
+        title != null => slug.current,
+        name != null => "services/" + slug.current,
+      )
+    },
+    position
+  },
   "description": description{
     layout,
     "col1": column1${customBlockFragment},
