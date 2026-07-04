@@ -19,7 +19,7 @@ export default function Thumbnail({
   return (
     <div
       className={cn(
-        "group/thumbnail relative aspect-(--ratio) overflow-hidden rounded-xl bg-ardoise",
+        "group/thumbnail relative flex aspect-(--ratio) flex-col justify-between overflow-hidden rounded-xl bg-ardoise",
         className
       )}
       style={
@@ -29,13 +29,13 @@ export default function Thumbnail({
       }
     >
       <Image
-        className="h-full w-full object-cover transition-transform duration-300 ease-out group-focus-within/thumbnail:scale-103 group-hover/thumbnail:scale-103"
+        className="absolute z-10 h-full w-full object-cover transition-transform duration-300 ease-out group-focus-within/thumbnail:scale-103 group-hover/thumbnail:scale-103"
         src={project.cover.src}
         alt=""
         fill={true}
       />
 
-      <div className="absolute flex h-2/5 w-full items-start justify-between gap-2 bg-linear-to-b from-noir-profond to-noir-profond/0 py-2 ps-2.5 pe-2 text-creme sm:py-4 sm:ps-4.5 sm:pe-4">
+      <div className="z-20 flex h-2/5 w-full items-start justify-between gap-2 bg-linear-to-b from-noir-profond to-noir-profond/0 py-2 ps-2.5 pe-2 text-creme sm:py-4 sm:ps-4.5 sm:pe-4">
         {isFeatured && (
           <div className="flex items-center gap-1.5 py-0.5 sm:gap-2">
             <span className="size-2 rounded-full bg-orange sm:size-3"></span>
@@ -61,6 +61,18 @@ export default function Thumbnail({
           </div>
         )}
       </div>
+
+      {!isFeatured && project.client && project.client.logo && (
+        <Image
+          src={project.client.logo}
+          alt={project.client.name}
+          width={64}
+          height={64}
+          className="z-20 ms-4 mb-4 size-7 rounded-full bg-ardoise object-contain"
+        />
+      )}
+
+      {/* Link */}
       <div className="invisible absolute top-1/2 left-1/2 -translate-1/2 rounded-lg bg-orange px-2.5 py-1.5 font-serif opacity-0 ring-offset-1 transition-opacity duration-300 ease-out group-focus-within/thumbnail:visible group-focus-within/thumbnail:opacity-100 group-focus-within/thumbnail:ring-2 group-focus-within/thumbnail:ring-noir-profond group-hover/thumbnail:visible group-hover/thumbnail:opacity-100">
         Voir
       </div>

@@ -29,6 +29,10 @@ export const projectThumbnailFragment = `{
   },
   "tags": services[]->{
     name
+  },
+  "client": client->{
+    name,
+    "logo": logo.asset->url
   }
 }`;
 
