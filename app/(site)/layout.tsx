@@ -1,8 +1,8 @@
 import "@/app/globals.css";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
 import { getLayoutSettings, getPaletteColors } from "@/sanity/lib/getters";
 import type { Metadata } from "next";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 import { sagace } from "../fonts";
 
 export async function generateMetadata(): Promise<Metadata> {
