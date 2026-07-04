@@ -17,3 +17,8 @@ export const getPaletteColors = withPreview(
   () => queries.paletteColorsQuery,
   ["paletteColor"]
 );
+
+export const getFooterSettings = withPreview(
+  () => queries.footerSettingsQuery,
+  ["settings"]
+);

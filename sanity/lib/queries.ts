@@ -39,9 +39,30 @@ const paletteColorsQuery = defineQuery(`
   }
 `);
 
+const footerSettingsQuery = defineQuery(`
+    *[_type == "settings"][0]{
+      footerSentence,
+      "contact": contact{
+        email,
+        phone,
+        address,
+      },
+      "socials": socials[]{
+        name,
+        url
+      },
+      "jobs": jobs{
+        title,
+        text,
+        link
+      }
+    }
+  `);
+
 export const queries = {
   layoutSettingsQuery,
   homePageQuery,
   headerSettingsQuery,
-  paletteColorsQuery
+  paletteColorsQuery,
+  footerSettingsQuery
 };

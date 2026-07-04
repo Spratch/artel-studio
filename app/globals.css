@@ -18,3 +18,7 @@
   --color-bleu: var(--palette-bleu, #c6d3e0);
   --color-rouge: var(--palette-rouge, #ea6a4c);
 }
+
+.footer-logo path {
+  vector-effect: non-scaling-stroke;
+}

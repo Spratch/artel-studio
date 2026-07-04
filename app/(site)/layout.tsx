@@ -1,4 +1,5 @@
 import "@/app/globals.css";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { getLayoutSettings, getPaletteColors } from "@/sanity/lib/getters";
 import type { Metadata } from "next";
@@ -62,6 +63,7 @@ export default async function RootLayout({
         </style>
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

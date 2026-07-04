@@ -1,4 +1,9 @@
-import { InfoOutlineIcon, MenuIcon } from "@sanity/icons";
+import {
+  EarthGlobeIcon,
+  InfoOutlineIcon,
+  MenuIcon,
+  SplitHorizontalIcon
+} from "@sanity/icons";
 import {
   ALL_FIELDS_GROUP,
   defineArrayMember,
@@ -25,6 +30,11 @@ export const settingsSchema = defineType({
       name: "header",
       title: "Menu de navigation",
       icon: MenuIcon
+    },
+    {
+      name: "footer",
+      title: "Footer",
+      icon: SplitHorizontalIcon
     }
   ],
   fields: [
@@ -118,6 +128,108 @@ export const settingsSchema = defineType({
       ],
       group: "header",
       validation: (Rule) => Rule.required()
+    }),
+    defineField({
+      name: "footerSentence",
+      title: "Phrase du footer",
+      description: "Renseigner la phrase à afficher dans le footer",
+      type: "text",
+      rows: 2,
+      group: "footer",
+      validation: (Rule) => Rule.required()
+    }),
+    defineField({
+      name: "contact",
+      title: "Contact",
+      description:
+        "Renseigner les informations de contact à afficher dans le footer",
+      type: "object",
+      group: "footer",
+      fields: [
+        defineField({
+          name: "email",
+          title: "Email",
+          type: "string",
+          description: "Adresse email de contact",
+          validation: (Rule) => Rule.email().required()
+        }),
+        defineField({
+          name: "phone",
+          title: "Téléphone",
+          description:
+            "Formats national ou international acceptés, pas de parenthèses, de tirets ou de points",
+          type: "string",
+          validation: (Rule) => Rule.regex(/^(?:\+33|0)[1-9](?: ?\d{2}){4}$/)
+        }),
+        defineField({
+          name: "address",
+          title: "Adresse",
+          description: "Adresse postale de contact",
+          type: "text",
+          rows: 2
+        })
+      ],
+      validation: (Rule) => Rule.required()
+    }),
+    defineField({
+      name: "socials",
+      title: "Réseaux sociaux",
+      type: "array",
+      group: "footer",
+      of: [
+        defineArrayMember({
+          type: "object",
+          icon: EarthGlobeIcon,
+          fields: [
+            defineField({
+              name: "name",
+              title: "Nom",
+              type: "string",
+              description: "Entrez le nom du réseau social",
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "url",
+              title: "URL",
+              type: "url",
+              description: "Entrez l'URL du réseau social",
+              validation: (Rule) => Rule.required()
+            })
+          ]
+        })
+      ],
+      description: "Entrez les réseaux sociaux à afficher dans le menu du site"
+    }),
+    defineField({
+      name: "jobs",
+      title: "Offres d'emploi",
+      type: "object",
+      description: "Renseigner les informations pour les offres d'emploi",
+      group: "footer",
+      fields: [
+        defineField({
+          name: "title",
+          title: "Titre",
+          type: "string",
+          description: "Titre de la section des offres d'emploi",
+          validation: (Rule) => Rule.required()
+        }),
+        defineField({
+          name: "text",
+          title: "Texte",
+          type: "text",
+          rows: 2,
+          description: "Texte de la section des offres d'emploi",
+          validation: (Rule) => Rule.required()
+        }),
+        defineField({
+          name: "link",
+          title: "Lien",
+          type: "url",
+          description:
+            "Lien vers la page des offres d'emploi (externe ou interne)"
+        })
+      ]
     })
   ]
 });

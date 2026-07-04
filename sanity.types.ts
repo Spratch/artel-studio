@@ -542,6 +542,22 @@ export type Settings = {
   navigation: ArrayOf<
     AboutReference | ProjectsReference | LegalReference | ServiceReference
   >;
+  footerSentence: string;
+  contact: {
+    email: string;
+    phone?: string;
+    address?: string;
+  };
+  socials?: Array<{
+    name: string;
+    url: string;
+    _key: string;
+  }>;
+  jobs?: {
+    title: string;
+    text: string;
+    link?: string;
+  };
 };
 
 export type MuxVideoAsset = {
@@ -1125,6 +1141,27 @@ export type PaletteColorsQueryResult = Array<{
   value: ColorInput;
 }>;
 
+// Source: sanity/lib/queries.ts
+// Variable: footerSettingsQuery
+// Query: *[_type == "settings"][0]{      footerSentence,      "contact": contact{        email,        phone,        address,      },      "socials": socials[]{        name,        url      },      "jobs": jobs{        title,        text,        link      }    }
+export type FooterSettingsQueryResult = {
+  footerSentence: string;
+  contact: {
+    email: string;
+    phone: string | null;
+    address: string | null;
+  };
+  socials: Array<{
+    name: string;
+    url: string;
+  }> | null;
+  jobs: {
+    title: string;
+    text: string;
+    link: string | null;
+  } | null;
+} | null;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
@@ -1133,5 +1170,6 @@ declare module "@sanity/client" {
     '*[_type == "home"][0]{\n    "intro": intro{\n      type,\n      "video": video{\n        "playbackId": coalesce(asset->playbackId, "")\n      },\n      "project": projectRef->{\n  "slug": slug.current,\n  "cover": cover{\n    "src": coalesce(asset->url, ""),\n    crop,\n    hotspot\n  },\n  "tags": services[]->{\n    name\n  }\n},\n    },\n    "logoColor": logoColor->value,\n    "sections": sections[]{\n  title,\n  subtitle,\n  "colors": colors{\n    "backgroundColor": backgroundColor->value,\n    "textColor": textColor->value,\n    "buttonBgColor": buttonBgColor->value,\n    "buttonFgColor": buttonFgColor->value\n  },\n  "button": button{\n    label,\n    "page": page->{\n      "title": coalesce(title, name),\n      "slug": select(\n        _type == "project" => "projet/" + slug.current,\n        title != null => slug.current,\n        name != null => "services/" + slug.current,\n      )\n    },\n    position\n  },\n  "description": description{\n    layout,\n    "col1": column1[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col2": column2[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col3": column3[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  },\n  contentType,\n  contentType == "project" => {\n    "projects": projects[]->{\n  "slug": slug.current,\n  "cover": cover{\n    "src": coalesce(asset->url, ""),\n    crop,\n    hotspot\n  },\n  "tags": services[]->{\n    name\n  }\n}\n  },\n  contentType == "services" => {\n    "services": coalesce(\n      services[]->{\n        name,\n        "slug": slug.current\n      },\n      *[_type == "service" && hasPage == true && !(_id == ^._id)]{\n        name,\n        "slug": slug.current\n      }\n    )\n  }\n}\n  }': HomePageQueryResult;
     '*[_type == "settings"][0].navigation[]->{\n    "title": coalesce(title, name),\n    "slug": select(\n      title != null => slug.current,\n      name != null => "services/" + slug.current,\n    )\n  }': HeaderSettingsQueryResult;
     '\n  *[_type == "paletteColor"]{\n    label,\n    "slug": slug.current,\n    value\n  }\n': PaletteColorsQueryResult;
+    '\n    *[_type == "settings"][0]{\n      footerSentence,\n      "contact": contact{\n        email,\n        phone,\n        address,\n      },\n      "socials": socials[]{\n        name,\n        url\n      },\n      "jobs": jobs{\n        title,\n        text,\n        link\n      }\n    }\n  ': FooterSettingsQueryResult;
   }
 }
