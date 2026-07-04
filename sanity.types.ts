@@ -808,7 +808,7 @@ export type LayoutSettingsQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == "home"][0]{    "intro": intro{      type,      "video": video{        "playbackId": coalesce(asset->playbackId, "")      },      "project": projectRef->{  "slug": slug.current,  "cover": cover{    "src": coalesce(asset->url, ""),    crop,    hotspot  },  "tags": services[]->{    name  }},    },    "logoColor": logoColor->value,    "sections": sections[]{  title,  subtitle,  "description": description{    layout,    "col1": column1[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},    "col2": column2[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},    "col3": column3[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},  },  contentType,  contentType == "project" => {    "projects": projects[]->{  "slug": slug.current,  "cover": cover{    "src": coalesce(asset->url, ""),    crop,    hotspot  },  "tags": services[]->{    name  }}  },  contentType == "services" => {    "services": coalesce(      services[]->{        name,        "slug": slug.current      },      *[_type == "service" && hasPage == true && !(_id == ^._id)]{        name,        "slug": slug.current      }    )  }}  }
+// Query: *[_type == "home"][0]{    "intro": intro{      type,      "video": video{        "playbackId": coalesce(asset->playbackId, "")      },      "project": projectRef->{  "slug": slug.current,  "cover": cover{    "src": coalesce(asset->url, ""),    crop,    hotspot  },  "tags": services[]->{    name  }},    },    "logoColor": logoColor->value,    "sections": sections[]{  title,  subtitle,  "colors": colors{    "backgroundColor": backgroundColor->value,    "textColor": textColor->value,    "buttonBgColor": buttonBgColor->value,    "buttonFgColor": buttonFgColor->value  },  "description": description{    layout,    "col1": column1[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},    "col2": column2[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},    "col3": column3[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},  },  contentType,  contentType == "project" => {    "projects": projects[]->{  "slug": slug.current,  "cover": cover{    "src": coalesce(asset->url, ""),    crop,    hotspot  },  "tags": services[]->{    name  }}  },  contentType == "services" => {    "services": coalesce(      services[]->{        name,        "slug": slug.current      },      *[_type == "service" && hasPage == true && !(_id == ^._id)]{        name,        "slug": slug.current      }    )  }}  }
 export type HomePageQueryResult = {
   intro: {
     type: "project" | "video";
@@ -832,6 +832,12 @@ export type HomePageQueryResult = {
     | {
         title: string;
         subtitle: string | null;
+        colors: {
+          backgroundColor: ColorInput;
+          textColor: ColorInput;
+          buttonBgColor: ColorInput;
+          buttonFgColor: ColorInput;
+        } | null;
         description: {
           layout: Layout | null;
           col1: Array<{
@@ -953,6 +959,12 @@ export type HomePageQueryResult = {
     | {
         title: string;
         subtitle: string | null;
+        colors: {
+          backgroundColor: ColorInput;
+          textColor: ColorInput;
+          buttonBgColor: ColorInput;
+          buttonFgColor: ColorInput;
+        } | null;
         description: {
           layout: Layout | null;
           col1: Array<{
@@ -1092,7 +1104,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "settings"][0]{\n    title,\n    description,\n    "favicons": favicon{\n      "light": light.asset->url,\n      "dark": dark.asset->url,\n    }\n  }': LayoutSettingsQueryResult;
-    '*[_type == "home"][0]{\n    "intro": intro{\n      type,\n      "video": video{\n        "playbackId": coalesce(asset->playbackId, "")\n      },\n      "project": projectRef->{\n  "slug": slug.current,\n  "cover": cover{\n    "src": coalesce(asset->url, ""),\n    crop,\n    hotspot\n  },\n  "tags": services[]->{\n    name\n  }\n},\n    },\n    "logoColor": logoColor->value,\n    "sections": sections[]{\n  title,\n  subtitle,\n  "description": description{\n    layout,\n    "col1": column1[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col2": column2[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col3": column3[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  },\n  contentType,\n  contentType == "project" => {\n    "projects": projects[]->{\n  "slug": slug.current,\n  "cover": cover{\n    "src": coalesce(asset->url, ""),\n    crop,\n    hotspot\n  },\n  "tags": services[]->{\n    name\n  }\n}\n  },\n  contentType == "services" => {\n    "services": coalesce(\n      services[]->{\n        name,\n        "slug": slug.current\n      },\n      *[_type == "service" && hasPage == true && !(_id == ^._id)]{\n        name,\n        "slug": slug.current\n      }\n    )\n  }\n}\n  }': HomePageQueryResult;
+    '*[_type == "home"][0]{\n    "intro": intro{\n      type,\n      "video": video{\n        "playbackId": coalesce(asset->playbackId, "")\n      },\n      "project": projectRef->{\n  "slug": slug.current,\n  "cover": cover{\n    "src": coalesce(asset->url, ""),\n    crop,\n    hotspot\n  },\n  "tags": services[]->{\n    name\n  }\n},\n    },\n    "logoColor": logoColor->value,\n    "sections": sections[]{\n  title,\n  subtitle,\n  "colors": colors{\n    "backgroundColor": backgroundColor->value,\n    "textColor": textColor->value,\n    "buttonBgColor": buttonBgColor->value,\n    "buttonFgColor": buttonFgColor->value\n  },\n  "description": description{\n    layout,\n    "col1": column1[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col2": column2[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col3": column3[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  },\n  contentType,\n  contentType == "project" => {\n    "projects": projects[]->{\n  "slug": slug.current,\n  "cover": cover{\n    "src": coalesce(asset->url, ""),\n    crop,\n    hotspot\n  },\n  "tags": services[]->{\n    name\n  }\n}\n  },\n  contentType == "services" => {\n    "services": coalesce(\n      services[]->{\n        name,\n        "slug": slug.current\n      },\n      *[_type == "service" && hasPage == true && !(_id == ^._id)]{\n        name,\n        "slug": slug.current\n      }\n    )\n  }\n}\n  }': HomePageQueryResult;
     '*[_type == "settings"][0].navigation[]->{\n    "title": coalesce(title, name),\n    "slug": select(\n      title != null => slug.current,\n      name != null => "services/" + slug.current,\n    )\n  }': HeaderSettingsQueryResult;
     '\n  *[_type == "paletteColor"]{\n    label,\n    "slug": slug.current,\n    value\n  }\n': PaletteColorsQueryResult;
   }

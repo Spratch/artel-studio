@@ -35,6 +35,12 @@ export const projectThumbnailFragment = `{
 export const sectionsFragment = `"sections": sections[]{
   title,
   subtitle,
+  "colors": colors{
+    "backgroundColor": backgroundColor->value,
+    "textColor": textColor->value,
+    "buttonBgColor": buttonBgColor->value,
+    "buttonFgColor": buttonFgColor->value
+  },
   "description": description{
     layout,
     "col1": column1${customBlockFragment},
