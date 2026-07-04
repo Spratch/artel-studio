@@ -93,7 +93,7 @@ export type Medias = Array<
 
 export type Columns = {
   _type: "columns";
-  layout?: Layout;
+  layout: Layout;
   column1?: CustomBlock;
   column2?: CustomBlock;
   column3?: CustomBlock;
@@ -839,7 +839,7 @@ export type HomePageQueryResult = {
           buttonFgColor: ColorInput;
         } | null;
         description: {
-          layout: Layout | null;
+          layout: Layout;
           col1: Array<{
             children?: Array<{
               marks?: Array<string>;
@@ -966,7 +966,7 @@ export type HomePageQueryResult = {
           buttonFgColor: ColorInput;
         } | null;
         description: {
-          layout: Layout | null;
+          layout: Layout;
           col1: Array<{
             children?: Array<{
               marks?: Array<string>;

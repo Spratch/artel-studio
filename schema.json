@@ -386,7 +386,7 @@
             "type": "inline",
             "name": "layout"
           },
-          "optional": true
+          "optional": false
         },
         "column1": {
           "type": "objectAttribute",

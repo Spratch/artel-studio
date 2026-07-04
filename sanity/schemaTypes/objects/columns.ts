@@ -47,7 +47,8 @@ export default defineType({
           initialValue: "top",
           validation: (Rule) => Rule.required()
         })
-      ]
+      ],
+      validation: (Rule) => Rule.required()
     }),
     defineField({
       name: "column1",

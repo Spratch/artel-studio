@@ -27,6 +27,7 @@
     "next-sanity": "^13.1.0",
     "react": "19.2.7",
     "react-aria": "^3.49.0",
+    "react-aria-components": "^1.19.0",
     "react-dom": "19.2.7",
     "sanity": "^6.3.0",
     "sanity-plugin-iframe-pane": "^5.0.14",
@@ -34,6 +35,7 @@
     "sanity-plugin-utils": "2.0.1"
   },
   "devDependencies": {
+    "@sanity/codegen": "^7.0.3",
     "@sanity/types": "^6.3.0",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
