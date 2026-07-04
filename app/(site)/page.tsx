@@ -14,7 +14,7 @@ export default async function Home({
 
   return (
     <main
-      className="flex flex-col gap-3 bg-creme px-3 pt-(--h-header) pb-3 **:[path]:fill-(--color-logo)"
+      className="flex flex-col gap-3 overflow-x-hidden bg-creme px-3 pt-(--h-header) pb-3 **:[path]:fill-(--color-logo)"
       style={
         {
           "--color-logo": home.logoColor

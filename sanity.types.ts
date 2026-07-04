@@ -824,7 +824,7 @@ export type LayoutSettingsQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == "home"][0]{    "intro": intro{      type,      "video": video{        "playbackId": coalesce(asset->playbackId, "")      },      "project": projectRef->{  "slug": slug.current,  "cover": cover{    "src": coalesce(asset->url, ""),    crop,    hotspot  },  "tags": services[]->{    name  },  "client": client->{    name,    "logo": logo.asset->url  }},    },    "logoColor": logoColor->value,    "sections": sections[]{  title,  subtitle,  "colors": colors{    "backgroundColor": backgroundColor->value,    "textColor": textColor->value,    "buttonBgColor": buttonBgColor->value,    "buttonFgColor": buttonFgColor->value  },  "button": button{    label,    "page": page->{      "title": coalesce(title, name),      "slug": select(        _type == "project" => "projet/" + slug.current,        title != null => slug.current,        name != null => "services/" + slug.current,      )    },    position  },  "description": description{    layout,    "col1": column1[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},    "col2": column2[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},    "col3": column3[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},  },  contentType,  contentType == "project" => {    "projects": projects[]->{  "slug": slug.current,  "cover": cover{    "src": coalesce(asset->url, ""),    crop,    hotspot  },  "tags": services[]->{    name  },  "client": client->{    name,    "logo": logo.asset->url  }}  },  contentType == "services" => {    "services": coalesce(      services[]->{        name,        "slug": slug.current      },      *[_type == "service" && hasPage == true && !(_id == ^._id)]{        name,        "slug": slug.current      }    )  }}  }
+// Query: *[_type == "home"][0]{    "intro": intro{      type,      "video": video{        "playbackId": coalesce(asset->playbackId, "")      },      "project": projectRef->{  "slug": slug.current,  cover,  "tags": services[]->{    name  },  "client": client->{    name,    logo  }},    },    "logoColor": logoColor->value,    "sections": sections[]{  title,  subtitle,  "colors": colors{    "backgroundColor": backgroundColor->value,    "textColor": textColor->value,    "buttonBgColor": buttonBgColor->value,    "buttonFgColor": buttonFgColor->value  },  "button": button{    label,    "page": page->{      "title": coalesce(title, name),      "slug": select(        _type == "project" => "projet/" + slug.current,        title != null => slug.current,        name != null => "services/" + slug.current,      )    },    position  },  "description": description{    layout,    "col1": column1[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},    "col2": column2[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},    "col3": column3[]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }},  },  contentType,  "content": select(    contentType == "projects" => {      "type": "projects",      "projects": projects[]->{  "slug": slug.current,  cover,  "tags": services[]->{    name  },  "client": client->{    name,    logo  }}    },    contentType == "services" => {      "type": "services",      "services": coalesce(        services[]->{          name,          "slug": slug.current        },        *[_type == "service" && hasPage == true && !(_id == ^._id)]{          name,          "slug": slug.current        }      )    }  )}  }
 export type HomePageQueryResult = {
   intro: {
     type: "project" | "video";
@@ -833,299 +833,187 @@ export type HomePageQueryResult = {
     } | null;
     project: {
       slug: string;
-      cover: {
-        src: string | "";
-        crop: SanityImageCrop | null;
-        hotspot: SanityImageHotspot | null;
-      };
+      cover: ImageAlt;
       tags: Array<{
         name: string;
       }>;
       client: {
         name: string;
-        logo: string | null;
+        logo: {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          _type: "image";
+        } | null;
       };
     } | null;
   };
   logoColor: ColorInput | null;
-  sections: Array<
-    | {
-        title: string;
-        subtitle: string | null;
-        colors: {
-          backgroundColor: ColorInput;
-          textColor: ColorInput;
-          buttonBgColor: ColorInput;
-          buttonFgColor: ColorInput;
-        } | null;
-        button: {
-          label: string;
-          page:
-            | {
-                title: string;
-                slug: string;
-              }
-            | {
-                title: string;
-                slug: string;
-              };
-          position: "bottom" | "top";
-        } | null;
-        description: {
-          layout: Layout;
-          col1: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
-              _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "h5"
-              | "h6"
-              | "normal";
-            listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _ref: string;
-                  _type: "reference";
-                  _weak?: boolean;
-                }
-              | {
-                  href?: string;
-                  _type: "link";
-                  _key: string;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-          col2: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
-              _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "h5"
-              | "h6"
-              | "normal";
-            listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _ref: string;
-                  _type: "reference";
-                  _weak?: boolean;
-                }
-              | {
-                  href?: string;
-                  _type: "link";
-                  _key: string;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-          col3: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
-              _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "h5"
-              | "h6"
-              | "normal";
-            listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _ref: string;
-                  _type: "reference";
-                  _weak?: boolean;
-                }
-              | {
-                  href?: string;
-                  _type: "link";
-                  _key: string;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-        } | null;
-        contentType:
-          | "experience"
-          | "medias"
-          | "method"
-          | "projects"
-          | "reviews"
-          | "services"
-          | null;
-        services: Array<{
-          name: string;
-          slug: string;
+  sections: Array<{
+    title: string;
+    subtitle: string | null;
+    colors: {
+      backgroundColor: ColorInput;
+      textColor: ColorInput;
+      buttonBgColor: ColorInput;
+      buttonFgColor: ColorInput;
+    } | null;
+    button: {
+      label: string;
+      page:
+        | {
+            title: string;
+            slug: string;
+          }
+        | {
+            title: string;
+            slug: string;
+          };
+      position: "bottom" | "top";
+    } | null;
+    description: {
+      layout: Layout;
+      col1: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
         }>;
-      }
-    | {
-        title: string;
-        subtitle: string | null;
-        colors: {
-          backgroundColor: ColorInput;
-          textColor: ColorInput;
-          buttonBgColor: ColorInput;
-          buttonFgColor: ColorInput;
-        } | null;
-        button: {
-          label: string;
-          page:
-            | {
-                title: string;
-                slug: string;
-              }
-            | {
-                title: string;
-                slug: string;
-              };
-          position: "bottom" | "top";
-        } | null;
-        description: {
-          layout: Layout;
-          col1: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
+        style?:
+          | "blockquote"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "normal";
+        listItem?: "bullet" | "number";
+        markDefs: Array<
+          | {
               _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "h5"
-              | "h6"
-              | "normal";
-            listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _ref: string;
-                  _type: "reference";
-                  _weak?: boolean;
-                }
-              | {
-                  href?: string;
-                  _type: "link";
-                  _key: string;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-          col2: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+            }
+          | {
+              href?: string;
+              _type: "link";
               _key: string;
-            }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "h5"
-              | "h6"
-              | "normal";
-            listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _ref: string;
-                  _type: "reference";
-                  _weak?: boolean;
-                }
-              | {
-                  href?: string;
-                  _type: "link";
-                  _key: string;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
-          }> | null;
-          col3: Array<{
-            children?: Array<{
-              marks?: Array<string>;
-              text?: string;
-              _type: "span";
+            }
+        > | null;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }> | null;
+      col2: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "blockquote"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "normal";
+        listItem?: "bullet" | "number";
+        markDefs: Array<
+          | {
               _key: string;
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+            }
+          | {
+              href?: string;
+              _type: "link";
+              _key: string;
+            }
+        > | null;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }> | null;
+      col3: Array<{
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?:
+          | "blockquote"
+          | "h1"
+          | "h2"
+          | "h3"
+          | "h4"
+          | "h5"
+          | "h6"
+          | "normal";
+        listItem?: "bullet" | "number";
+        markDefs: Array<
+          | {
+              _key: string;
+              _ref: string;
+              _type: "reference";
+              _weak?: boolean;
+            }
+          | {
+              href?: string;
+              _type: "link";
+              _key: string;
+            }
+        > | null;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }> | null;
+    } | null;
+    contentType:
+      | "experience"
+      | "medias"
+      | "method"
+      | "projects"
+      | "reviews"
+      | "services"
+      | null;
+    content:
+      | {
+          type: "projects";
+          projects: Array<{
+            slug: string;
+            cover: ImageAlt;
+            tags: Array<{
+              name: string;
             }>;
-            style?:
-              | "blockquote"
-              | "h1"
-              | "h2"
-              | "h3"
-              | "h4"
-              | "h5"
-              | "h6"
-              | "normal";
-            listItem?: "bullet" | "number";
-            markDefs: Array<
-              | {
-                  _key: string;
-                  _ref: string;
-                  _type: "reference";
-                  _weak?: boolean;
-                }
-              | {
-                  href?: string;
-                  _type: "link";
-                  _key: string;
-                }
-            > | null;
-            level?: number;
-            _type: "block";
-            _key: string;
+            client: {
+              name: string;
+              logo: {
+                asset?: SanityImageAssetReference;
+                media?: unknown;
+                hotspot?: SanityImageHotspot;
+                crop?: SanityImageCrop;
+                _type: "image";
+              } | null;
+            };
           }> | null;
-        } | null;
-        contentType:
-          | "experience"
-          | "medias"
-          | "method"
-          | "projects"
-          | "reviews"
-          | "services"
-          | null;
-      }
-  > | null;
+        }
+      | {
+          type: "services";
+          services: Array<{
+            name: string;
+            slug: string;
+          }>;
+        };
+  }> | null;
 } | null;
 
 // Source: sanity/lib/queries.ts
@@ -1171,7 +1059,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "settings"][0]{\n    title,\n    description,\n    "favicons": favicon{\n      "light": light.asset->url,\n      "dark": dark.asset->url,\n    }\n  }': LayoutSettingsQueryResult;
-    '*[_type == "home"][0]{\n    "intro": intro{\n      type,\n      "video": video{\n        "playbackId": coalesce(asset->playbackId, "")\n      },\n      "project": projectRef->{\n  "slug": slug.current,\n  "cover": cover{\n    "src": coalesce(asset->url, ""),\n    crop,\n    hotspot\n  },\n  "tags": services[]->{\n    name\n  },\n  "client": client->{\n    name,\n    "logo": logo.asset->url\n  }\n},\n    },\n    "logoColor": logoColor->value,\n    "sections": sections[]{\n  title,\n  subtitle,\n  "colors": colors{\n    "backgroundColor": backgroundColor->value,\n    "textColor": textColor->value,\n    "buttonBgColor": buttonBgColor->value,\n    "buttonFgColor": buttonFgColor->value\n  },\n  "button": button{\n    label,\n    "page": page->{\n      "title": coalesce(title, name),\n      "slug": select(\n        _type == "project" => "projet/" + slug.current,\n        title != null => slug.current,\n        name != null => "services/" + slug.current,\n      )\n    },\n    position\n  },\n  "description": description{\n    layout,\n    "col1": column1[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col2": column2[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col3": column3[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  },\n  contentType,\n  contentType == "project" => {\n    "projects": projects[]->{\n  "slug": slug.current,\n  "cover": cover{\n    "src": coalesce(asset->url, ""),\n    crop,\n    hotspot\n  },\n  "tags": services[]->{\n    name\n  },\n  "client": client->{\n    name,\n    "logo": logo.asset->url\n  }\n}\n  },\n  contentType == "services" => {\n    "services": coalesce(\n      services[]->{\n        name,\n        "slug": slug.current\n      },\n      *[_type == "service" && hasPage == true && !(_id == ^._id)]{\n        name,\n        "slug": slug.current\n      }\n    )\n  }\n}\n  }': HomePageQueryResult;
+    '*[_type == "home"][0]{\n    "intro": intro{\n      type,\n      "video": video{\n        "playbackId": coalesce(asset->playbackId, "")\n      },\n      "project": projectRef->{\n  "slug": slug.current,\n  cover,\n  "tags": services[]->{\n    name\n  },\n  "client": client->{\n    name,\n    logo\n  }\n},\n    },\n    "logoColor": logoColor->value,\n    "sections": sections[]{\n  title,\n  subtitle,\n  "colors": colors{\n    "backgroundColor": backgroundColor->value,\n    "textColor": textColor->value,\n    "buttonBgColor": buttonBgColor->value,\n    "buttonFgColor": buttonFgColor->value\n  },\n  "button": button{\n    label,\n    "page": page->{\n      "title": coalesce(title, name),\n      "slug": select(\n        _type == "project" => "projet/" + slug.current,\n        title != null => slug.current,\n        name != null => "services/" + slug.current,\n      )\n    },\n    position\n  },\n  "description": description{\n    layout,\n    "col1": column1[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col2": column2[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n    "col3": column3[]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  },\n  contentType,\n  "content": select(\n    contentType == "projects" => {\n      "type": "projects",\n      "projects": projects[]->{\n  "slug": slug.current,\n  cover,\n  "tags": services[]->{\n    name\n  },\n  "client": client->{\n    name,\n    logo\n  }\n}\n    },\n    contentType == "services" => {\n      "type": "services",\n      "services": coalesce(\n        services[]->{\n          name,\n          "slug": slug.current\n        },\n        *[_type == "service" && hasPage == true && !(_id == ^._id)]{\n          name,\n          "slug": slug.current\n        }\n      )\n    }\n  )\n}\n  }': HomePageQueryResult;
     '*[_type == "settings"][0].navigation[]->{\n    "title": coalesce(title, name),\n    "slug": select(\n      title != null => slug.current,\n      name != null => "services/" + slug.current,\n    )\n  }': HeaderSettingsQueryResult;
     '\n  *[_type == "paletteColor"]{\n    label,\n    "slug": slug.current,\n    value\n  }\n': PaletteColorsQueryResult;
     '\n    *[_type == "settings"][0]{\n      footerSentence,\n      "contact": contact{\n        email,\n        phone,\n        address,\n      },\n      "socials": socials[]{\n        name,\n        url\n      },\n      "jobs": jobs{\n        title,\n        text,\n        link\n      }\n    }\n  ': FooterSettingsQueryResult;

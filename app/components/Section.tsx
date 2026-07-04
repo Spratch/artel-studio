@@ -2,6 +2,7 @@ import { HomePageQueryResult } from "@/sanity.types";
 import type { Get } from "@sanity/codegen";
 import { PortableText } from "next-sanity";
 import Link from "next/link";
+import Thumbnail from "./Thumbnail";
 
 type SectionProps = {
   section: Get<HomePageQueryResult, "sections", number>;
@@ -15,7 +16,7 @@ type DescriptionProps = {
 export default function Section({ section }: SectionProps) {
   return (
     <section
-      className={`grid min-h-(--h-section) grid-cols-3 gap-2.5 rounded-xl bg-(--section-bg) p-4 text-(--section-text) sm:grid-cols-6`}
+      className={`relative grid h-(--h-section) max-h-[80svh] grid-cols-3 items-start gap-2.5 rounded-xl bg-(--section-bg) p-4 text-(--section-text) sm:grid-cols-6`}
       style={
         {
           "--section-bg": section.colors?.backgroundColor,
@@ -58,6 +59,19 @@ export default function Section({ section }: SectionProps) {
               <span className="absolute inset-x-[calc((var(--spacing)*11)/2-0.75px)] inset-y-3 bg-(--section-button-fg)"></span>
             </span>
           </Link>
+        </div>
+      )}
+
+      {section.content?.type === "projects" && section.content.projects && (
+        <div className="bottom-20 -ms-7 no-scrollbar flex w-screen gap-2.5 overflow-x-scroll ps-6 pe-6">
+          {section.content.projects.map((project, i) => (
+            <Thumbnail
+              key={project.slug + i}
+              project={project}
+              ratio="9/16"
+              className="h-180 max-h-[calc(var(--h-section)/1.5)] shrink-0"
+            />
+          ))}
         </div>
       )}
     </section>

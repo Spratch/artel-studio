@@ -7,11 +7,6 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cdn.sanity.io",
-        port: ""
-      },
-      {
-        protocol: "https",
         hostname: "image.mux.com",
         port: ""
       },

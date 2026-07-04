@@ -22,17 +22,13 @@ export const customBlockFragment = `[]{
 
 export const projectThumbnailFragment = `{
   ${slugFragment},
-  "cover": cover{
-    ${imageSrcFragment},
-    crop,
-    hotspot
-  },
+  cover,
   "tags": services[]->{
     name
   },
   "client": client->{
     name,
-    "logo": logo.asset->url
+    logo
   }
 }`;
 
@@ -64,19 +60,23 @@ export const sectionsFragment = `"sections": sections[]{
     "col3": column3${customBlockFragment},
   },
   contentType,
-  contentType == "project" => {
-    "projects": projects[]->${projectThumbnailFragment}
-  },
-  contentType == "services" => {
-    "services": coalesce(
-      services[]->{
-        name,
-        ${slugFragment}
-      },
-      *[_type == "service" && hasPage == true && !(_id == ^._id)]{
-        name,
-        ${slugFragment}
-      }
-    )
-  }
+  "content": select(
+    contentType == "projects" => {
+      "type": "projects",
+      "projects": projects[]->${projectThumbnailFragment}
+    },
+    contentType == "services" => {
+      "type": "services",
+      "services": coalesce(
+        services[]->{
+          name,
+          ${slugFragment}
+        },
+        *[_type == "service" && hasPage == true && !(_id == ^._id)]{
+          name,
+          ${slugFragment}
+        }
+      )
+    }
+  )
 }`;
