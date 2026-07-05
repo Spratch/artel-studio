@@ -72,7 +72,7 @@ export const sectionsFragment = `"sections": sections[]{
           name,
           ${slugFragment}
         },
-        *[_type == "service" && hasPage == true && !(_id == ^._id)]{
+        *[_type == "service" && !(_id == ^._id)]{
           name,
           ${slugFragment}
         }
@@ -80,3 +80,5 @@ export const sectionsFragment = `"sections": sections[]{
     }
   )
 }`;
+
+// && hasPage == true

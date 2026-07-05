@@ -32,13 +32,13 @@ export default function Thumbnail({
       <Image
         className="absolute z-10 h-full w-full object-contain transition-transform duration-300 ease-out group-focus-within/thumbnail:scale-103 group-hover/thumbnail:scale-103"
         src={urlFor(project.cover)
-          .width(ratio === "16/9" ? 1280 : 405)
-          .height(ratio === "16/9" ? 720 : 720)
+          .width(ratio === "16/9" ? 1280 : 506.25)
+          .height(ratio === "16/9" ? 720 : 900)
           .fit("crop")
           .url()}
         alt=""
-        width={ratio === "16/9" ? 1280 : 405}
-        height={ratio === "16/9" ? 720 : 720}
+        width={ratio === "16/9" ? 1280 : 506.25}
+        height={ratio === "16/9" ? 720 : 900}
       />
 
       <div className="z-20 flex h-2/5 w-full items-start justify-between gap-2 bg-linear-to-b from-noir-profond to-noir-profond/0 py-2 ps-2.5 pe-2 text-creme sm:py-4 sm:ps-4.5 sm:pe-4">
@@ -56,8 +56,7 @@ export default function Thumbnail({
             {project.tags.slice(0, 3).map((tag) => (
               <span
                 className={cn(
-                  "overflow-hidden rounded-lg border border-creme/20 bg-ardoise/15 px-2 py-1 text-nowrap backdrop-blur-xs max-sm:max-w-[14ch] max-sm:text-ellipsis sm:px-3 sm:py-1.5",
-                  isFeatured && "max-sm:last:hidden"
+                  "overflow-hidden rounded-lg border border-creme/20 bg-ardoise/15 px-2 py-1 text-nowrap backdrop-blur-xs max-sm:max-w-[14ch] max-sm:text-ellipsis max-sm:last:hidden sm:px-3 sm:py-1.5"
                 )}
                 key={tag.name}
               >

@@ -1,7 +1,9 @@
 import { HomePageQueryResult } from "@/sanity.types";
+import { getPaletteColors } from "@/sanity/lib/getters";
 import type { Get } from "@sanity/codegen";
 import { PortableText } from "next-sanity";
 import Link from "next/link";
+import FloatingServices from "./FloatingServices";
 import Thumbnail from "./Thumbnail";
 
 type SectionProps = {
@@ -13,65 +15,100 @@ type DescriptionProps = {
   >;
 };
 
-export default function Section({ section }: SectionProps) {
+export default async function Section({ section }: SectionProps) {
+  const paletteColors = (await getPaletteColors()).filter(
+    (color) => !["ardoise", "noir-profond", "creme"].includes(color.slug)
+  );
+  let services: {
+    name: string;
+    slug: string;
+    color: string;
+  }[] = [];
+
+  if (section.content && section.content.type === "services") {
+    services = section.content.services?.map((service, i) => {
+      return {
+        ...service,
+        color: paletteColors[i % paletteColors.length].value
+      };
+    });
+  }
+
   return (
     <section
-      className={`relative grid h-(--h-section) max-h-[80svh] grid-cols-3 items-start gap-2.5 rounded-xl bg-(--section-bg) p-4 text-(--section-text) sm:grid-cols-6`}
+      className="relative flex min-h-(--h-section) flex-col rounded-xl bg-(--section-bg) text-(--section-text)"
       style={
         {
           "--section-bg": section.colors?.backgroundColor,
           "--section-text": section.colors?.textColor,
           "--section-button-bg": section.colors?.buttonBgColor,
-          "--section-button-fg": section.colors?.buttonFgColor
+          "--section-button-fg": section.colors?.buttonFgColor,
+          "--h-section": "60svh"
         } as React.CSSProperties
       }
     >
       <div
-        className={`col-span-3 flex flex-col gap-10 ${section.description?.layout.position === "bottom" ? "justify-between" : "justify-start"}`}
+        className={`grid grow grid-cols-3 items-start gap-2.5 p-4 sm:grid-cols-6`}
       >
-        <div className="flex flex-col gap-5">
-          {section.subtitle && <h2 className="font-serif">{section.title}</h2>}
-          {section.subtitle ? (
-            <p className="text-3xl">{section.subtitle}</p>
-          ) : (
-            <h2 className="text-3xl">{section.title}</h2>
+        <div
+          className={`col-span-3 flex flex-col gap-10 ${section.description?.layout.position === "bottom" ? "justify-between" : "justify-start"}`}
+        >
+          <div className="flex flex-col gap-5">
+            {section.subtitle && (
+              <h2 className="font-serif">{section.title}</h2>
+            )}
+            {section.subtitle ? (
+              <p className="text-3xl">{section.subtitle}</p>
+            ) : (
+              <h2 className="text-3xl">{section.title}</h2>
+            )}
+          </div>
+
+          {section.description && (
+            <Desctiption description={section.description} />
           )}
         </div>
 
-        {section.description && (
-          <Desctiption description={section.description} />
+        {section.button && (
+          <div
+            className={`col-span-2 font-serif ${section.button.position === "top" ? "col-end-7 text-end" : "col-start-1 mt-auto"}`}
+          >
+            <Link
+              href={section.button.page.slug}
+              title={section.button.page.title}
+              className={`flex ${section.button.position === "bottom" ? "flex-row-reverse" : "flex-row"} items-center justify-end gap-6`}
+            >
+              {section.button.label}
+
+              <span className="relative aspect-square h-11 rounded-md bg-(--section-button-bg)">
+                <span className="absolute inset-x-3 top-1/2 h-[1.5px] -translate-y-1/2 bg-(--section-button-fg)"></span>
+                <span className="absolute inset-y-3 left-1/2 w-[1.5px] -translate-x-1/2 bg-(--section-button-fg)"></span>
+              </span>
+            </Link>
+          </div>
         )}
       </div>
 
-      {section.button && (
-        <div
-          className={`col-span-2 font-serif ${section.button.position === "top" ? "col-end-7 text-end" : "col-start-1 mt-auto"}`}
-        >
-          <Link
-            href={section.button.page.slug}
-            title={section.button.page.title}
-            className={`flex ${section.button.position === "bottom" ? "flex-row-reverse" : "flex-row"} items-center justify-end gap-6`}
-          >
-            {section.button.label}
+      {section.content && (
+        <div className="py-4">
+          {section.content.type === "projects" && section.content.projects && (
+            <div className="-ms-3 no-scrollbar flex min-h-120 w-screen gap-2.5 overflow-x-scroll px-7">
+              {section.content.projects.map((project, i) => (
+                <Thumbnail
+                  key={project.slug + i}
+                  project={project}
+                  ratio="9/16"
+                  className="h-90 shrink-0 sm:h-135 md:h-180 xl:h-225"
+                />
+              ))}
+            </div>
+          )}
 
-            <span className="relative aspect-square h-11 rounded-md bg-(--section-button-bg)">
-              <span className="absolute inset-x-3 inset-y-[calc((var(--spacing)*11)/2-0.75px)] bg-(--section-button-fg)"></span>
-              <span className="absolute inset-x-[calc((var(--spacing)*11)/2-0.75px)] inset-y-3 bg-(--section-button-fg)"></span>
-            </span>
-          </Link>
-        </div>
-      )}
-
-      {section.content?.type === "projects" && section.content.projects && (
-        <div className="bottom-20 -ms-7 no-scrollbar flex w-screen gap-2.5 overflow-x-scroll ps-6 pe-6">
-          {section.content.projects.map((project, i) => (
-            <Thumbnail
-              key={project.slug + i}
-              project={project}
-              ratio="9/16"
-              className="h-180 max-h-[calc(var(--h-section)/1.5)] shrink-0"
-            />
-          ))}
+          {section.content.type === "services" && section.content.services && (
+            <div className="mx-auto mb-12 aspect-1/2 w-full max-w-7xl p-4 sm:aspect-2/1">
+              <FloatingServices items={services} />
+            </div>
+          )}
         </div>
       )}
     </section>
@@ -81,7 +118,12 @@ export default function Section({ section }: SectionProps) {
 function Desctiption({ description }: DescriptionProps) {
   return (
     <div
-      className={`flex grid-cols-3 flex-col gap-x-2.5 gap-y-4 font-serif text-base/snug sm:grid ${description.layout.position === "bottom" ? "items-end" : "items-start"}`}
+      className={`flex flex-col gap-x-2.5 gap-y-4 font-serif text-base/snug sm:grid sm:grid-cols-(--cols) lg:grid-cols-3 ${description.layout.position === "bottom" ? "items-end" : "items-start"} `}
+      style={
+        {
+          "--cols": `repeat(${description.layout.columns}, minmax(0, 1fr))`
+        } as React.CSSProperties
+      }
     >
       <div className="text-balance">
         <PortableText value={description.col1} />
