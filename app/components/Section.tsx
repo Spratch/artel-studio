@@ -17,7 +17,11 @@ type DescriptionProps = {
 
 export default async function Section({ section }: SectionProps) {
   const paletteColors = (await getPaletteColors()).filter(
-    (color) => !["ardoise", "noir-profond", "creme"].includes(color.slug)
+    (color) =>
+      !["ardoise", "noir-profond"].includes(color.slug) &&
+      ![section.colors?.backgroundColor, section.colors?.textColor].includes(
+        color.value
+      )
   );
   let services: {
     name: string;
