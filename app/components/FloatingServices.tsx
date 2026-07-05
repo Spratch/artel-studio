@@ -97,6 +97,7 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
           inertia: true,
           onPress() {
             gsap.to(el, { scale: 0.85, duration: 0.2 });
+            el.setAttribute("data-dragging", "true");
             floatTween.kill();
           },
           onDrag() {
@@ -108,6 +109,7 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
           },
           onRelease() {
             gsap.to(el, { scale: 1, duration: 0.2 });
+            el.removeAttribute("data-dragging");
           },
           onThrowComplete() {
             floatTween = createFloatTween(el);
@@ -136,10 +138,10 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
             top: 0,
             opacity: layout.length ? 1 : 0
           }}
-          className="transition-opacity duration-500"
+          className="group/service transition-opacity duration-500"
         >
           <div
-            className="rounded-(--border-radius) border border-(--section-text) bg-(--section-bg) px-7 pt-4.5 pb-5 font-serif text-3xl text-(--section-text) transition-colors hover:border-(--item-color) hover:bg-(--item-color)"
+            className="rounded-(--border-radius) border border-(--section-text) bg-(--section-bg) px-5 py-3 font-serif text-2xl text-(--section-text) transition-colors group-data-dragging/service:border-(--item-color) group-data-dragging/service:bg-(--item-color) hover:border-(--item-color) hover:bg-(--item-color) sm:px-7 sm:pt-4.5 sm:pb-5 sm:text-3xl"
             style={
               {
                 "--item-color": item.color

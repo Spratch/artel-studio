@@ -39,6 +39,7 @@ export default function Thumbnail({
         alt=""
         width={ratio === "16/9" ? 1280 : 506.25}
         height={ratio === "16/9" ? 720 : 900}
+        loading={isFeatured ? "eager" : "lazy"}
       />
 
       <div className="z-20 flex h-2/5 w-full items-start justify-between gap-2 bg-linear-to-b from-noir-profond to-noir-profond/0 py-2 ps-2.5 pe-2 text-creme sm:py-4 sm:ps-4.5 sm:pe-4">

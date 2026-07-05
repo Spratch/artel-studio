@@ -16,7 +16,8 @@ const nextConfig: NextConfig = {
         port: ""
       }
     ]
-  }
+  },
+  allowedDevOrigins: ["192.168.1.170"]
 };
 
 export default nextConfig;

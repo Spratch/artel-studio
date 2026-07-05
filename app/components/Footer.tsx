@@ -96,7 +96,7 @@ export default async function Footer() {
       )}
 
       {/* Logo */}
-      <Logo className="footer-logo absolute bottom-[-7vw] mask-b-from-20% mask-b-to-80% fill-transparent stroke-creme stroke-1 pr-3 sm:px-6" />
+      <Logo className="footer-logo absolute bottom-[-7vw] overflow-visible mask-b-from-20% mask-b-to-80% fill-transparent stroke-creme stroke-1 pr-3 sm:px-6" />
     </footer>
   );
 }
