@@ -61,6 +61,10 @@ export const sectionsFragment = `"sections": sections[]{
   },
   contentType,
   "content": select(
+    contentType == "medias" => {
+      "type": "medias",
+      "medias": medias[]
+    },
     contentType == "projects" => {
       "type": "projects",
       "projects": projects[]->${projectThumbnailFragment}

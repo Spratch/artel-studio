@@ -31,3 +31,18 @@
     display: none;
   }
 }
+
+@keyframes carousel-dot-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.embla__dot-progress {
+  animation-name: carousel-dot-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
