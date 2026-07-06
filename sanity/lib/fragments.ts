@@ -65,6 +65,23 @@ export const sectionsFragment = `"sections": sections[]{
       "type": "medias",
       "medias": medias[]
     },
+    contentType == "reviews" => {
+      "type": "reviews",
+      "settings": coalesce(reviewsObject.settings, {
+        "direction": "mixed",
+        "speedRange": {"min":26,"max":46},
+        "gapRange": {"min":20,"max":96}
+      }),
+      "reviews": reviewsObject.reviews[]->{
+        "person": person->{
+          name,
+          position,
+        },
+        "client": client->name,
+        ${slugFragment},
+        "text": text${customBlockFragment}
+      }
+    },
     contentType == "projects" => {
       "type": "projects",
       "projects": projects[]->${projectThumbnailFragment}

@@ -59,7 +59,8 @@ export const reviewSchema = defineType({
       title: "Texte",
       type: "customBlock",
       description:
-        "Contenu du témoignage, mettre en gras les mots à mettre en couleur"
+        "Contenu du témoignage, mettre en gras les mots à mettre en couleur",
+      validation: (Rule) => Rule.required()
     })
   ],
   preview: {

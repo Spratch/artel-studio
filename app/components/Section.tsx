@@ -1,19 +1,15 @@
-import { HomePageQueryResult } from "@/sanity.types";
 import { getPaletteColors } from "@/sanity/lib/getters";
 import type { Get } from "@sanity/codegen";
 import { PortableText } from "next-sanity";
 import Link from "next/link";
+import { SectionType } from "../utils";
 import Carousel from "./Carousel";
 import FloatingServices from "./FloatingServices";
+import ReviewsMarquee from "./ReviewsMarquee";
 import Thumbnail from "./Thumbnail";
 
 type SectionProps = {
-  section: Get<HomePageQueryResult, "sections", number>;
-};
-type DescriptionProps = {
-  description: NonNullable<
-    Get<HomePageQueryResult, "sections", number, "description">
-  >;
+  section: SectionType;
 };
 
 export default async function Section({ section }: SectionProps) {
@@ -51,8 +47,7 @@ export default async function Section({ section }: SectionProps) {
           "--section-bg": section.colors?.backgroundColor,
           "--section-text": section.colors?.textColor,
           "--section-button-bg": section.colors?.buttonBgColor,
-          "--section-button-fg": section.colors?.buttonFgColor,
-          "--h-section": "60svh"
+          "--section-button-fg": section.colors?.buttonFgColor
         } as React.CSSProperties
       }
     >
@@ -62,6 +57,7 @@ export default async function Section({ section }: SectionProps) {
         <div
           className={`col-span-3 grid h-full grid-cols-3 items-start gap-x-2.5 gap-y-12 ${section.content && section.content.type === "medias" ? "sm:col-span-4 sm:grid-cols-4" : "sm:col-span-6 sm:grid-cols-6"}`}
         >
+          {/* Texts */}
           <div
             className={`col-span-3 flex flex-col gap-10 ${section.description?.layout.position === "bottom" ? "justify-between" : "justify-start"}`}
           >
@@ -81,6 +77,7 @@ export default async function Section({ section }: SectionProps) {
             )}
           </div>
 
+          {/* Button */}
           {section.button && (
             <div
               className={`col-span-3 font-serif ${section.button.position === "top" ? "col-end-7 text-end" : "col-start-1 mt-auto"}`}
@@ -101,6 +98,7 @@ export default async function Section({ section }: SectionProps) {
           )}
         </div>
 
+        {/* Right side content */}
         {section.content &&
           section.content.type === "medias" &&
           section.content.medias && (
@@ -112,6 +110,7 @@ export default async function Section({ section }: SectionProps) {
           )}
       </div>
 
+      {/* Bottom content */}
       {section.content &&
         ["projects", "services"].includes(section.content.type) && (
           <div className="py-4">
@@ -137,14 +136,38 @@ export default async function Section({ section }: SectionProps) {
               )}
           </div>
         )}
+
+      {/* Absolute content */}
+      {section.content && ["reviews"].includes(section.content.type) && (
+        <div className="absolute inset-0">
+          {section.content.type === "reviews" && section.content.reviews && (
+            <div className="z-10 grid h-full grid-cols-2 grid-rows-1 gap-x-2.5 overflow-hidden mask-y-from-50% mask-y-to-100% px-4 sm:grid-cols-6 lg:grid-cols-12">
+              {Array.from({ length: 12 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="h-[150%] border-x border-creme/10"
+                ></div>
+              ))}
+              <ReviewsMarquee
+                reviews={section.content.reviews}
+                settings={section.content.settings}
+              />
+            </div>
+          )}
+        </div>
+      )}
     </section>
   );
 }
 
+type DescriptionProps = {
+  description: NonNullable<Get<SectionType, "description">>;
+};
+
 function Desctiption({ description }: DescriptionProps) {
   return (
     <div
-      className={`flex flex-col gap-x-2.5 gap-y-4 font-serif text-base/snug sm:grid sm:grid-cols-(--cols) lg:grid-cols-3 ${description.layout.position === "bottom" ? "items-end" : "items-start"} `}
+      className={`flex flex-col gap-x-2.5 gap-y-4 font-serif text-base/tight sm:grid sm:grid-cols-(--cols) lg:grid-cols-3 ${description.layout.position === "bottom" ? "items-end" : "items-start"} `}
       style={
         {
           "--cols": `repeat(${description.layout.columns}, minmax(0, 1fr))`

@@ -1,26 +1,21 @@
 "use client";
 
 import { useAutoplayProgress } from "@/hooks/useAutoplayProgress";
-import { ImageAlt, MuxVideo } from "@/sanity.types";
 import { urlFor } from "@/sanity/lib/image";
 import { EmblaCarouselType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { Image } from "next-sanity/image";
 import { useEffect, useState } from "react";
+import { ContentResultType } from "../utils";
 
 type CarouselProps = {
-  medias: Array<
-    | ({
-        _key: string;
-      } & ImageAlt)
-    | ({
-        _key: string;
-      } & MuxVideo)
-  >;
+  medias: ContentResultType<"medias", "medias">;
 };
 export default function Carousel({ medias }: CarouselProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay()]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
+    Autoplay({ stopOnInteraction: false })
+  ]);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
   const { selectedIndex, duration, tick } = useAutoplayProgress(emblaApi);
 
@@ -42,7 +37,7 @@ export default function Carousel({ medias }: CarouselProps) {
   }, [emblaApi]);
 
   return (
-    <div className="embla relative aspect-2/3 max-h-(--h-section) overflow-hidden rounded-md">
+    <div className="embla relative aspect-2/3 max-h-(--h-section) overflow-hidden rounded-md max-sm:mx-auto">
       <div
         className="embla__viewport h-full overflow-hidden"
         ref={emblaRef}
@@ -59,7 +54,7 @@ export default function Carousel({ medias }: CarouselProps) {
                   alt={media.alt}
                   width={720}
                   height={1080}
-                  className="h-full w-full"
+                  className="h-full w-full cursor-grab object-cover"
                 />
               )}
             </div>

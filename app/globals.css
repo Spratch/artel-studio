@@ -2,7 +2,7 @@
 
 :root {
   --h-header: calc(var(--spacing) * 16);
-  --h-section: calc(100svh - var(--h-header));
+  --h-section: clamp(22rem, calc(100svh - var(--h-header) - 0.75rem), 54rem);
 }
 
 @theme {

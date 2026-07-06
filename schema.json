@@ -52,6 +52,75 @@
   },
   {
     "type": "type",
+    "name": "review.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "review"
+    }
+  },
+  {
+    "type": "type",
+    "name": "reviewsObject",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "settings": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "reviewsObject.settings"
+          },
+          "optional": false
+        },
+        "reviews": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "array",
+            "of": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "rest": {
+                "type": "inline",
+                "name": "review.reference"
+              }
+            }
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
     "name": "about.reference",
     "value": {
       "type": "object",
@@ -270,6 +339,98 @@
     }
   },
   {
+    "type": "type",
+    "name": "reviewsObject.settings",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "direction": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "mixed"
+              },
+              {
+                "type": "string",
+                "value": "up"
+              },
+              {
+                "type": "string",
+                "value": "down"
+              }
+            ]
+          },
+          "optional": false
+        },
+        "speedRange": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "speedRange"
+          },
+          "optional": false
+        },
+        "gapRange": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "gapRange"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "speedRange",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "min": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": false
+        },
+        "max": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "gapRange",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "min": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": false
+        },
+        "max": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
     "name": "mediasSection",
     "type": "type",
     "value": {
@@ -416,36 +577,6 @@
     }
   },
   {
-    "type": "type",
-    "name": "review.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "review"
-    }
-  },
-  {
     "name": "section",
     "type": "type",
     "value": {
@@ -557,25 +688,11 @@
           },
           "optional": true
         },
-        "reviews": {
+        "reviewsObject": {
           "type": "objectAttribute",
           "value": {
-            "type": "array",
-            "of": {
-              "type": "object",
-              "attributes": {
-                "_key": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string"
-                  }
-                }
-              },
-              "rest": {
-                "type": "inline",
-                "name": "review.reference"
-              }
-            }
+            "type": "inline",
+            "name": "reviewsObject"
           },
           "optional": true
         },
@@ -1376,7 +1493,7 @@
           "type": "inline",
           "name": "customBlock"
         },
-        "optional": true
+        "optional": false
       }
     }
   },
