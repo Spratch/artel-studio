@@ -18,10 +18,9 @@ function splitIntoColumns<T>(items: T[], columns: number): T[][] {
   return result;
 }
 
-function getRandomMargin(gapRange: SettingsType["gapRange"]) {
-  return (
-    Math.floor(Math.random() * (gapRange.max - gapRange.min + 1)) + gapRange.min
-  );
+function getMarginFromSlug(slug: string, gapRange: SettingsType["gapRange"]) {
+  const hash = [...slug].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return gapRange.min + (hash % (gapRange.max - gapRange.min + 1));
 }
 
 function ReviewItem({
@@ -31,7 +30,7 @@ function ReviewItem({
   review: ReviewsType[number];
   gapRange: SettingsType["gapRange"];
 }) {
-  const randomMargin = useMemo(() => getRandomMargin(gapRange), [gapRange]);
+  const randomMargin = getMarginFromSlug(review.slug, gapRange);
   return (
     <div
       className=""
