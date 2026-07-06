@@ -1,14 +1,23 @@
 "use client";
+import { useReducedMotion } from "motion/react";
 
 import gsap from "gsap";
 import { PortableText } from "next-sanity";
 import { useEffect, useMemo, useRef } from "react";
-import { ContentResultType } from "../utils";
+import { cn, ContentResultType } from "../utils";
 
 type ReviewsType = ContentResultType<"reviews", "reviews">;
 type SettingsType = ContentResultType<"reviews", "settings">;
 
 const COLUMN_COUNT = 6; // 12/2
+const COLUMN_VISIBILITY = [
+  "block",
+  "hidden sm:block",
+  "hidden sm:block",
+  "hidden lg:block",
+  "hidden lg:block",
+  "hidden lg:block"
+];
 
 function splitIntoColumns<T>(items: T[], columns: number): T[][] {
   const result: T[][] = Array.from({ length: columns }, () => []);
@@ -51,42 +60,57 @@ function ReviewsColumn({
   reviews,
   duration,
   reverse = false,
-  gapRange
+  gapRange,
+  className
 }: {
   reviews: ReviewsType;
   duration: number;
   reverse?: boolean;
   gapRange: SettingsType["gapRange"];
+  className: string;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const tweenRef = useRef<gsap.core.Tween | null>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track || !reviews.length) return;
+    if (!track || !reviews.length || prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      // Wait for layout
-      const halfHeight = track.scrollHeight / 2;
+      const buildTween = () => {
+        tweenRef.current?.kill();
+        const halfHeight = track.scrollHeight / 2;
 
-      gsap.fromTo(
-        track,
-        { y: reverse ? -halfHeight : 0 },
-        {
-          y: reverse ? 0 : -halfHeight,
-          duration,
-          ease: "none",
-          repeat: -1
-        }
-      );
+        tweenRef.current = gsap.fromTo(
+          track,
+          { y: reverse ? -halfHeight : 0 },
+          {
+            y: reverse ? 0 : -halfHeight,
+            duration,
+            ease: "none",
+            repeat: -1
+          }
+        );
+      };
+
+      buildTween();
+
+      const ro = new ResizeObserver(() => {
+        buildTween();
+      });
+      ro.observe(track);
+
+      return () => ro.disconnect();
     }, track);
 
     return () => ctx.revert();
-  }, [reviews, duration, reverse]);
+  }, [reviews, duration, reverse, prefersReducedMotion]);
 
   const looped = reviews.length < 4 ? [...reviews, ...reviews] : reviews;
 
   return (
-    <div className="relative col-span-2 overflow-hidden">
+    <div className={cn("relative col-span-2 overflow-hidden", className)}>
       <div
         ref={trackRef}
         className="flex flex-col will-change-transform"
@@ -133,6 +157,7 @@ export default function ReviewsMarquee({
               : settings.direction === "down"
           }
           gapRange={settings.gapRange}
+          className={COLUMN_VISIBILITY[index]}
         />
       ))}
     </div>

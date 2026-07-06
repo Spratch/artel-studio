@@ -5,6 +5,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { EmblaCarouselType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
+import { useReducedMotion } from "motion/react";
 import { Image } from "next-sanity/image";
 import { useEffect, useState } from "react";
 import { ContentResultType } from "../utils";
@@ -13,9 +14,14 @@ type CarouselProps = {
   medias: ContentResultType<"medias", "medias">;
 };
 export default function Carousel({ medias }: CarouselProps) {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
-    Autoplay({ stopOnInteraction: false })
-  ]);
+  const prefersReducedMotion = useReducedMotion();
+  const carouselPlugins = prefersReducedMotion
+    ? []
+    : [Autoplay({ stopOnInteraction: false })];
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true },
+    carouselPlugins
+  );
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
   const { selectedIndex, duration, tick } = useAutoplayProgress(emblaApi);
 

@@ -3,6 +3,7 @@
 import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
+import { useReducedMotion } from "motion/react";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { generateServicesLayout } from "../utils";
 
@@ -23,6 +24,7 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [itemSizes, setItemSizes] = useState<ItemSizesType>([]);
+  const prefersReducedMotion = useReducedMotion();
 
   useLayoutEffect(() => {
     const el = containerRef.current;
@@ -80,6 +82,7 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
         let floatTween = createFloatTween(el);
 
         function createFloatTween(target: HTMLDivElement) {
+          if (prefersReducedMotion) return gsap.to(target, {});
           return gsap.to(target, {
             y: `+=14`,
             x: `+=6`,
@@ -119,7 +122,7 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [layout]);
+  }, [layout, prefersReducedMotion]);
 
   return (
     <div
