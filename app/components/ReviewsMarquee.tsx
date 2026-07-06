@@ -140,26 +140,44 @@ export default function ReviewsMarquee({
   );
 
   return (
-    <div className="absolute grid h-full grid-cols-2 gap-x-2.5 pr-4 sm:grid-cols-6 lg:grid-cols-12">
-      {columns.map((columnReviews, index) => (
-        <ReviewsColumn
-          key={index}
-          reviews={columnReviews}
-          duration={gsap.utils.mapRange(
-            0,
-            COLUMN_COUNT - 1,
-            settings.speedRange.min,
-            settings.speedRange.max
-          )(index)}
-          reverse={
-            settings.direction === "mixed"
-              ? index % 2 === 1
-              : settings.direction === "down"
-          }
-          gapRange={settings.gapRange}
-          className={COLUMN_VISIBILITY[index]}
-        />
-      ))}
-    </div>
+    <>
+      <div
+        className="absolute grid h-full grid-cols-2 gap-x-2.5 pr-4 sm:grid-cols-6 lg:grid-cols-12"
+        aria-hidden="true"
+        role="presentation"
+      >
+        {columns.map((columnReviews, index) => (
+          <ReviewsColumn
+            key={index}
+            reviews={columnReviews}
+            duration={gsap.utils.mapRange(
+              0,
+              COLUMN_COUNT - 1,
+              settings.speedRange.min,
+              settings.speedRange.max
+            )(index)}
+            reverse={
+              settings.direction === "mixed"
+                ? index % 2 === 1
+                : settings.direction === "down"
+            }
+            gapRange={settings.gapRange}
+            className={COLUMN_VISIBILITY[index]}
+          />
+        ))}
+      </div>
+      <ul className="sr-only">
+        {reviews.map((review) => (
+          <li key={review.slug}>
+            <blockquote>
+              <PortableText value={review.text} />
+              <footer>
+                {review.person.name}, {review.client}
+              </footer>
+            </blockquote>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 }
