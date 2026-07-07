@@ -1,4 +1,5 @@
 import { MediaSectionType, SectionType } from "../types";
+import Carousel from "./Carousel";
 import Section from "./Section";
 
 type SectionListProps = {
@@ -15,7 +16,14 @@ export default function SectionList({ sections }: SectionListProps) {
             section={section}
           />
         ) : (
-          <div key={index}></div>
+          <div key={index}>
+            {section.medias && (
+              <Carousel
+                medias={section.medias}
+                orientation="landscape"
+              />
+            )}
+          </div>
         );
       })}
     </>

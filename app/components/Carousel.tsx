@@ -13,9 +13,17 @@ import { ContentResultType } from "../types";
 
 type CarouselProps = {
   medias: ContentResultType<"medias", "medias">;
+  orientation?: "portrait" | "landscape";
 };
-export default function Carousel({ medias }: CarouselProps) {
+export default function Carousel({
+  medias,
+  orientation = "portrait"
+}: CarouselProps) {
   const isMultiple = medias.length > 1;
+  const dimensions =
+    orientation === "portrait"
+      ? { width: 720, height: 1080 }
+      : { width: 1280, height: 720 };
   const prefersReducedMotion = useReducedMotion();
   const carouselPlugins =
     prefersReducedMotion || !isMultiple
@@ -46,7 +54,14 @@ export default function Carousel({ medias }: CarouselProps) {
   }, [emblaApi, isMultiple]);
 
   return (
-    <div className="embla relative aspect-2/3 max-h-(--h-section) overflow-hidden rounded-md max-sm:mx-auto">
+    <div
+      className={`embla relative aspect-(--ratio) max-h-(--h-section) overflow-hidden rounded-md max-sm:mx-auto ${orientation === "landscape" && "w-full"}`}
+      style={
+        {
+          "--ratio": orientation === "portrait" ? "2/3" : "16/9"
+        } as React.CSSProperties
+      }
+    >
       <div
         className={`embla__viewport h-full overflow-hidden ${isMultiple ? "cursor-grab" : ""}`}
         ref={emblaRef}
@@ -61,10 +76,14 @@ export default function Carousel({ medias }: CarouselProps) {
             >
               {media._type === "imageAlt" && (
                 <Image
-                  src={urlFor(media).width(720).height(1080).fit("crop").url()}
+                  src={urlFor(media)
+                    .width(dimensions.width)
+                    .height(dimensions.height)
+                    .fit("crop")
+                    .url()}
                   alt={media.alt}
-                  width={720}
-                  height={1080}
+                  width={dimensions.width}
+                  height={dimensions.height}
                   className={`h-full w-full object-cover`}
                 />
               )}

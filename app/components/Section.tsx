@@ -59,7 +59,7 @@ export default async function Section({ section }: SectionProps) {
         >
           {/* Texts */}
           <div
-            className={`col-span-3 flex flex-col gap-10 ${section.description?.layout.position === "bottom" ? "justify-between" : "justify-start"}`}
+            className={`col-span-3 flex flex-col gap-10 ${section.description?.layout.position === "bottom" ? "h-full justify-between" : "justify-start"}`}
           >
             <div className="flex flex-col gap-5">
               {section.subtitle && (
