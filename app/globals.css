@@ -32,6 +32,14 @@
   }
 }
 
+@utility cursor-grab {
+  cursor: grab;
+
+  &.is-dragging {
+    cursor: grabbing;
+  }
+}
+
 @keyframes carousel-dot-progress {
   from {
     width: 0%;

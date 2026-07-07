@@ -4,22 +4,25 @@ import { useAutoplayProgress } from "@/hooks/useAutoplayProgress";
 import { urlFor } from "@/sanity/lib/image";
 import { EmblaCarouselType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
+import ClassNames from "embla-carousel-class-names";
 import useEmblaCarousel from "embla-carousel-react";
 import { useReducedMotion } from "motion/react";
 import { Image } from "next-sanity/image";
 import { useEffect, useState } from "react";
-import { ContentResultType } from "../utils";
+import { ContentResultType } from "../types";
 
 type CarouselProps = {
   medias: ContentResultType<"medias", "medias">;
 };
 export default function Carousel({ medias }: CarouselProps) {
+  const isMultiple = medias.length > 1;
   const prefersReducedMotion = useReducedMotion();
-  const carouselPlugins = prefersReducedMotion
-    ? []
-    : [Autoplay({ stopOnInteraction: false })];
+  const carouselPlugins =
+    prefersReducedMotion || !isMultiple
+      ? []
+      : [Autoplay({ stopOnInteraction: false }), ClassNames()];
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true },
+    { loop: true, active: isMultiple },
     carouselPlugins
   );
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
@@ -30,7 +33,7 @@ export default function Carousel({ medias }: CarouselProps) {
     setScrollSnaps(emblaApi.scrollSnapList());
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!emblaApi || !isMultiple) return;
     emblaApi.plugins().autoplay?.play();
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -40,15 +43,17 @@ export default function Carousel({ medias }: CarouselProps) {
     return () => {
       emblaApi.off("reInit", setupSnaps);
     };
-  }, [emblaApi]);
+  }, [emblaApi, isMultiple]);
 
   return (
     <div className="embla relative aspect-2/3 max-h-(--h-section) overflow-hidden rounded-md max-sm:mx-auto">
       <div
-        className="embla__viewport h-full overflow-hidden"
+        className={`embla__viewport h-full overflow-hidden ${isMultiple ? "cursor-grab" : ""}`}
         ref={emblaRef}
       >
-        <div className="embla__container flex h-full touch-pan-y touch-pinch-zoom">
+        <div
+          className={`embla__container h-full ${isMultiple ? "flex touch-pan-y touch-pinch-zoom" : ""}`}
+        >
           {medias.map((media) => (
             <div
               key={media._key}
@@ -60,7 +65,7 @@ export default function Carousel({ medias }: CarouselProps) {
                   alt={media.alt}
                   width={720}
                   height={1080}
-                  className="h-full w-full cursor-grab object-cover"
+                  className={`h-full w-full object-cover`}
                 />
               )}
             </div>
@@ -68,23 +73,25 @@ export default function Carousel({ medias }: CarouselProps) {
         </div>
       </div>
 
-      <div className="embla__dots absolute inset-x-2 top-2 flex h-1 gap-1 transition-[height] hover:h-1.5">
-        {scrollSnaps.map((_, index) => (
-          <button
-            className="embla__dot h-full flex-1 cursor-pointer overflow-hidden rounded-full bg-creme/50 transition-colors duration-300 ease-out hover:bg-creme"
-            key={index}
-            onClick={() => goTo(index)}
-          >
-            {index === selectedIndex ? (
-              <span
-                key={tick}
-                className="embla__dot-progress block h-full rounded-full bg-creme"
-                style={{ animationDuration: `${duration}ms` }}
-              />
-            ) : null}
-          </button>
-        ))}
-      </div>
+      {isMultiple && (
+        <div className="embla__dots absolute inset-x-2 top-2 flex h-1 gap-1 transition-[height] hover:h-1.5">
+          {scrollSnaps.map((_, index) => (
+            <button
+              className="embla__dot h-full flex-1 cursor-pointer overflow-hidden rounded-full bg-creme/50 transition-colors duration-300 ease-out hover:bg-creme"
+              key={index}
+              onClick={() => goTo(index)}
+            >
+              {index === selectedIndex ? (
+                <span
+                  key={tick}
+                  className="embla__dot-progress block h-full rounded-full bg-creme"
+                  style={{ animationDuration: `${duration}ms` }}
+                />
+              ) : null}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
