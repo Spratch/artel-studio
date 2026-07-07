@@ -22,3 +22,5 @@ export const getFooterSettings = withPreview(
   () => queries.footerSettingsQuery,
   ["settings"]
 );
+
+export const getAboutPage = withPreview(() => queries.aboutQuery, ["about"]);

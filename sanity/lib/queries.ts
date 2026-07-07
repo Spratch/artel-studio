@@ -1,5 +1,10 @@
 import { defineQuery } from "next-sanity";
-import { projectThumbnailFragment, sectionsFragment } from "./fragments";
+import {
+  pageColorsFragment,
+  projectThumbnailFragment,
+  sectionsFragment,
+  slugFragment
+} from "./fragments";
 
 const layoutSettingsQuery = defineQuery(`*[_type == "settings"][0]{
     title,
@@ -34,7 +39,7 @@ const headerSettingsQuery =
 const paletteColorsQuery = defineQuery(`
   *[_type == "paletteColor"]{
     label,
-    "slug": slug.current,
+    ${slugFragment},
     value
   }
 `);
@@ -59,10 +64,17 @@ const footerSettingsQuery = defineQuery(`
     }
   `);
 
+const aboutQuery = defineQuery(`*[_type == "about"][0]{
+    title,
+    ${pageColorsFragment},
+    ${sectionsFragment}
+}`);
+
 export const queries = {
   layoutSettingsQuery,
   homePageQuery,
   headerSettingsQuery,
   paletteColorsQuery,
-  footerSettingsQuery
+  footerSettingsQuery,
+  aboutQuery
 };

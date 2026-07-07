@@ -4,7 +4,8 @@ import { useReducedMotion } from "motion/react";
 import gsap from "gsap";
 import { PortableText } from "next-sanity";
 import { useEffect, useMemo, useRef } from "react";
-import { cn, ContentResultType } from "../utils";
+import { ContentResultType } from "../types";
+import { cn } from "../utils";
 
 type ReviewsType = ContentResultType<"reviews", "reviews">;
 type SettingsType = ContentResultType<"reviews", "settings">;

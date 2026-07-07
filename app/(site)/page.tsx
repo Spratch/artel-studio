@@ -1,7 +1,7 @@
 import { getHomePage } from "@/sanity/lib/getters";
 import { notFound } from "next/navigation";
 import Logo from "../components/Logo";
-import Section from "../components/Section";
+import SectionList from "../components/SectionList";
 import Thumbnail from "../components/Thumbnail";
 
 export default async function Home({
@@ -41,13 +41,7 @@ export default async function Home({
           )}
         </div>
       </section>
-      {home.sections &&
-        home.sections.map((section, index) => (
-          <Section
-            key={index}
-            section={section}
-          />
-        ))}
+      {home.sections && <SectionList sections={home.sections} />}
     </main>
   );
 }

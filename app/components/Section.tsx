@@ -2,7 +2,7 @@ import { getPaletteColors } from "@/sanity/lib/getters";
 import type { Get } from "@sanity/codegen";
 import { PortableText } from "next-sanity";
 import Link from "next/link";
-import { SectionType } from "../utils";
+import { SectionType } from "../types";
 import Carousel from "./Carousel";
 import FloatingServices from "./FloatingServices";
 import ReviewsMarquee from "./ReviewsMarquee";

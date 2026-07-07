@@ -7,6 +7,7 @@ export default defineType({
     "Couleurs utilisées pour cette page. Attention aux contrastes, prévisualiser en ouvrant un volet 'aperçu' avec l'icône 'Diviser le volet' en haut à droite.",
   type: "object",
   options: {
+    collapsed: true,
     columns: 2
   },
   fields: [
@@ -26,5 +27,6 @@ export default defineType({
       initialValue: { _ref: "R4ugbcAV6zqTaKrvgRLdgC" },
       validation: (Rule) => Rule.required()
     })
-  ]
+  ],
+  validation: (Rule) => Rule.required()
 });

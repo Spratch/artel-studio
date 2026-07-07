@@ -1969,6 +1969,14 @@
         },
         "optional": false
       },
+      "pageColors": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "pageColors"
+        },
+        "optional": false
+      },
       "sections": {
         "type": "objectAttribute",
         "value": {
@@ -2076,7 +2084,7 @@
           "type": "inline",
           "name": "pageColors"
         },
-        "optional": true
+        "optional": false
       },
       "projectsList": {
         "type": "objectAttribute",
@@ -2586,7 +2594,7 @@
           "type": "inline",
           "name": "pageColors"
         },
-        "optional": true
+        "optional": false
       },
       "pageContent": {
         "type": "objectAttribute",

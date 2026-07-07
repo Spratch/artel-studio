@@ -1,27 +1,10 @@
-import { HomePageQueryResult } from "@/sanity.types";
-import { Get } from "@sanity/codegen";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ItemSizesType } from "./components/FloatingServices";
+import { LayoutItem } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
-}
-
-export type SectionType = Get<HomePageQueryResult, "sections", number>;
-type Content = NonNullable<SectionType["content"]>;
-type ContentType<T extends Content["type"]> = Extract<Content, { type: T }>;
-type NonNull<T> = Exclude<T, null | undefined>;
-export type ContentResultType<
-  T extends Content["type"],
-  K extends keyof ContentType<T>
-> = NonNull<ContentType<T>[K]>;
-
-export interface LayoutItem {
-  x: number;
-  y: number;
-  rotation: number;
-  borderRadius: number;
 }
 
 export function generateServicesLayout(

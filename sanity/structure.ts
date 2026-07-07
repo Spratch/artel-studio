@@ -19,7 +19,7 @@ export const structure: StructureResolver = (S, context) => {
     .items([
       S.divider().title("Pages"),
       li("home", "Accueil", HomeIcon, "singleton"),
-      li("about", "À propos", InfoOutlineIcon, "singleton"),
+      li("about", "Infos", InfoOutlineIcon, "singleton"),
 
       S.divider(),
 
