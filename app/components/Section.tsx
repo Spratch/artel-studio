@@ -102,7 +102,7 @@ export default async function Section({ section }: SectionProps) {
         {section.content &&
           section.content.type === "medias" &&
           section.content.medias && (
-            <div className="col-span-3 flex h-full justify-end sm:col-span-2 sm:col-end-7">
+            <div className="col-span-3 flex h-full justify-end max-sm:aspect-2/3 sm:col-span-2 sm:col-end-7">
               {section.content.medias.length > 0 && (
                 <Carousel medias={section.content.medias}></Carousel>
               )}
