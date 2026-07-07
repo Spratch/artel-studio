@@ -472,9 +472,9 @@ export default defineType({
         }),
         defineField({
           name: "buttonBgColor",
-          title: "Fond du bouton",
+          title: "Fond du bouton / Contours des services",
           description:
-            "Couleur de fond des boutons de la section,\nattention au contraste avec la couleur du texte du bouton",
+            "Couleur de fond des boutons de la section/Couleur des contours et textes des services,\nattention au contraste avec la couleur du texte du bouton",
           type: "colorRef",
           initialValue: { _ref: "R4ugbcAV6zqTaKrvgR7o1y" },
           validation: (Rule) => Rule.required()
