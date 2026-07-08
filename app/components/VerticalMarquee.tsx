@@ -178,7 +178,7 @@ function ItemsColumn({
   );
 }
 
-export default function ReviewsMarquee({
+export default function VerticalMarquee({
   items,
   settings
 }: {

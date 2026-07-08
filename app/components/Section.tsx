@@ -5,8 +5,8 @@ import Link from "next/link";
 import { SectionType } from "../types";
 import Carousel from "./Carousel";
 import FloatingServices from "./FloatingServices";
-import ReviewsMarquee from "./ReviewsMarquee";
 import Thumbnail from "./Thumbnail";
+import VerticalMarquee from "./VerticalMarquee";
 
 type SectionProps = {
   section: SectionType;
@@ -151,7 +151,7 @@ export default async function Section({ section }: SectionProps) {
                     className="h-[150%] border-x border-creme/10"
                   ></div>
                 ))}
-                <ReviewsMarquee
+                <VerticalMarquee
                   items={
                     section.content.type === "reviews"
                       ? section.content.reviews!
