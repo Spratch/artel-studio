@@ -1,14 +1,17 @@
 "use client";
 import { useReducedMotion } from "motion/react";
 
+import { MethodObjectSettings } from "@/sanity.types";
 import gsap from "gsap";
 import { PortableText } from "next-sanity";
 import { useEffect, useMemo, useRef } from "react";
 import { ContentResultType } from "../types";
 import { cn } from "../utils";
 
-type ReviewsType = ContentResultType<"reviews", "reviews">;
-type SettingsType = ContentResultType<"reviews", "settings">;
+type ReviewItemType = ContentResultType<"reviews", "reviews">[number];
+type MethodItemType = ContentResultType<"method", "method">[number];
+type ItemType = ReviewItemType | MethodItemType;
+type SettingsType = MethodObjectSettings;
 
 const COLUMN_COUNT = 6; // 12/2
 const COLUMN_VISIBILITY = [
@@ -20,12 +23,30 @@ const COLUMN_VISIBILITY = [
   "hidden lg:block"
 ];
 
-function splitIntoColumns<T>(items: T[], columns: number): T[][] {
-  const result: T[][] = Array.from({ length: columns }, () => []);
-  (items.length < 6 ? [...items, ...items] : items).forEach((item, index) =>
-    result[index % columns].push(item)
-  );
-  return result;
+function rotateArray<T>(items: T[], offset: number): T[] {
+  if (items.length === 0) return items;
+  const adaptedOffset = offset % items.length;
+  return [...items.slice(adaptedOffset), ...items.slice(0, adaptedOffset)];
+}
+
+function splitIntoColumns<T>(
+  items: T[],
+  columns: number,
+  isReview: boolean = false
+): T[][] {
+  if (isReview) {
+    const result: T[][] = Array.from({ length: columns }, () => []);
+    (items.length < 6 ? [...items, ...items] : items).forEach((item, index) =>
+      result[index % columns].push(item)
+    );
+    return result;
+  } else {
+    if (items.length === 0) return Array.from({ length: columns }, () => []);
+
+    return Array.from({ length: columns }, (_, i) => {
+      return rotateArray(items, (i - 1) % items.length);
+    });
+  }
 }
 
 function getMarginFromSlug(slug: string, gapRange: SettingsType["gapRange"]) {
@@ -37,15 +58,12 @@ function ReviewItem({
   review,
   gapRange
 }: {
-  review: ReviewsType[number];
+  review: ReviewItemType;
   gapRange: SettingsType["gapRange"];
 }) {
   const randomMargin = getMarginFromSlug(review.slug, gapRange);
   return (
-    <div
-      className=""
-      style={{ marginBottom: `calc(var(--spacing) * ${randomMargin})` }}
-    >
+    <div style={{ marginBottom: `calc(var(--spacing) * ${randomMargin})` }}>
       <div className="font-serif text-sm **:font-normal [&_strong]:text-bleu-clair">
         <PortableText value={review.text} />
       </div>
@@ -57,14 +75,37 @@ function ReviewItem({
   );
 }
 
-function ReviewsColumn({
-  reviews,
+function MethodItem({
+  method,
+  gapRange
+}: {
+  method: MethodItemType & { position: string };
+  gapRange: SettingsType["gapRange"];
+}) {
+  const randomMargin = getMarginFromSlug(method._key, gapRange);
+  return (
+    <div style={{ marginTop: `calc(var(--spacing) * ${randomMargin})` }}>
+      <div className="flex items-center gap-1.5 py-0.5 sm:gap-2">
+        <span className="size-2 rounded-full bg-orange sm:size-3"></span>
+        <span className="text-sm text-nowrap text-orange">
+          {method.position}
+        </span>
+      </div>
+
+      <p className="mb-4 text-sm text-bleu-clair">{method.title}</p>
+      <p className="font-serif text-sm">{method.description}</p>
+    </div>
+  );
+}
+
+function ItemsColumn({
+  items,
   duration,
   reverse = false,
   gapRange,
   className
 }: {
-  reviews: ReviewsType;
+  items: (ItemType & { position: string })[];
   duration: number;
   reverse?: boolean;
   gapRange: SettingsType["gapRange"];
@@ -76,7 +117,7 @@ function ReviewsColumn({
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track || !reviews.length || prefersReducedMotion) return;
+    if (!track || !items.length || prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
       const buildTween = () => {
@@ -106,9 +147,10 @@ function ReviewsColumn({
     }, track);
 
     return () => ctx.revert();
-  }, [reviews, duration, reverse, prefersReducedMotion]);
+  }, [items, duration, reverse, prefersReducedMotion]);
+  if (items.length === 0) return;
 
-  const looped = reviews.length < 4 ? [...reviews, ...reviews] : reviews;
+  const looped = items.length < 4 ? [...items, ...items] : items;
 
   return (
     <div className={cn("relative col-span-2 overflow-hidden", className)}>
@@ -116,28 +158,44 @@ function ReviewsColumn({
         ref={trackRef}
         className="flex flex-col will-change-transform"
       >
-        {[...looped, ...looped].map((review, i) => (
-          <ReviewItem
-            key={`${review.slug}-${i}`}
-            review={review}
-            gapRange={gapRange}
-          />
-        ))}
+        {[...looped, ...looped].map((item, i) => {
+          return "slug" in item ? (
+            <ReviewItem
+              key={`${item.slug}-${i}`}
+              review={item}
+              gapRange={gapRange}
+            />
+          ) : (
+            <MethodItem
+              key={`${item._key}-${i}`}
+              method={item}
+              gapRange={gapRange}
+            />
+          );
+        })}
       </div>
     </div>
   );
 }
 
 export default function ReviewsMarquee({
-  reviews,
+  items,
   settings
 }: {
-  reviews: ReviewsType;
+  items: ItemType[];
   settings: SettingsType;
 }) {
   const columns = useMemo(
-    () => splitIntoColumns(reviews, COLUMN_COUNT),
-    [reviews]
+    () =>
+      splitIntoColumns(
+        items.map((item, index) => ({
+          ...item,
+          position: `${index + 1} sur ${items.length}`
+        })),
+        COLUMN_COUNT,
+        "slug" in items[0]
+      ),
+    [items]
   );
 
   return (
@@ -148,9 +206,9 @@ export default function ReviewsMarquee({
         role="presentation"
       >
         {columns.map((columnReviews, index) => (
-          <ReviewsColumn
+          <ItemsColumn
             key={index}
-            reviews={columnReviews}
+            items={columnReviews}
             duration={gsap.utils.mapRange(
               0,
               COLUMN_COUNT - 1,
@@ -168,16 +226,23 @@ export default function ReviewsMarquee({
         ))}
       </div>
       <ul className="sr-only">
-        {reviews.map((review) => (
-          <li key={review.slug}>
-            <blockquote>
-              <PortableText value={review.text} />
-              <footer>
-                {review.person.name}, {review.client}
-              </footer>
-            </blockquote>
-          </li>
-        ))}
+        {items.map((item) => {
+          return "slug" in item ? (
+            <li key={item.slug}>
+              <blockquote>
+                <PortableText value={item.text} />
+                <footer>
+                  {item.person.name}, {item.client}
+                </footer>
+              </blockquote>
+            </li>
+          ) : (
+            <li key={item._key}>
+              <p>{item.title}</p>
+              <p>{item.description}</p>
+            </li>
+          );
+        })}
       </ul>
     </>
   );

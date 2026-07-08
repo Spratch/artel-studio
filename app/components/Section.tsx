@@ -138,24 +138,31 @@ export default async function Section({ section }: SectionProps) {
         )}
 
       {/* Absolute content */}
-      {section.content && ["reviews"].includes(section.content.type) && (
-        <div className="absolute inset-0">
-          {section.content.type === "reviews" && section.content.reviews && (
-            <div className="z-10 grid h-full grid-cols-2 grid-rows-1 gap-x-2.5 overflow-hidden mask-y-from-50% mask-y-to-100% px-4 sm:grid-cols-6 lg:grid-cols-12">
-              {Array.from({ length: 12 }).map((_, index) => (
-                <div
-                  key={index}
-                  className="h-[150%] border-x border-creme/10"
-                ></div>
-              ))}
-              <ReviewsMarquee
-                reviews={section.content.reviews}
-                settings={section.content.settings}
-              />
-            </div>
-          )}
-        </div>
-      )}
+      {section.content &&
+        ["reviews", "method"].includes(section.content.type) && (
+          <div className="absolute inset-0">
+            {((section.content.type === "reviews" && section.content.reviews) ||
+              (section.content.type === "method" &&
+                section.content.method)) && (
+              <div className="z-10 grid h-full grid-cols-2 grid-rows-1 gap-x-2.5 overflow-hidden mask-y-from-50% mask-y-to-100% px-4 sm:grid-cols-6 lg:grid-cols-12">
+                {Array.from({ length: 12 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-[150%] border-x border-creme/10"
+                  ></div>
+                ))}
+                <ReviewsMarquee
+                  items={
+                    section.content.type === "reviews"
+                      ? section.content.reviews!
+                      : section.content.method!
+                  }
+                  settings={section.content.settings}
+                />
+              </div>
+            )}
+          </div>
+        )}
     </section>
   );
 }

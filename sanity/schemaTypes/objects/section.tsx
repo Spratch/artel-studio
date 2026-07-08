@@ -341,36 +341,122 @@ export default defineType({
       ]
     }),
     defineField({
-      name: "method",
+      name: "methodObject",
       title: "Méthode",
-      description:
-        "Définir les étapes, elles seront numérotées automatiquement",
-      type: "array",
-      of: [
-        {
-          name: "step",
-          title: "Étape",
+      type: "object",
+      group: "content",
+      hidden: ({ parent }) => parent?.contentType !== "method",
+      fields: [
+        defineField({
+          name: "settings",
+          title: "Paramètres",
           type: "object",
-          icon: OlistIcon,
+          validation: (Rule) => Rule.required(),
           fields: [
             defineField({
-              name: "title",
-              title: "Titre",
+              name: "direction",
+              title: "Direction",
+              description: "Définir la direction de défilement des témoignages",
               type: "string",
+              options: {
+                list: [
+                  { value: "mixed", title: "Mixte" },
+                  { value: "up", title: "Vers le haut" },
+                  { value: "down", title: "Vers le bas" }
+                ]
+              },
+              initialValue: "mixed",
               validation: (Rule) => Rule.required()
             }),
             defineField({
-              name: "description",
-              title: "Description",
-              type: "text",
-              rows: 3,
+              name: "speedRange",
+              title: "Vitesses",
+              description:
+                "Définir les vitesses minimales et maximales de défilement d'un cycle. En secondes. (Par défaut : 26, 46)",
+              type: "object",
+              options: {
+                collapsed: false,
+                columns: 2
+              },
+              fields: [
+                defineField({
+                  name: "min",
+                  title: "Vitesse minimale",
+                  type: "number",
+                  initialValue: 26,
+                  validation: (Rule) => Rule.min(1).required()
+                }),
+                defineField({
+                  name: "max",
+                  title: "Vitesse maximale",
+                  type: "number",
+                  initialValue: 46,
+                  validation: (Rule) => Rule.min(1).required()
+                })
+              ],
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "gapRange",
+              title: "Espacements",
+              description:
+                "Définir les espacements minimal et maximal entre deux témoignages. 1=4px. (Par défaut : 20 (80px), 96 (384px))",
+              type: "object",
+              options: {
+                collapsed: false,
+                columns: 2
+              },
+              fields: [
+                defineField({
+                  name: "min",
+                  title: "Espacement minimal",
+                  type: "number",
+                  initialValue: 20,
+                  validation: (Rule) => Rule.min(1).required()
+                }),
+                defineField({
+                  name: "max",
+                  title: "Espacement maximal",
+                  type: "number",
+                  initialValue: 96,
+                  validation: (Rule) => Rule.min(1).required()
+                })
+              ],
               validation: (Rule) => Rule.required()
             })
           ]
-        }
-      ],
-      group: "content",
-      hidden: ({ parent }) => parent?.contentType !== "method"
+        }),
+        defineField({
+          name: "method",
+          title: "Méthode",
+          description:
+            "Définir les étapes, elles seront numérotées automatiquement",
+          type: "array",
+          of: [
+            {
+              name: "step",
+              title: "Étape",
+              type: "object",
+              icon: OlistIcon,
+              fields: [
+                defineField({
+                  name: "title",
+                  title: "Titre",
+                  type: "string",
+                  validation: (Rule) => Rule.required()
+                }),
+                defineField({
+                  name: "description",
+                  title: "Description",
+                  type: "text",
+                  rows: 3,
+                  validation: (Rule) => Rule.required()
+                })
+              ]
+            }
+          ]
+        })
+      ]
     }),
     defineField({
       name: "experience",

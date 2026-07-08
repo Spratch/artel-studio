@@ -6,7 +6,7 @@ type DocType = SanityDocument & { slug: { current: string } | undefined };
 
 const routeMap = {
   home: () => ``,
-  about: () => `a-propos`,
+  about: (doc: DocType) => `${doc.slug ? doc.slug.current : "infos"}`,
   projects: () => `projets`,
   project: (doc: DocType) => `projets/${doc.slug ? doc.slug.current : ""}`,
   service: (doc: DocType) => `services/${doc.slug ? doc.slug.current : ""}`,

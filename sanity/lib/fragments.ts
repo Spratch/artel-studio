@@ -69,6 +69,15 @@ export const sectionsFragment = `"sections": sections[]{
       },
       contentType,
       "content": select(
+        contentType == "method" => {
+          "type": "method",
+          "method": methodObject.method,
+          "settings": coalesce(methodObject.settings, {
+            "direction": "mixed",
+            "speedRange": {"min":26,"max":46},
+            "gapRange": {"min":20,"max":96}
+          }),
+        },
         contentType == "medias" => {
           "type": "medias",
           "medias": medias[]

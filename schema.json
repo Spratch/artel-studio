@@ -121,6 +121,67 @@
   },
   {
     "type": "type",
+    "name": "methodObject",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "settings": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "methodObject.settings"
+          },
+          "optional": false
+        },
+        "method": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "array",
+            "of": {
+              "type": "object",
+              "attributes": {
+                "title": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  },
+                  "optional": false
+                },
+                "description": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  },
+                  "optional": false
+                },
+                "_type": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string",
+                    "value": "step"
+                  }
+                }
+              },
+              "rest": {
+                "type": "object",
+                "attributes": {
+                  "_key": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
     "name": "about.reference",
     "value": {
       "type": "object",
@@ -431,6 +492,98 @@
     }
   },
   {
+    "type": "type",
+    "name": "methodObject.settings",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "direction": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "mixed"
+              },
+              {
+                "type": "string",
+                "value": "up"
+              },
+              {
+                "type": "string",
+                "value": "down"
+              }
+            ]
+          },
+          "optional": false
+        },
+        "speedRange": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "settings.speedRange"
+          },
+          "optional": false
+        },
+        "gapRange": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "settings.gapRange"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "settings.speedRange",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "min": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": false
+        },
+        "max": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "settings.gapRange",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "min": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": false
+        },
+        "max": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "number"
+          },
+          "optional": false
+        }
+      }
+    }
+  },
+  {
     "name": "mediasSection",
     "type": "type",
     "value": {
@@ -696,47 +849,11 @@
           },
           "optional": true
         },
-        "method": {
+        "methodObject": {
           "type": "objectAttribute",
           "value": {
-            "type": "array",
-            "of": {
-              "type": "object",
-              "attributes": {
-                "title": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string"
-                  },
-                  "optional": false
-                },
-                "description": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string"
-                  },
-                  "optional": false
-                },
-                "_type": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string",
-                    "value": "step"
-                  }
-                }
-              },
-              "rest": {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "type": "inline",
+            "name": "methodObject"
           },
           "optional": true
         },
