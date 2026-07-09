@@ -8,7 +8,7 @@ export const imageAltFragment = `{
   hotspot,
 }`;
 
-export const customBlockFragment = `[]{
+export const customBlockFragment = `[count(children[text != ""]) > 0]{
   ...,
   markDefs[]{
     ...,
@@ -48,6 +48,7 @@ export const sectionsFragment = `"sections": sections[]{
         "textColor": textColor->value,
         "servicesColor": servicesColor->value,
         "reviewsColor": reviewsColor->value,
+        "experienceColor": experienceColor->value,
         "methodStepColor": methodStepColor->value,
         "methodTitleColor": methodTitleColor->value,
         "buttonBgColor": buttonBgColor->value,
@@ -81,6 +82,19 @@ export const sectionsFragment = `"sections": sections[]{
             "speedRange": {"min":26,"max":46},
             "gapRange": {"min":20,"max":96}
           }),
+        },
+        contentType == "experience" => {
+          "type": "experience",
+          "expCategories": experiences[]{
+            title,
+            "experiences": experiences[]{
+              date,
+              title,
+              "services": services[]->name,
+              description,
+              "project": project->slug.current
+            }
+          }
         },
         contentType == "medias" => {
           "type": "medias",

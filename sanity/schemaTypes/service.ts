@@ -10,10 +10,10 @@ export const serviceSchema = defineType({
     {
       name: "general",
       title: "Général",
+      default: true,
       icon: InfoOutlineIcon
     },
     {
-      default: true,
       name: "page",
       title: "Page dédiée",
       hidden: ({ value }) => !value?.hasPage,
@@ -104,6 +104,6 @@ export const serviceSchema = defineType({
       title: "name",
       subtitle: "introduction",
       media: "introMedia.0"
-    },
+    }
   }
 });

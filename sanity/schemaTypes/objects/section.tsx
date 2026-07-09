@@ -4,9 +4,11 @@ import { Section } from "@/sanity.types";
 import { getClient } from "@/sanity/config/client-config";
 import {
   ArrowTopRightIcon,
+  AsteriskIcon,
   BlockContentIcon,
   BlockElementIcon,
   DropIcon,
+  EmptyIcon,
   OlistIcon,
   StringIcon
 } from "@sanity/icons";
@@ -497,12 +499,103 @@ export default defineType({
       ]
     }),
     defineField({
-      name: "experience",
+      name: "experiences",
       title: "Expériences",
+      description: "Lister les expériences par catégorie",
       type: "array",
-      of: [{ type: "reference", to: [{ type: "review" }] }],
       group: "content",
-      hidden: ({ parent }) => parent?.contentType !== "experience"
+      hidden: ({ parent }) => parent?.contentType !== "experience",
+      of: [
+        defineArrayMember({
+          name: "category",
+          title: "Catégorie",
+          type: "object",
+          icon: AsteriskIcon,
+          preview: {
+            select: {
+              title: "title",
+              experiences: "experiences"
+            },
+            prepare: ({ title, experiences }) => ({
+              title,
+              subtitle: `${experiences?.length ?? 0} expérience${experiences?.length !== 1 ? "s" : ""}`
+            })
+          },
+          fields: [
+            defineField({
+              name: "title",
+              title: "Titre",
+              description: "Titre de la catégorie d'expérience",
+              type: "string",
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "experiences",
+              title: "Expériences",
+              type: "array",
+              validation: (Rule) => Rule.required().min(1),
+              of: [
+                defineArrayMember({
+                  name: "experience",
+                  title: "Expérience",
+                  type: "object",
+                  icon: EmptyIcon,
+                  preview: {
+                    select: {
+                      title: "title",
+                      subtitle: "date"
+                    }
+                  },
+                  fields: [
+                    defineField({
+                      name: "date",
+                      title: "Date",
+                      description: "Année ou période (2025 ou 2023-2024)",
+                      type: "string",
+                      validation: (Rule) => Rule.required()
+                    }),
+                    defineField({
+                      name: "title",
+                      title: "Titre",
+                      description:
+                        "Nom du client, de l'institution, de l'école…",
+                      type: "string",
+                      validation: (Rule) => Rule.required()
+                    }),
+                    defineField({
+                      name: "services",
+                      title: "Services",
+                      description: "Services liés",
+                      type: "array",
+                      of: [
+                        defineArrayMember({
+                          type: "reference",
+                          to: [{ type: "service" }]
+                        })
+                      ]
+                    }),
+                    defineField({
+                      name: "description",
+                      title: "Description",
+                      description: "Détails supplémentaires",
+                      type: "text",
+                      rows: 2
+                    }),
+                    defineField({
+                      name: "project",
+                      title: "Projet lié",
+                      description:
+                        "Pour ajouter un lien vers la page du projet",
+                      type: "reference",
+                      to: [{ type: "project" }]
+                    })
+                  ]
+                })
+              ]
+            })
+          ]
+        })
+      ]
     }),
     defineField({
       name: "medias",
@@ -639,6 +732,28 @@ export default defineType({
             )
         }),
         defineField({
+          name: "experienceColor",
+          title: "Titres des expériences",
+          description:
+            "Couleur des titres des expériences (noms des clients, écoles, etc.)",
+          type: "colorRef",
+          initialValue: { _ref: "GmY8EMdQcEdG09jOJ4xFtW" },
+          hidden: ({ path, document }) =>
+            colorVisibility(
+              { path, document },
+              (section) => section.contentType !== "experience"
+            ),
+          validation: (Rule) =>
+            Rule.custom((value, context) =>
+              colorValidation(
+                value,
+                context,
+                "Les titres des expériences doivent avoir une couleur d'accentuation",
+                (section) => section.contentType === "experience"
+              )
+            )
+        }),
+        defineField({
           name: "methodStepColor",
           title: "Numéro d'étape",
           description: "Couleur de la numérotation des étapes",
@@ -729,7 +844,8 @@ export default defineType({
       textColor: "colors.textColor.value",
       buttonColor: "colors.buttonBgColor.value",
       columns: "description.layout.columns",
-      contentType: "contentType"
+      contentType: "contentType",
+      button: "button"
     },
     prepare(selection) {
       const {
@@ -739,7 +855,8 @@ export default defineType({
         textColor,
         buttonColor,
         columns,
-        contentType
+        contentType,
+        button
       } = selection;
       const contentTypeTitle =
         contentType &&
@@ -777,7 +894,7 @@ export default defineType({
                 </div>
               )}
             </div>
-            <span className="size-1.25 bg-(--button-bg-color)" />
+            {button && <span className="size-1.25 bg-(--button-bg-color)" />}
           </div>
         )
       };

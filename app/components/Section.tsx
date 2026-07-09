@@ -48,6 +48,7 @@ export default async function Section({ section }: SectionProps) {
           "--section-text": section.colors?.textColor,
           "--section-services": section.colors?.servicesColor,
           "--section-reviews": section.colors?.reviewsColor,
+          "--section-experience": section.colors?.experienceColor,
           "--section-method-step": section.colors?.methodStepColor,
           "--section-method-title": section.colors?.methodTitleColor,
           "--section-button-bg": section.colors?.buttonBgColor,
@@ -56,7 +57,7 @@ export default async function Section({ section }: SectionProps) {
       }
     >
       <div
-        className={`grid grow grid-cols-3 items-start gap-x-2.5 gap-y-12 p-4 sm:grid-cols-6`}
+        className={`grid grid-cols-3 items-start gap-x-2.5 gap-y-12 p-4 sm:grid-cols-6 ${section.contentType !== "experience" && "grow"}`}
       >
         <div
           className={`col-span-3 grid h-full grid-cols-3 items-start gap-x-2.5 gap-y-12 ${section.content && section.content.type === "medias" ? "sm:col-span-4 sm:grid-cols-4" : "sm:col-span-6 sm:grid-cols-6"}`}
@@ -66,17 +67,20 @@ export default async function Section({ section }: SectionProps) {
             className={`col-span-3 flex flex-col gap-10 ${section.description?.layout.position === "bottom" ? "h-full justify-between" : "justify-start"}`}
           >
             <div className="flex flex-col gap-5">
-              {section.subtitle && (
+              {(section.subtitle || section.contentType === "experience") && (
                 <h2 className="font-serif">{section.title}</h2>
               )}
-              {section.subtitle ? (
+
+              {section.subtitle && (
                 <p className="text-3xl">{section.subtitle}</p>
-              ) : (
+              )}
+
+              {!section.subtitle && section.contentType !== "experience" && (
                 <h2 className="text-3xl">{section.title}</h2>
               )}
             </div>
 
-            {section.description && (
+            {section.description && section.description.col1 && (
               <Desctiption description={section.description} />
             )}
           </div>
@@ -116,11 +120,13 @@ export default async function Section({ section }: SectionProps) {
 
       {/* Bottom content */}
       {section.content &&
-        ["projects", "services"].includes(section.content.type) && (
-          <div className="py-4">
+        ["projects", "services", "experience"].includes(
+          section.content.type
+        ) && (
+          <>
             {section.content.type === "projects" &&
               section.content.projects && (
-                <div className="-ms-3 no-scrollbar flex w-screen gap-2.5 overflow-x-scroll px-7">
+                <div className="-ms-3 no-scrollbar flex w-screen gap-2.5 overflow-x-scroll px-7 pb-4">
                   {section.content.projects.map((project, i) => (
                     <Thumbnail
                       key={project.slug + i}
@@ -138,7 +144,43 @@ export default async function Section({ section }: SectionProps) {
                   <FloatingServices items={services} />
                 </div>
               )}
-          </div>
+
+            {section.content.type === "experience" &&
+              section.content.expCategories && (
+                <div className="flex w-full grow items-start justify-between gap-x-2.5 gap-y-12 p-4 pt-1">
+                  {section.content.expCategories.map((category) => (
+                    <div
+                      key={category.title}
+                      className="flex flex-col gap-5"
+                    >
+                      <p className="text-3xl">{category.title}</p>
+
+                      <li className="mr-[calc((100vw-56px-4*10px)/6)] flex max-w-[calc((100vw-56px-4*10px)/6)] list-none flex-col flex-wrap gap-4 font-serif sm:max-h-(--h-section)">
+                        {category.experiences.map((exp) => (
+                          <ul key={exp.title + exp.date}>
+                            <p>{exp.date}</p>
+                            {exp.project ? (
+                              <Link
+                                href={`/projets/${exp.project}`}
+                                className="text-(--section-experience)"
+                              >
+                                {exp.title}
+                              </Link>
+                            ) : (
+                              <p className="text-(--section-experience)">
+                                {exp.title}
+                              </p>
+                            )}
+                            {exp.services && <p>{exp.services.join(", ")}</p>}
+                            {exp.description && <p>{exp.description}</p>}
+                          </ul>
+                        ))}
+                      </li>
+                    </div>
+                  ))}
+                </div>
+              )}
+          </>
         )}
 
       {/* Absolute content */}
