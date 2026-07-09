@@ -64,13 +64,13 @@ function ReviewItem({
   const randomMargin = getMarginFromSlug(review.slug, gapRange);
   return (
     <div style={{ marginBottom: `calc(var(--spacing) * ${randomMargin})` }}>
-      <div className="font-serif text-sm **:font-normal [&_strong]:text-bleu-clair">
+      <div className="font-serif text-sm **:font-normal [&_strong]:text-(--section-reviews)">
         <PortableText value={review.text} />
       </div>
-      <p className="mt-6 text-xs font-medium text-bleu-clair/75">
+      <p className="mt-6 text-xs font-medium text-(--section-reviews)/75">
         {review.person.name}
       </p>
-      <p className="mt-0.5 text-xs text-bleu-clair">{review.client}</p>
+      <p className="mt-0.5 text-xs text-(--section-reviews)">{review.client}</p>
     </div>
   );
 }
@@ -86,13 +86,15 @@ function MethodItem({
   return (
     <div style={{ marginTop: `calc(var(--spacing) * ${randomMargin})` }}>
       <div className="flex items-center gap-1.5 py-0.5 sm:gap-2">
-        <span className="size-2 rounded-full bg-orange sm:size-3"></span>
-        <span className="text-sm text-nowrap text-orange">
+        <span className="size-2 rounded-full bg-(--section-method-step) sm:size-3"></span>
+        <span className="text-sm text-nowrap text-(--section-method-step)">
           {method.position}
         </span>
       </div>
 
-      <p className="mb-4 text-sm text-bleu-clair">{method.title}</p>
+      <p className="mb-4 text-sm text-(--section-method-title)">
+        {method.title}
+      </p>
       <p className="font-serif text-sm">{method.description}</p>
     </div>
   );

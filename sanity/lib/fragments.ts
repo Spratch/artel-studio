@@ -46,6 +46,10 @@ export const sectionsFragment = `"sections": sections[]{
       "colors": colors{
         "backgroundColor": backgroundColor->value,
         "textColor": textColor->value,
+        "servicesColor": servicesColor->value,
+        "reviewsColor": reviewsColor->value,
+        "methodStepColor": methodStepColor->value,
+        "methodTitleColor": methodTitleColor->value,
         "buttonBgColor": buttonBgColor->value,
         "buttonFgColor": buttonFgColor->value
       },

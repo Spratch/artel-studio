@@ -144,7 +144,7 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
           className="group/service transition-opacity duration-500"
         >
           <div
-            className="rounded-(--border-radius) border border-(--section-button-bg) bg-(--section-bg) px-5 py-3 font-serif text-2xl text-(--section-button-bg) transition-colors group-data-dragging/service:border-(--item-color) group-data-dragging/service:bg-(--item-color) group-data-dragging/service:text-noir-profond hover:border-(--item-color) hover:bg-(--item-color) hover:text-noir-profond sm:px-7 sm:pt-4.5 sm:pb-5 sm:text-3xl"
+            className="rounded-(--border-radius) border border-(--section-services) bg-(--section-bg) px-5 py-3 font-serif text-2xl text-(--section-services) transition-colors group-data-dragging/service:border-(--item-color) group-data-dragging/service:bg-(--item-color) group-data-dragging/service:text-noir-profond hover:border-(--item-color) hover:bg-(--item-color) hover:text-noir-profond sm:px-7 sm:pt-4.5 sm:pb-5 sm:text-3xl"
             style={
               {
                 "--item-color": item.color

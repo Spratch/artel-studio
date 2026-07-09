@@ -46,6 +46,10 @@ export default async function Section({ section }: SectionProps) {
         {
           "--section-bg": section.colors?.backgroundColor,
           "--section-text": section.colors?.textColor,
+          "--section-services": section.colors?.servicesColor,
+          "--section-reviews": section.colors?.reviewsColor,
+          "--section-method-step": section.colors?.methodStepColor,
+          "--section-method-title": section.colors?.methodTitleColor,
           "--section-button-bg": section.colors?.buttonBgColor,
           "--section-button-fg": section.colors?.buttonFgColor
         } as React.CSSProperties
@@ -148,7 +152,7 @@ export default async function Section({ section }: SectionProps) {
                 {Array.from({ length: 12 }).map((_, index) => (
                   <div
                     key={index}
-                    className="h-[150%] border-x border-creme/10"
+                    className="h-[150%] border-x border-(--section-text)/10"
                   ></div>
                 ))}
                 <VerticalMarquee

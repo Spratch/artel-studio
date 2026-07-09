@@ -380,13 +380,45 @@
           },
           "optional": false
         },
+        "servicesColor": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "colorRef"
+          },
+          "optional": true
+        },
+        "reviewsColor": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "colorRef"
+          },
+          "optional": true
+        },
+        "methodStepColor": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "colorRef"
+          },
+          "optional": true
+        },
+        "methodTitleColor": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "colorRef"
+          },
+          "optional": true
+        },
         "buttonBgColor": {
           "type": "objectAttribute",
           "value": {
             "type": "inline",
             "name": "colorRef"
           },
-          "optional": false
+          "optional": true
         },
         "buttonFgColor": {
           "type": "objectAttribute",
@@ -394,7 +426,7 @@
             "type": "inline",
             "name": "colorRef"
           },
-          "optional": false
+          "optional": true
         }
       }
     }

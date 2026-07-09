@@ -1,5 +1,6 @@
 "use client";
 
+import { Section } from "@/sanity.types";
 import { getClient } from "@/sanity/config/client-config";
 import {
   ArrowTopRightIcon,
@@ -16,7 +17,11 @@ import {
   defineArrayMember,
   defineField,
   defineType,
-  ObjectInputProps
+  KeyedSegment,
+  ObjectInputProps,
+  Path,
+  SanityDocument,
+  ValidationContext
 } from "sanity";
 
 function SectionColorsInput(props: ObjectInputProps) {
@@ -117,6 +122,39 @@ const CONTENT_TYPES = [
   { title: "Expérience", value: "experience" },
   { title: "Médias", value: "medias" }
 ];
+
+const findSection = (path: Path, document: SanityDocument) => {
+  const sectionKey = (path[1] as KeyedSegment)._key;
+  return (document.sections as Array<Section & { _key: string }>).filter(
+    (s) => s._key === sectionKey
+  )[0];
+};
+
+const colorVisibility = (
+  { path, document }: { path: Path; document: SanityDocument | undefined },
+  condition: (section: Section) => boolean
+) => {
+  if (!document) return false;
+  const section = findSection(path, document);
+  return condition(section);
+};
+
+const colorValidation = (
+  value: unknown,
+  context: ValidationContext,
+  sentence: string,
+  condition: (section: Section) => boolean
+) => {
+  const document = context.document;
+  const path = context.path;
+  if (!document || !path) return true;
+  const section = findSection(path, document);
+
+  if (condition(section) && !value) {
+    return sentence;
+  }
+  return true;
+};
 
 export default defineType({
   name: "section",
@@ -557,13 +595,109 @@ export default defineType({
           validation: (Rule) => Rule.required()
         }),
         defineField({
-          name: "buttonBgColor",
-          title: "Fond du bouton / Contours des services",
+          name: "servicesColor",
+          title: "Services",
           description:
-            "Couleur de fond des boutons de la section/Couleur des contours et textes des services,\nattention au contraste avec la couleur du texte du bouton",
+            "Couleur des contours et textes des services (avant survol)",
+          type: "colorRef",
+          initialValue: { _ref: "R4ugbcAV6zqTaKrvgRLdgC" },
+          hidden: ({ path, document }) =>
+            colorVisibility(
+              { path, document },
+              (section) => section.contentType !== "services"
+            ),
+          validation: (Rule) =>
+            Rule.custom((value, context) =>
+              colorValidation(
+                value,
+                context,
+                "Les services doivent avoir une couleur",
+                (section) => section.contentType === "services"
+              )
+            )
+        }),
+        defineField({
+          name: "reviewsColor",
+          title: "Accentuation des témoignages",
+          description:
+            "Couleur des textes accentués des témoignages (mots clés, noms de la personne et de l'entreprise",
+          type: "colorRef",
+          initialValue: { _ref: "GmY8EMdQcEdG09jOJ4xFtW" },
+          hidden: ({ path, document }) =>
+            colorVisibility(
+              { path, document },
+              (section) => section.contentType !== "reviews"
+            ),
+          validation: (Rule) =>
+            Rule.custom((value, context) =>
+              colorValidation(
+                value,
+                context,
+                "Les témoignages doivent avoir une couleur d'accentuation",
+                (section) => section.contentType === "reviews"
+              )
+            )
+        }),
+        defineField({
+          name: "methodStepColor",
+          title: "Numéro d'étape",
+          description: "Couleur de la numérotation des étapes",
+          type: "colorRef",
+          initialValue: { _ref: "GmY8EMdQcEdG09jOJ4pWVU" },
+          hidden: ({ path, document }) =>
+            colorVisibility(
+              { path, document },
+              (section) => section.contentType !== "method"
+            ),
+          validation: (Rule) =>
+            Rule.custom((value, context) =>
+              colorValidation(
+                value,
+                context,
+                "Les numéros d'étape doivent avoir une couleur",
+                (section) => section.contentType === "method"
+              )
+            )
+        }),
+        defineField({
+          name: "methodTitleColor",
+          title: "Titre d'étape",
+          description: "Couleur du titre des étapes",
+          type: "colorRef",
+          initialValue: { _ref: "GmY8EMdQcEdG09jOJ4xFtW" },
+          hidden: ({ path, document }) =>
+            colorVisibility(
+              { path, document },
+              (section) => section.contentType !== "method"
+            ),
+          validation: (Rule) =>
+            Rule.custom((value, context) =>
+              colorValidation(
+                value,
+                context,
+                "Les titres d'étape doivent avoir une couleur",
+                (section) => section.contentType === "method"
+              )
+            )
+        }),
+        defineField({
+          name: "buttonBgColor",
+          title: "Fond du bouton",
+          description:
+            "Couleur de fond des boutons de la section,\nattention au contraste avec la couleur du texte du bouton",
           type: "colorRef",
           initialValue: { _ref: "R4ugbcAV6zqTaKrvgR7o1y" },
-          validation: (Rule) => Rule.required()
+          hidden: ({ path, document }) =>
+            colorVisibility({ path, document }, (section) => !section.button),
+          validation: (Rule) =>
+            Rule.custom((value, context) =>
+              colorValidation(
+                value,
+                context,
+                "Le bouton doit avoir une couleur de fond",
+                (section) => !!section.button
+              )
+            )
         }),
         defineField({
           name: "buttonFgColor",
@@ -572,7 +706,17 @@ export default defineType({
             "Couleur du texte et des icônes des boutons de la section,\nattention au contraste avec la couleur de fond du bouton",
           type: "colorRef",
           initialValue: { _ref: "R4ugbcAV6zqTaKrvgRLdgC" },
-          validation: (Rule) => Rule.required()
+          hidden: ({ path, document }) =>
+            colorVisibility({ path, document }, (section) => !section.button),
+          validation: (Rule) =>
+            Rule.custom((value, context) =>
+              colorValidation(
+                value,
+                context,
+                "Le bouton doit avoir une couleur de contenu",
+                (section) => !!section.button
+              )
+            )
         })
       ]
     })
