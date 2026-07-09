@@ -125,7 +125,13 @@ export const sectionsFragment = `"sections": sections[]{
 
 export const pageColorsFragment = `
   "pageColors": pageColors{
-    "backgroundColor": primary->value,
-    "textColor": secondary->value,
+    "backgroundColor": primary->{
+      ${slugFragment},
+      value
+    },
+    "textColor": secondary->{
+      ${slugFragment},
+      value
+    },
   }
   `;

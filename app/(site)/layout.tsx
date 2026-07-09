@@ -56,7 +56,17 @@ export default async function RootLayout({
           {`
             :root {
               ${paletteColors
-                .map((color) => `--palette-${color.slug}: ${color.value};`)
+                .map(
+                  (color) => `
+                  --palette-${color.slug}: ${color.value};
+                  &:has(*:is(.pbg-${color.slug})) {
+                    --background-color: var(--color-${color.slug});
+                  }
+                  &:has(*:is(.ptxt-${color.slug})) {
+                    --text-color: var(--color-${color.slug});
+                  }
+                `
+                )
                 .join("\n")}
             }
           `}
