@@ -90,6 +90,11 @@ export const homeSchema = defineType({
       type: "colorRef"
     }),
     defineField({
+      name: "pageColors",
+      title: "Couleurs de la page",
+      type: "pageColors"
+    }),
+    defineField({
       name: "sections",
       title: "Sections",
       description:

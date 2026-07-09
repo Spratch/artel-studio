@@ -24,3 +24,8 @@ export const getFooterSettings = withPreview(
 );
 
 export const getAboutPage = withPreview(() => queries.aboutQuery, ["about"]);
+
+export const getContactPage = withPreview(
+  () => queries.contactQuery,
+  ["contact"]
+);

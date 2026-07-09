@@ -1,6 +1,7 @@
 import type { SchemaPluginOptions } from "sanity";
 import { aboutSchema } from "./about";
 import { clientSchema } from "./client";
+import { contactSchema } from "./contact";
 import { foundrySchema } from "./foundry";
 import { homeSchema } from "./home";
 import { legalSchema } from "./legal";
@@ -29,7 +30,8 @@ export const singltetonDocs = [
   settingsSchema,
   homeSchema,
   aboutSchema,
-  projectsSchema
+  projectsSchema,
+  contactSchema
 ];
 export const listDocs = [
   projectSchema,

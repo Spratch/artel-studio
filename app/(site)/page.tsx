@@ -14,10 +14,12 @@ export default async function Home({
 
   return (
     <main
-      className="pbg-creme ptxt-noir-profond flex flex-col gap-3 overflow-x-hidden bg-creme px-3 pt-(--h-header) pb-3 **:[path]:fill-(--color-logo)"
+      className="pbg-(--background-color) ptxt-(--text-color) flex flex-col gap-3 overflow-x-hidden bg-(--background-color) px-3 pt-(--h-header) pb-3 text-(--text-color) **:[path]:fill-(--color-logo)"
       style={
         {
-          "--color-logo": home.logoColor
+          "--color-logo": home.logoColor,
+          "--background-color": home.pageColors.backgroundColor.value,
+          "--text-color": home.pageColors.textColor.value
         } as React.CSSProperties
       }
     >

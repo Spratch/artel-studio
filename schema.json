@@ -2057,6 +2057,106 @@
     }
   },
   {
+    "name": "contact",
+    "type": "document",
+    "attributes": {
+      "_id": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_type": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string",
+          "value": "contact"
+        }
+      },
+      "_createdAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_updatedAt": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "_rev": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        }
+      },
+      "title": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "slug": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "slug"
+        },
+        "optional": false
+      },
+      "pageColors": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "pageColors"
+        },
+        "optional": false
+      },
+      "sectionColors": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "backgroundColor": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "colorRef"
+              },
+              "optional": false
+            },
+            "textColor": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "colorRef"
+              },
+              "optional": false
+            }
+          }
+        },
+        "optional": false
+      },
+      "sentence": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": false
+      },
+      "gallery": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "medias"
+        },
+        "optional": true
+      }
+    }
+  },
+  {
     "name": "home",
     "type": "document",
     "attributes": {
@@ -2147,6 +2247,14 @@
           "name": "colorRef"
         },
         "optional": true
+      },
+      "pageColors": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "inline",
+          "name": "pageColors"
+        },
+        "optional": false
       },
       "sections": {
         "type": "objectAttribute",
@@ -3152,6 +3260,36 @@
     }
   },
   {
+    "type": "type",
+    "name": "contact.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "contact"
+    }
+  },
+  {
     "name": "settings",
     "type": "document",
     "attributes": {
@@ -3247,6 +3385,10 @@
               {
                 "type": "inline",
                 "name": "service.reference"
+              },
+              {
+                "type": "inline",
+                "name": "contact.reference"
               }
             ]
           }

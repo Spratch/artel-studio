@@ -3,6 +3,7 @@ import {
   ComponentIcon,
   ControlsIcon,
   DocumentsIcon,
+  EnvelopeIcon,
   HomeIcon,
   InfoOutlineIcon
 } from "@sanity/icons";
@@ -20,6 +21,7 @@ export const structure: StructureResolver = (S, context) => {
       S.divider().title("Pages"),
       li("home", "Accueil", HomeIcon, "singleton"),
       li("about", "Infos", InfoOutlineIcon, "singleton"),
+      li("contact", "Contact", EnvelopeIcon, "singleton"),
 
       S.divider(),
 

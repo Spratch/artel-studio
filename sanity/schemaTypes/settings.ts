@@ -104,8 +104,8 @@ export const settingsSchema = defineType({
             { type: "about" },
             { type: "projects" },
             { type: "legal" },
-            { type: "service" }
-            // { type: "contact" }
+            { type: "service" },
+            { type: "contact" }
           ],
           description:
             "Ajouter une page existante pour créer un lien vers cette page",

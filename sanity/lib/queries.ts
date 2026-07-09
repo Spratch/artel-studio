@@ -24,6 +24,7 @@ const homePageQuery = defineQuery(`*[_type == "home"][0]{
       "project": projectRef->${projectThumbnailFragment},
     },
     "logoColor": logoColor->value,
+    ${pageColorsFragment},
     ${sectionsFragment}
   }`);
 
@@ -70,11 +71,23 @@ const aboutQuery = defineQuery(`*[_type == "about"][0]{
     ${sectionsFragment}
 }`);
 
+const contactQuery = defineQuery(`*[_type == "contact"][0]{
+    title,
+    ${pageColorsFragment},
+    sectionColors{
+      "backgroundColor": backgroundColor->value,
+      "textColor": textColor->value
+    },
+    sentence,
+    gallery
+}`);
+
 export const queries = {
   layoutSettingsQuery,
   homePageQuery,
   headerSettingsQuery,
   paletteColorsQuery,
   footerSettingsQuery,
-  aboutQuery
+  aboutQuery,
+  contactQuery
 };

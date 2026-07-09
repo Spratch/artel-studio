@@ -23,6 +23,10 @@
   vector-effect: non-scaling-stroke;
 }
 
+main.contact-page + footer {
+  display: none;
+}
+
 @utility no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
