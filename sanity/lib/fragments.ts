@@ -126,11 +126,13 @@ export const sectionsFragment = `"sections": sections[]{
           "services": coalesce(
             services[]->{
               name,
-              ${slugFragment}
+              ${slugFragment},
+              hasPage
             },
             *[_type == "service" && !(_id == ^._id)]{
               name,
-              ${slugFragment}
+              ${slugFragment},
+              hasPage
             }
           )
         }

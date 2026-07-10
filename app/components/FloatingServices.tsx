@@ -4,17 +4,17 @@ import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
 import { useReducedMotion } from "motion/react";
+import Link from "next/link";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { ContentResultType } from "../types";
 import { generateServicesLayout } from "../utils";
 
 gsap.registerPlugin(Draggable, InertiaPlugin);
 
 type FloatingServicesProps = {
-  items: {
-    name: string;
-    slug: string;
+  items: (ContentResultType<"services", "services">[number] & {
     color: string;
-  }[];
+  })[];
 };
 
 export type ItemSizesType = { width: number; height: number }[];
@@ -135,24 +135,29 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
           ref={(el) => {
             itemsRef.current[i] = el;
           }}
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            opacity: layout.length ? 1 : 0
-          }}
-          className="group/service transition-opacity duration-500"
+          style={
+            {
+              position: "absolute",
+              left: 0,
+              top: 0,
+              opacity: layout.length ? 1 : 0,
+              "--item-color": item.color
+            } as React.CSSProperties
+          }
+          className="group/service flex font-serif text-2xl text-(--section-services) transition-opacity duration-500 sm:text-3xl"
         >
-          <div
-            className="rounded-(--border-radius) border border-(--section-services) bg-(--section-bg) px-5 py-3 font-serif text-2xl text-(--section-services) transition-colors group-data-dragging/service:border-(--item-color) group-data-dragging/service:bg-(--item-color) group-data-dragging/service:text-noir-profond hover:border-(--item-color) hover:bg-(--item-color) hover:text-noir-profond sm:px-7 sm:pt-4.5 sm:pb-5 sm:text-3xl"
-            style={
-              {
-                "--item-color": item.color
-              } as React.CSSProperties
-            }
-          >
+          <div className="h-14.5 rounded-(--border-radius) border border-(--section-services) bg-(--section-bg) px-5 py-3 transition-all group-hover/service:border-(--item-color) group-has-[a:focus-visible]/service:rounded-e-none group-has-[a:hover]/service:rounded-e-none group-data-dragging/service:border-(--item-color) group-data-dragging/service:bg-(--item-color) hover:bg-(--item-color) hover:text-noir-profond data-dragging:text-noir-profond sm:h-19 sm:px-7 sm:pt-4.5 sm:pb-5">
             {item.name}
           </div>
+          {item.hasPage && (
+            <Link
+              href={`/services/${item.slug}`}
+              className="-ml-px flex aspect-square h-14.5 shrink-0 items-center justify-center rounded-[38px] border border-(--section-services) bg-(--section-bg) transition-all group-data-dragging/service:border-(--item-color) group-data-dragging/service:bg-(--item-color) group-data-dragging/service:opacity-0 hover:rounded-s-none hover:rounded-e-(--border-radius) hover:border-(--item-color) hover:bg-(--item-color) hover:text-noir-profond focus-visible:rounded-s-none focus-visible:rounded-e-(--border-radius) focus-visible:border-(--item-color) focus-visible:bg-(--item-color) focus-visible:text-noir-profond sm:h-19"
+              onPointerDown={(e) => e.stopPropagation()}
+            >
+              ↝
+            </Link>
+          )}
         </div>
       ))}
     </div>

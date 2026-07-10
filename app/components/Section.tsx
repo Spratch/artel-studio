@@ -2,7 +2,7 @@ import { getPaletteColors } from "@/sanity/lib/getters";
 import type { Get } from "@sanity/codegen";
 import { PortableText } from "next-sanity";
 import Link from "next/link";
-import { SectionType } from "../types";
+import { ContentResultType, SectionType } from "../types";
 import Carousel from "./Carousel";
 import FloatingServices from "./FloatingServices";
 import Thumbnail from "./Thumbnail";
@@ -20,11 +20,9 @@ export default async function Section({ section }: SectionProps) {
         color.value
       )
   );
-  let services: {
-    name: string;
-    slug: string;
+  let services: (ContentResultType<"services", "services">[number] & {
     color: string;
-  }[] = [];
+  })[] = [];
 
   if (section.content && section.content.type === "services") {
     services = section.content.services?.map((service, i) => {
