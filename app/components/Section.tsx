@@ -147,17 +147,17 @@ export default async function Section({ section }: SectionProps) {
 
             {section.content.type === "experience" &&
               section.content.expCategories && (
-                <div className="flex w-full grow items-start justify-between gap-x-2.5 gap-y-12 p-4 pt-1">
+                <div className="flex flex-col sm:flex-row flex-wrap w-full grow items-start gap-x-2.5 gap-y-12 p-4 pt-1 justify-between">
                   {section.content.expCategories.map((category) => (
                     <div
                       key={category.title}
-                      className="flex flex-col gap-5"
+                      className="flex flex-col gap-5 "
                     >
                       <p className="text-3xl">{category.title}</p>
 
-                      <li className="mr-[calc((100vw-56px-4*10px)/6)] flex max-w-[calc((100vw-56px-4*10px)/6)] list-none flex-col flex-wrap gap-4 font-serif sm:max-h-(--h-section)">
+                      <li className="flex  list-none flex-col flex-wrap gap-4 font-serif sm:max-h-(--h-section) lg:pr-[calc((100vw-56px-4*10px)/6)]">
                         {category.experiences.map((exp) => (
-                          <ul key={exp.title + exp.date}>
+                          <ul key={exp.title + exp.date} className="sm:max-w-[calc((100vw-56px-4*10px)/4)] lg:max-w-[calc((100vw-56px-4*10px)/6)]">
                             <p>{exp.date}</p>
                             {exp.project ? (
                               <Link
