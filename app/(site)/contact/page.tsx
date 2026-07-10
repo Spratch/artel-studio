@@ -15,13 +15,9 @@ export default async function Contact({
 
   return (
     <main
-      className={`contact-page relative flex min-h-svh flex-col gap-3 overflow-hidden overflow-x-hidden bg-(--background-color) px-3 pt-(--h-header) pb-[28vw] text-(--text-color) pbg-${contact.pageColors.backgroundColor.slug} ptxt-${contact.pageColors.textColor.slug}`}
-      style={
-        {
-          "--background-color": contact.pageColors.backgroundColor.value,
-          "--text-color": contact.pageColors.textColor.value
-        } as React.CSSProperties
-      }
+      data-page-bg={contact.pageColors.backgroundColor.slug}
+      data-page-text={contact.pageColors.textColor.slug}
+      className={`contact-page relative flex min-h-svh flex-col gap-3 overflow-hidden overflow-x-hidden bg-(--background-color) px-3 pt-(--h-header) pb-[28vw] text-(--text-color)`}
     >
       <section
         className={`relative z-10 flex min-h-(--h-section) flex-col rounded-xl bg-(--section-bg) text-(--section-text)`}

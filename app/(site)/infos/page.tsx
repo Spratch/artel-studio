@@ -12,13 +12,9 @@ export default async function About({
 
   return (
     <main
-      className={`flex flex-col gap-3 overflow-x-hidden bg-(--background-color) px-3 pt-(--h-header) pb-3 text-(--text-color) pbg-${about.pageColors.backgroundColor.slug} ptxt-${about.pageColors.textColor.slug}`}
-      style={
-        {
-          "--background-color": about.pageColors.backgroundColor.value,
-          "--text-color": about.pageColors.textColor.value
-        } as React.CSSProperties
-      }
+      data-page-bg={about.pageColors.backgroundColor.slug}
+      data-page-text={about.pageColors.textColor.slug}
+      className={`flex flex-col gap-3 overflow-x-hidden bg-(--background-color) px-3 pt-(--h-header) pb-3 text-(--text-color)`}
     >
       {about.sections && <SectionList sections={about.sections} />}
     </main>
