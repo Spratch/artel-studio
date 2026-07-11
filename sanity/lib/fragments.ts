@@ -32,6 +32,13 @@ export const projectThumbnailFragment = `{
   }
 }`;
 
+export const sectionDescriptionFragment = `description{
+  layout,
+  "col1": column1${customBlockFragment},
+  "col2": column2${customBlockFragment},
+  "col3": column3${customBlockFragment},
+}`;
+
 export const sectionsFragment = `"sections": sections[]{
   _type,
   ...select(
@@ -66,12 +73,7 @@ export const sectionsFragment = `"sections": sections[]{
         },
         position
       },
-      "description": description{
-        layout,
-        "col1": column1${customBlockFragment},
-        "col2": column2${customBlockFragment},
-        "col3": column3${customBlockFragment},
-      },
+      "description": ${sectionDescriptionFragment},
       contentType,
       "content": select(
         contentType == "method" => {
@@ -129,7 +131,7 @@ export const sectionsFragment = `"sections": sections[]{
               ${slugFragment},
               hasPage
             },
-            *[_type == "service" && !(_id == ^._id)]{
+            *[_type == "service" && !(_id == ^.^._id)]{
               name,
               ${slugFragment},
               hasPage

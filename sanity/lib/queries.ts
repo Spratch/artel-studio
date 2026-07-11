@@ -1,7 +1,9 @@
 import { defineQuery } from "next-sanity";
 import {
+  customBlockFragment,
   pageColorsFragment,
   projectThumbnailFragment,
+  sectionDescriptionFragment,
   sectionsFragment,
   slugFragment
 } from "./fragments";
@@ -82,6 +84,26 @@ const contactQuery = defineQuery(`*[_type == "contact"][0]{
     gallery
 }`);
 
+const serviceQuery =
+  defineQuery(`*[_type == "service" && slug.current == $slug][0]{
+  name,
+  ${slugFragment},
+  ...select(
+    hasPage == false => {
+      "hasPage": false
+    },
+    hasPage == true => {
+      "hasPage": true,
+      ${pageColorsFragment},
+      introTitle,
+      "introduction": introduction${customBlockFragment},
+      introMedia,
+      "description": ${sectionDescriptionFragment},
+      ${sectionsFragment}
+    }
+  )
+}`);
+
 export const queries = {
   layoutSettingsQuery,
   homePageQuery,
@@ -89,5 +111,6 @@ export const queries = {
   paletteColorsQuery,
   footerSettingsQuery,
   aboutQuery,
-  contactQuery
+  contactQuery,
+  serviceQuery
 };

@@ -59,28 +59,17 @@ export const serviceSchema = defineType({
       group: "general"
     }),
     defineField({
-      name: "introduction",
-      title: "Introduction",
-      description:
-        "Court paragraphe introduisant le service. Mettre le nom du service en gras pour qu'il apparaisse en bleu sur le site.",
-      type: "customBlock",
-      group: "page"
-    }),
-    defineField({
-      name: "introMedia",
-      title: "Média d'introduction",
-      description:
-        "Image ou vidéo apparaissant dans la section d'introduction du service. Si il plus d'un média, ils seront affichés en carrousel.\n⚠ Ne pas abuser de la quantité de carrousels sur l'ensemble du site.",
-      type: "medias",
-      group: "page"
-    }),
-    defineField({
-      name: "description",
-      title: "Description",
-      description:
-        "Le texte apparaissant dans la section d'introduction, en serif",
-      type: "columns",
-      group: "page"
+      name: "pageColors",
+      title: "Couleurs de la page",
+      type: "pageColors",
+      group: "page",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          if (!value && context.document?.hasPage) {
+            return "La page doit contenir des couleurs de page";
+          }
+          return true;
+        })
     }),
     defineField({
       name: "sections",
@@ -102,8 +91,13 @@ export const serviceSchema = defineType({
   preview: {
     select: {
       title: "name",
-      subtitle: "introduction",
-      media: "introMedia.0"
-    }
+      subtitle: "sections.0.subtitle",
+      media: "sections.0.medias.0"
+    },
+    prepare: (selection) => ({
+      title: selection.title,
+      subtitle: selection.subtitle?.replace("[[", "").replace("]]", ""),
+      media: selection.media
+    })
   }
 });

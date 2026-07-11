@@ -29,3 +29,8 @@ export const getContactPage = withPreview(
   () => queries.contactQuery,
   ["contact"]
 );
+
+export const getServicePage = withPreview(
+  () => queries.serviceQuery,
+  ["service"]
+);

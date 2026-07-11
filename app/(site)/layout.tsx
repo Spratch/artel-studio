@@ -47,7 +47,9 @@ export default async function RootLayout({
       lang="fr"
       className={`antialiased`}
     >
-      <body className={`${sagace.className} antialiased`}>
+      <body
+        className={`${sagace.className} bg-(--background-color) antialiased`}
+      >
         <link
           rel="stylesheet"
           href="https://use.typekit.net/wuo5zvg.css"

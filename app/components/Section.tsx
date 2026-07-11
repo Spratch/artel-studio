@@ -70,7 +70,16 @@ export default async function Section({ section }: SectionProps) {
               )}
 
               {section.subtitle && (
-                <p className="text-3xl">{section.subtitle}</p>
+                <p className="text-3xl">
+                  {section.subtitle.split(/\[\[(.*?)\]\]/).map((s, i) => (
+                    <span
+                      key={s + i}
+                      className={i === 1 ? "text-bleu-clair" : ""}
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </p>
               )}
 
               {!section.subtitle && section.contentType !== "experience" && (
@@ -145,17 +154,20 @@ export default async function Section({ section }: SectionProps) {
 
             {section.content.type === "experience" &&
               section.content.expCategories && (
-                <div className="flex flex-col sm:flex-row flex-wrap w-full grow items-start gap-x-2.5 gap-y-12 p-4 pt-1 justify-between">
+                <div className="flex w-full grow flex-col flex-wrap items-start justify-between gap-x-2.5 gap-y-12 p-4 pt-1 sm:flex-row">
                   {section.content.expCategories.map((category) => (
                     <div
                       key={category.title}
-                      className="flex flex-col gap-5 "
+                      className="flex flex-col gap-5"
                     >
                       <p className="text-3xl">{category.title}</p>
 
-                      <li className="flex  list-none flex-col flex-wrap gap-4 font-serif sm:max-h-(--h-section) lg:pr-[calc((100vw-56px-4*10px)/6)]">
+                      <li className="flex list-none flex-col flex-wrap gap-4 font-serif sm:max-h-(--h-section) lg:pr-[calc((100vw-56px-4*10px)/6)]">
                         {category.experiences.map((exp) => (
-                          <ul key={exp.title + exp.date} className="sm:max-w-[calc((100vw-56px-4*10px)/4)] lg:max-w-[calc((100vw-56px-4*10px)/6)]">
+                          <ul
+                            key={exp.title + exp.date}
+                            className="sm:max-w-[calc((100vw-56px-4*10px)/4)] lg:max-w-[calc((100vw-56px-4*10px)/6)]"
+                          >
                             <p>{exp.date}</p>
                             {exp.project ? (
                               <Link

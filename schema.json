@@ -2548,27 +2548,11 @@
         },
         "optional": true
       },
-      "introduction": {
+      "pageColors": {
         "type": "objectAttribute",
         "value": {
           "type": "inline",
-          "name": "customBlock"
-        },
-        "optional": true
-      },
-      "introMedia": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "medias"
-        },
-        "optional": true
-      },
-      "description": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "inline",
-          "name": "columns"
+          "name": "pageColors"
         },
         "optional": true
       },

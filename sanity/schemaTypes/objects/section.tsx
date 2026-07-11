@@ -205,7 +205,8 @@ export default defineType({
       title: "Sous-titre",
       type: "text",
       rows: 2,
-      description: "Sous-titre de la section, apparaît en grand sans-serif",
+      description:
+        "Sous-titre de la section, apparaît en grand sans-serif,\nSi cette section est la première d'une page service, mettre le nom du service entre double crochets [[ et ]]",
       group: "texts"
     }),
     defineField({
