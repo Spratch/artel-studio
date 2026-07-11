@@ -17,9 +17,9 @@ const routeMap = {
 
 const getPreviewUrl = (doc: DocType, schemaType: string) => {
   const timestamp = new Date().getTime();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000 ";
   const routeBase = routeMap[schemaType as keyof typeof routeMap]?.(doc);
-  const previewPath = `${siteUrl}/${routeBase}`;
+  const previewPath = `${siteUrl}${routeBase ? "/" + routeBase : ""}`;
 
   return `${previewPath}?preview=true&revision=${doc._rev}&timestamp=${timestamp}`;
 };
