@@ -7,7 +7,15 @@ export default async function Footer() {
 
   if (!footer) return null;
   return (
-    <footer className="relative flex min-h-(--h-section) grid-cols-6 flex-col content-start gap-x-2.5 gap-y-10 overflow-hidden bg-ardoise px-3 pt-16 pb-44 font-serif text-creme sm:grid sm:gap-y-17 sm:px-7 sm:pt-34 sm:pb-96 xl:pb-180">
+    <footer
+      className="relative flex min-h-(--h-section) grid-cols-6 flex-col content-start gap-x-2.5 gap-y-10 overflow-hidden bg-(--footer-bg) px-3 pt-16 pb-44 font-serif text-(--footer-text) sm:grid sm:gap-y-17 sm:px-7 sm:pt-34 sm:pb-96 xl:pb-180"
+      style={
+        {
+          "--footer-bg": footer.colors.backgroundColor,
+          "--footer-text": footer.colors.textColor
+        } as React.CSSProperties
+      }
+    >
       {/* Contact */}
       <div className="col-span-1 flex flex-col gap-6 sm:gap-10">
         <h2>Contact</h2>
@@ -96,7 +104,7 @@ export default async function Footer() {
       )}
 
       {/* Logo */}
-      <Logo className="footer-logo absolute bottom-[-7vw] overflow-visible mask-b-from-20% mask-b-to-80% fill-transparent stroke-creme stroke-1 pr-3 sm:px-7" />
+      <Logo className="footer-logo absolute bottom-[-7vw] overflow-visible mask-b-from-20% mask-b-to-80% fill-transparent stroke-(--footer-text) stroke-1 pr-3 sm:px-7" />
     </footer>
   );
 }

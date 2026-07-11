@@ -49,6 +49,10 @@ const paletteColorsQuery = defineQuery(`
 
 const footerSettingsQuery = defineQuery(`
     *[_type == "settings"][0]{
+      "colors": colors{
+        "backgroundColor": backgroundColor->value,
+        "textColor": textColor->value,
+      },
       footerSentence,
       "contact": contact{
         email,

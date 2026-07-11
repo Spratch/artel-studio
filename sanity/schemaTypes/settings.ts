@@ -130,6 +130,35 @@ export const settingsSchema = defineType({
       validation: (Rule) => Rule.required()
     }),
     defineField({
+      name: "colors",
+      title: "Couleurs",
+      type: "object",
+      description:
+        "Sélectionner les couleurs du footer,\nattention aux contrastes",
+      group: "footer",
+      options: {
+        collapsed: true,
+        columns: 2
+      },
+      fields: [
+        defineField({
+          name: "backgroundColor",
+          title: "Fond",
+          description: "Couleur de fond du footer",
+          type: "colorRef",
+          validation: (Rule) => Rule.required()
+        }),
+        defineField({
+          name: "textColor",
+          title: "Texte",
+          description: "Couleur du texte du footer",
+          type: "colorRef",
+          validation: (Rule) => Rule.required()
+        })
+      ],
+      validation: (Rule) => Rule.required()
+    }),
+    defineField({
       name: "footerSentence",
       title: "Phrase du footer",
       description: "Renseigner la phrase à afficher dans le footer",
