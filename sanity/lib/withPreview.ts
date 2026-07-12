@@ -14,8 +14,8 @@ export function withPreview<Q extends string>(
     const client = getClient(preview);
     const options = preview
       ? {
-          next: { revalidate: 0, tags: ["preview"] },
-          dynamic: "force-dynamic" as const
+          cache: "no-store" as RequestCache,
+          next: { revalidate: 0, tags: ["preview"] }
         }
       : {
           cache: "force-cache" as RequestCache,
