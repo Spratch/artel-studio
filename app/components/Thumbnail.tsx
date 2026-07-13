@@ -81,7 +81,7 @@ export default function Thumbnail({
       {/* Link */}
       <Link
         className="pointer-events-auto absolute inset-0 z-20"
-        href={`/project/${project.slug}`}
+        href={`/projets/${project.slug}`}
       />
       {isFeatured && (
         <div className="invisible absolute top-1/2 left-1/2 z-20 -translate-1/2 rounded-lg bg-orange px-2.5 py-1.5 font-serif opacity-0 ring-offset-1 transition-opacity duration-300 ease-out group-focus-within/thumbnail:visible group-focus-within/thumbnail:opacity-100 group-focus-within/thumbnail:ring-2 group-focus-within/thumbnail:ring-noir-profond group-hover/thumbnail:visible group-hover/thumbnail:opacity-100">

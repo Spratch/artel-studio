@@ -147,7 +147,7 @@ export default async function Section({ section }: SectionProps) {
 
             {section.content.type === "services" &&
               section.content.services && (
-                <div className="mx-auto mb-12 aspect-1/1.5 w-full max-w-7xl p-4 sm:aspect-2/1">
+                <div className="mx-auto mb-12 max-h-(--h-section) w-full p-4 sm:aspect-2/1">
                   <FloatingServices items={services} />
                 </div>
               )}

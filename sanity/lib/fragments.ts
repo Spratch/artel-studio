@@ -39,6 +39,16 @@ export const sectionDescriptionFragment = `description{
   "col3": column3${customBlockFragment},
 }`;
 
+export const reviewFragment = `{
+  "person": person->{
+    name,
+    position,
+  },
+  "client": client->name,
+  ${slugFragment},
+  "text": text${customBlockFragment}
+}`;
+
 export const sectionsFragment = `"sections": sections[]{
   _type,
   ...select(
@@ -109,15 +119,7 @@ export const sectionsFragment = `"sections": sections[]{
             "speedRange": {"min":26,"max":46},
             "gapRange": {"min":20,"max":96}
           }),
-          "reviews": reviewsObject.reviews[]->{
-            "person": person->{
-              name,
-              position,
-            },
-            "client": client->name,
-            ${slugFragment},
-            "text": text${customBlockFragment}
-          }
+          "reviews": reviewsObject.reviews[]->${reviewFragment}
         },
         contentType == "projects" => {
           "type": "projects",

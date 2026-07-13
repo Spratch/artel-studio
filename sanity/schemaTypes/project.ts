@@ -13,7 +13,7 @@ import {
   SanityDocument
 } from "sanity";
 import { getClient } from "../config/client-config";
-import { LayoutPickerInput } from "./objects/layoutPicker";
+import { LayoutPickerInput, LAYOUTS } from "./objects/layoutPicker";
 
 async function asyncSlugifier(input: string) {
   const clientSlug = await getClient().fetch(
@@ -200,10 +200,31 @@ export const projectSchema = defineType({
       group: "infos"
     }),
     defineField({
+      name: "sectors",
+      title: "Secteurs",
+      description: "Secteurs d'activité du projet",
+      type: "array",
+      of: [
+        defineArrayMember({
+          name: "secteur",
+          title: "Secteur",
+          type: "string"
+        })
+      ],
+      group: "infos"
+    }),
+    defineField({
       name: "pageColors",
       title: "Couleurs de la page",
       group: "page",
       type: "pageColors"
+    }),
+    defineField({
+      name: "introduction",
+      title: "Introduction",
+      type: "text",
+      rows: 3,
+      group: "page"
     }),
     defineField({
       name: "pageContent",
@@ -278,6 +299,12 @@ export const projectSchema = defineType({
                 "Choisir la disposition de la rangée. Sur petit écran, les rangées s'affichent toujours en une colonne.",
               components: {
                 input: LayoutPickerInput
+              },
+              options: {
+                list: LAYOUTS.map((layout) => ({
+                  value: layout.value,
+                  title: layout.label
+                }))
               },
               validation: (Rule) => Rule.required()
             }),

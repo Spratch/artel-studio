@@ -16,7 +16,6 @@ export default defineType({
       title: "Couleur principale",
       description: "Fond de la page",
       type: "colorRef",
-      initialValue: { _ref: "R4ugbcAV6zqTaKrvgR7o1y" },
       validation: (Rule) => Rule.required()
     }),
     defineField({
@@ -24,7 +23,6 @@ export default defineType({
       title: "Couleur secondaire",
       description: "Texte et éléments graphiques",
       type: "colorRef",
-      initialValue: { _ref: "R4ugbcAV6zqTaKrvgRLdgC" },
       validation: (Rule) => Rule.required()
     })
   ],

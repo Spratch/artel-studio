@@ -16,9 +16,10 @@ export default async function Footer() {
         } as React.CSSProperties
       }
     >
+      <h2 className="sr-only">Infos sur Artel</h2>
       {/* Contact */}
       <div className="col-span-1 flex flex-col gap-6 sm:gap-10">
-        <h2>Contact</h2>
+        <h3>Contact</h3>
 
         <div className="flex flex-col gap-5">
           {footer.contact.email && (
@@ -65,7 +66,7 @@ export default async function Footer() {
       {/* Social */}
       {footer.socials && footer.socials.length > 0 && (
         <div className="col-span-1 col-start-2 flex flex-col gap-6 sm:gap-10">
-          <h2>Social</h2>
+          <h3>Social</h3>
 
           <div className="flex flex-col text-sm">
             {footer.socials.map((social) => (
@@ -86,7 +87,7 @@ export default async function Footer() {
       {/* Jobs */}
       {footer.jobs && (
         <div className="col-span-2 col-start-3 flex flex-col gap-6 sm:gap-10">
-          <h2>{footer.jobs.title}</h2>
+          <h3>{footer.jobs.title}</h3>
 
           <p className="text-sm">{footer.jobs.text}</p>
 

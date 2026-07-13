@@ -72,3 +72,18 @@ export function generateServicesLayout(
     borderRadius: Math.random() * 50 + -10
   }));
 }
+
+export function getGridItemIndexes(tokens: string[]): (number | null)[] {
+  const indexes: (number | null)[] = [];
+  let counter = 0;
+
+  for (const token of tokens) {
+    if (token === "0") {
+      indexes.push(null);
+    } else {
+      indexes.push(counter);
+      counter += 1;
+    }
+  }
+  return indexes;
+}

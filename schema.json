@@ -2813,6 +2813,16 @@
         },
         "optional": false
       },
+      "sectors": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "string"
+          }
+        },
+        "optional": true
+      },
       "pageColors": {
         "type": "objectAttribute",
         "value": {
@@ -2820,6 +2830,13 @@
           "name": "pageColors"
         },
         "optional": false
+      },
+      "introduction": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
       },
       "pageContent": {
         "type": "objectAttribute",
@@ -2831,7 +2848,37 @@
               "layout": {
                 "type": "objectAttribute",
                 "value": {
-                  "type": "string"
+                  "type": "union",
+                  "of": [
+                    {
+                      "type": "string",
+                      "value": "3"
+                    },
+                    {
+                      "type": "string",
+                      "value": "2-0"
+                    },
+                    {
+                      "type": "string",
+                      "value": "0-2"
+                    },
+                    {
+                      "type": "string",
+                      "value": "1-1-0"
+                    },
+                    {
+                      "type": "string",
+                      "value": "0-1-1"
+                    },
+                    {
+                      "type": "string",
+                      "value": "1-0-1"
+                    },
+                    {
+                      "type": "string",
+                      "value": "1-1-1"
+                    }
+                  ]
                 },
                 "optional": false
               },

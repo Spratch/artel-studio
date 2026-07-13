@@ -127,7 +127,9 @@ const CONTENT_TYPES = [
 
 const findSection = (path: Path, document: SanityDocument) => {
   const sectionKey = (path[1] as KeyedSegment)._key;
-  return (document.sections as Array<Section & { _key: string }>).filter(
+  const parent =
+    document._type === "projects" ? document.projectsList : document.sections;
+  return (parent as Array<Section & { _key: string }>).filter(
     (s) => s._key === sectionKey
   )[0];
 };
@@ -694,7 +696,6 @@ export default defineType({
           description:
             "Couleur des contours et textes des services (avant survol)",
           type: "colorRef",
-          initialValue: { _ref: "R4ugbcAV6zqTaKrvgRLdgC" },
           hidden: ({ path, document }) =>
             colorVisibility(
               { path, document },
@@ -716,7 +717,6 @@ export default defineType({
           description:
             "Couleur des textes accentués des témoignages (mots clés, noms de la personne et de l'entreprise",
           type: "colorRef",
-          initialValue: { _ref: "GmY8EMdQcEdG09jOJ4xFtW" },
           hidden: ({ path, document }) =>
             colorVisibility(
               { path, document },
@@ -738,7 +738,6 @@ export default defineType({
           description:
             "Couleur des titres des expériences (noms des clients, écoles, etc.)",
           type: "colorRef",
-          initialValue: { _ref: "GmY8EMdQcEdG09jOJ4xFtW" },
           hidden: ({ path, document }) =>
             colorVisibility(
               { path, document },
@@ -759,7 +758,6 @@ export default defineType({
           title: "Numéro d'étape",
           description: "Couleur de la numérotation des étapes",
           type: "colorRef",
-          initialValue: { _ref: "GmY8EMdQcEdG09jOJ4pWVU" },
           hidden: ({ path, document }) =>
             colorVisibility(
               { path, document },
@@ -780,7 +778,6 @@ export default defineType({
           title: "Titre d'étape",
           description: "Couleur du titre des étapes",
           type: "colorRef",
-          initialValue: { _ref: "GmY8EMdQcEdG09jOJ4xFtW" },
           hidden: ({ path, document }) =>
             colorVisibility(
               { path, document },
@@ -802,7 +799,6 @@ export default defineType({
           description:
             "Couleur de fond des boutons de la section,\nattention au contraste avec la couleur du texte du bouton",
           type: "colorRef",
-          initialValue: { _ref: "R4ugbcAV6zqTaKrvgR7o1y" },
           hidden: ({ path, document }) =>
             colorVisibility({ path, document }, (section) => !section.button),
           validation: (Rule) =>
@@ -821,7 +817,6 @@ export default defineType({
           description:
             "Couleur du texte et des icônes des boutons de la section,\nattention au contraste avec la couleur de fond du bouton",
           type: "colorRef",
-          initialValue: { _ref: "R4ugbcAV6zqTaKrvgRLdgC" },
           hidden: ({ path, document }) =>
             colorVisibility({ path, document }, (section) => !section.button),
           validation: (Rule) =>

@@ -57,6 +57,8 @@ export default async function RootLayout({
         <style>
           {`
             :root {
+              --background-color: var(--palette-creme);
+              --text-color: var(--palette-noir-profond);
               ${paletteColors
                 .map(
                   (color) => `

@@ -3,6 +3,7 @@ import {
   customBlockFragment,
   pageColorsFragment,
   projectThumbnailFragment,
+  reviewFragment,
   sectionDescriptionFragment,
   sectionsFragment,
   slugFragment
@@ -108,6 +109,54 @@ const serviceQuery =
   )
 }`);
 
+const projectQuery =
+  defineQuery(`*[_type == "project" && slug.current == $slug][0]{
+    title,
+    ${slugFragment},
+    ${pageColorsFragment},
+    cover,
+    introduction,
+    "services": services[]->{
+      name,
+      ${slugFragment},
+      hasPage
+    },
+    "client": client->name,
+    date,
+    "credits": credits[]{
+      service,
+      "contributors": contributors[]->name
+    },
+    "typefaces": typefaces[]->{
+      name,
+      "foundry": foundry->name,
+      "url": foundry->link
+    },
+    sectors,
+    "pageContent": pageContent[]{
+      _key,
+      layout,
+      "elements": elements[]{
+        ...select(
+          _type == "textCol" => {
+              "type": "textCol",
+              title,
+              "body": body${customBlockFragment}
+          },
+          _type == "imageAlt" => {
+            "type": "imageAlt",
+            "imageAlt": @
+          },
+          (_type == "review" || _type == "reference") => {
+            "type": "review",
+            "review": @->${reviewFragment}
+          }
+        )
+      }
+    }
+  }
+`);
+
 export const queries = {
   layoutSettingsQuery,
   homePageQuery,
@@ -116,5 +165,6 @@ export const queries = {
   footerSettingsQuery,
   aboutQuery,
   contactQuery,
-  serviceQuery
+  serviceQuery,
+  projectQuery
 };

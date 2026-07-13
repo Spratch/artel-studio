@@ -3,7 +3,7 @@ import { Box, Card, Flex, Text } from "@sanity/ui";
 import type { StringInputProps } from "sanity";
 import { set, unset } from "sanity";
 
-const LAYOUTS = [
+export const LAYOUTS = [
   { value: "3", label: "Pleine largeur", columns: [3] },
   { value: "2-0", label: "Large à gauche", columns: [2, 0] },
   { value: "0-2", label: "Large à droite", columns: [0, 2] },
