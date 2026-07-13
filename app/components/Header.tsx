@@ -5,7 +5,7 @@ import Logo from "./Logo";
 export default async function Header() {
   const navigation = await getHeaderSettings();
   return (
-    <header className="fixed top-0 z-40 flex h-(--h-header) w-full items-center justify-between gap-2.5 px-7 py-3 font-serif">
+    <header className="fixed top-0 z-40 flex h-(--h-header) w-full items-center justify-between gap-2.5 px-3 py-3 font-serif sm:px-7">
       <Link
         href="/"
         className="flex h-full items-center justify-center rounded-md bg-(--background-color)/80 px-4 backdrop-blur-sm"

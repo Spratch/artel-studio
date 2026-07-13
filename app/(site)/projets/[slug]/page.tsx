@@ -50,7 +50,7 @@ export default async function Project({
           />
         </section>
 
-        <section className="mx-auto grid min-h-(--h-section) max-w-7xl grid-cols-6 gap-x-2.5 gap-y-16 py-5 sm:gap-y-24">
+        <section className="mx-auto grid max-w-7xl grid-cols-6 gap-x-2.5 gap-y-16 py-5 sm:gap-y-24">
           <div className="col-span-6 flex flex-col gap-5 sm:col-span-4 sm:col-start-3 sm:pr-4">
             <h1 className="font-serif text-base sm:text-lg">{project.title}</h1>
             {project.introduction && (
