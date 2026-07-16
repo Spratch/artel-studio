@@ -1,4 +1,9 @@
-import { AboutQueryResult, HomePageQueryResult } from "@/sanity.types";
+import { LAYOUTS } from "@/lib/layouts";
+import {
+  AboutQueryResult,
+  HomePageQueryResult,
+  ProjectsPageQueryResult
+} from "@/sanity.types";
 import { Get } from "@sanity/codegen";
 
 export type MediaSectionType = Extract<
@@ -20,3 +25,19 @@ export interface LayoutItem {
   rotation: number;
   borderRadius: number;
 }
+
+type ProjectsLayoutValue = (typeof LAYOUTS)[number]["value"];
+export type ProjectListItem = Get<
+  ProjectsPageQueryResult,
+  "projectsList",
+  number
+>;
+export type ProjectItem = Extract<ProjectListItem, { type: "project" }>;
+export type SectionItem = Extract<ProjectListItem, { type: "section" }>;
+
+export type ProjectsRow =
+  | { layout: "3"; items: [SectionItem] }
+  | {
+      layout: Exclude<ProjectsLayoutValue, "3">;
+      items: (ProjectItem | null)[];
+    };

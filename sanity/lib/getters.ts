@@ -35,6 +35,11 @@ export const getServicePage = withPreview(
   ["service"]
 );
 
+export const getProjectsPage = withPreview(
+  () => queries.projectsPageQuery,
+  ["projects"]
+);
+
 export const getProjectPage = withPreview(
   () => queries.projectQuery,
   ["project"]

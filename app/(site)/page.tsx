@@ -40,7 +40,7 @@ export default async function Home({
               <Thumbnail
                 project={home.intro.project}
                 className="col-span-6 mx-auto max-h-[80svh] w-[min(100%,calc(80svh*16/9))] sm:col-span-4 sm:col-start-2"
-                ratio="16/9"
+                sizes={{ w: 1280, h: 720 }}
                 isFeatured={true}
               />
             )}

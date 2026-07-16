@@ -5,7 +5,7 @@ import {
   projectThumbnailFragment,
   reviewFragment,
   sectionDescriptionFragment,
-  sectionsFragment,
+  sectionFragment,
   slugFragment
 } from "./fragments";
 
@@ -28,7 +28,7 @@ const homePageQuery = defineQuery(`*[_type == "home"][0]{
     },
     "logoColor": logoColor->value,
     ${pageColorsFragment},
-    ${sectionsFragment}
+    "sections": sections[]${sectionFragment}
   }`);
 
 const headerSettingsQuery =
@@ -75,7 +75,7 @@ const footerSettingsQuery = defineQuery(`
 const aboutQuery = defineQuery(`*[_type == "about"][0]{
     title,
     ${pageColorsFragment},
-    ${sectionsFragment}
+    "sections": sections[]${sectionFragment}
 }`);
 
 const contactQuery = defineQuery(`*[_type == "contact"][0]{
@@ -104,9 +104,28 @@ const serviceQuery =
       "introduction": introduction${customBlockFragment},
       introMedia,
       "description": ${sectionDescriptionFragment},
-      ${sectionsFragment}
+      "sections": sections[]${sectionFragment}
     }
   )
+}`);
+
+const projectsPageQuery = defineQuery(`*[_type == "projects"][0]{
+  title,
+  ${slugFragment},
+  ${pageColorsFragment},
+  subtitle,
+  "projectsList": projectsList[]{
+    ...select(
+      _type == "reference" => {
+        "type": "project",
+        "project": @->${projectThumbnailFragment}
+      },
+      _type == "section" => {
+        "type": "section",
+        "section": @${sectionFragment}
+      }
+    )
+  }
 }`);
 
 const projectQuery =
@@ -166,5 +185,6 @@ export const queries = {
   aboutQuery,
   contactQuery,
   serviceQuery,
+  projectsPageQuery,
   projectQuery
 };

@@ -7,14 +7,17 @@ import { cn } from "../utils";
 type ThumbnailProps = {
   project: NonNullable<NonNullable<HomePageQueryResult>["intro"]["project"]>;
   className?: string;
-  ratio?: "16/9" | "9/16";
+  sizes: {
+    w: number;
+    h: number;
+  };
   isFeatured?: boolean;
 };
 
 export default function Thumbnail({
   project,
   className,
-  ratio = "16/9",
+  sizes,
   isFeatured = false
 }: ThumbnailProps) {
   return (
@@ -25,20 +28,20 @@ export default function Thumbnail({
       )}
       style={
         {
-          "--ratio": ratio
+          "--ratio": (sizes.w / sizes.h).toString()
         } as React.CSSProperties
       }
     >
       <Image
         className="absolute z-10 h-full w-full object-contain transition-transform duration-300 ease-out group-focus-within/thumbnail:scale-103 group-hover/thumbnail:scale-103"
         src={urlFor(project.cover)
-          .width(ratio === "16/9" ? 1280 : 506.25)
-          .height(ratio === "16/9" ? 720 : 900)
+          .width(sizes.w)
+          .height(sizes.h)
           .fit("crop")
           .url()}
         alt=""
-        width={ratio === "16/9" ? 1280 : 506.25}
-        height={ratio === "16/9" ? 720 : 900}
+        width={sizes.w}
+        height={sizes.h}
         loading={isFeatured ? "eager" : "lazy"}
       />
 

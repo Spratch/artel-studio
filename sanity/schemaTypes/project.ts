@@ -1,3 +1,4 @@
+import { LAYOUTS } from "@/lib/layouts";
 import {
   BlockContentIcon,
   CaseIcon,
@@ -13,7 +14,7 @@ import {
   SanityDocument
 } from "sanity";
 import { getClient } from "../config/client-config";
-import { LayoutPickerInput, LAYOUTS } from "./objects/layoutPicker";
+import { LayoutPickerInput } from "./objects/layoutPicker";
 
 async function asyncSlugifier(input: string) {
   const clientSlug = await getClient().fetch(

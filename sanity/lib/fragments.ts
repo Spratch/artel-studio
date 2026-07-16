@@ -49,7 +49,8 @@ export const reviewFragment = `{
   "text": text${customBlockFragment}
 }`;
 
-export const sectionsFragment = `"sections": sections[]{
+export const sectionFragment = `{
+  _key,
   _type,
   ...select(
     _type == "mediasSection" => {

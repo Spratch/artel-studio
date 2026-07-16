@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ItemSizesType } from "./components/FloatingServices";
-import { LayoutItem } from "./types";
+import { LayoutItem, ProjectItem, ProjectListItem, ProjectsRow } from "./types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -86,4 +86,44 @@ export function getGridItemIndexes(tokens: string[]): (number | null)[] {
     }
   }
   return indexes;
+}
+
+const LAYOUT_CYCLE = [
+  { value: "1-1-0", columns: [1, 1, 0] },
+  { value: "0-2", columns: [0, 2] },
+  { value: "1-0-1", columns: [1, 0, 1] },
+  { value: "2-0", columns: [2, 0] },
+  { value: "0-1-1", columns: [0, 1, 1] }
+] as const;
+
+export function buildProjectsRows(items: ProjectListItem[]): ProjectsRow[] {
+  const rows: ProjectsRow[] = [];
+  const buffer: ProjectItem[] = [];
+  let cycleIndex = 0;
+
+  function flushBuffer() {
+    while (buffer.length > 0) {
+      const layout = LAYOUT_CYCLE[cycleIndex % LAYOUT_CYCLE.length];
+      cycleIndex += 1;
+
+      const contentSlots = layout.columns.filter((c) => c !== 0).length;
+      const rowItems = buffer.splice(0, contentSlots); // compact, dans l'ordre
+
+      if (rowItems.length > 0) {
+        rows.push({ layout: layout.value, items: rowItems });
+      }
+    }
+  }
+
+  for (const item of items) {
+    if (item.type === "section") {
+      flushBuffer();
+      rows.push({ layout: "3", items: [item] });
+    } else {
+      buffer.push(item);
+    }
+  }
+  flushBuffer();
+
+  return rows;
 }

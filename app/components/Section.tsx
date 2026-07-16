@@ -138,7 +138,7 @@ export default async function Section({ section }: SectionProps) {
                     <Thumbnail
                       key={project.slug + i}
                       project={project}
-                      ratio="9/16"
+                      sizes={{ w: 500, h: 750 }}
                       className="h-90 shrink-0 sm:h-135 md:h-180 xl:h-225"
                     />
                   ))}

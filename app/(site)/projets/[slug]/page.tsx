@@ -191,8 +191,8 @@ export default async function Project({
                     }
                     if (element.type === "imageAlt") {
                       const sizes = row.layout.includes("2")
-                        ? { w: 1022.5, h: 759.375 }
-                        : { w: 506.25, h: 759.375 };
+                        ? { w: 1010, h: 750 }
+                        : { w: 500, h: 750 };
                       return (
                         <Image
                           key={index}
