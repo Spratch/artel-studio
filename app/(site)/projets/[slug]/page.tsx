@@ -38,12 +38,12 @@ export default async function Project({
       >
         <section className="mx-auto w-full max-w-7xl overflow-hidden rounded-[1.875rem]">
           <Image
-            src={urlFor(project.cover)
+            src={urlFor(project.covers.landscape)
               .width(1280)
               .height(720)
               .fit("crop")
               .url()}
-            alt={project.cover.alt}
+            alt={project.covers.landscape.alt}
             width={1280}
             height={720}
             loading="eager"

@@ -24,7 +24,7 @@ export const projectThumbnailFragment = `{
   ${slugFragment},
   title,
   subtitle,
-  cover,
+  covers,
   "tags": services[]->{
     name
   },

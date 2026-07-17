@@ -2702,11 +2702,28 @@
         },
         "optional": false
       },
-      "cover": {
+      "covers": {
         "type": "objectAttribute",
         "value": {
-          "type": "inline",
-          "name": "imageAlt"
+          "type": "object",
+          "attributes": {
+            "landscape": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "imageAlt"
+              },
+              "optional": false
+            },
+            "portrait": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "imageAlt"
+              },
+              "optional": false
+            }
+          }
         },
         "optional": false
       },

@@ -133,7 +133,7 @@ const projectQuery =
     title,
     ${slugFragment},
     ${pageColorsFragment},
-    cover,
+    covers,
     introduction,
     "services": services[]->{
       name,

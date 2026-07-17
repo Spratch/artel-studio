@@ -111,11 +111,25 @@ export const projectSchema = defineType({
       group: "infos"
     }),
     defineField({
-      name: "cover",
-      title: "Image de couverture",
+      name: "covers",
+      title: "Images de couverture",
       description:
-        "L'image utilisée sur les vignettes, en haut de la page projet, et sur les réseaux sociaux",
-      type: "imageAlt",
+        "Images utilisées sur les vignettes, en haut de la page projet, et sur les réseaux sociaux.\nIl est possible d'utiliser deux fois la même image, et si ce n'est pas le cas, veiller à avoir deux images dans le même esprit pour qu'on comprenne qu'il s'agit du même projet.",
+      type: "object",
+      fields: [
+        defineField({
+          name: "landscape",
+          title: "Paysage",
+          type: "imageAlt",
+          validation: (Rule) => Rule.required()
+        }),
+        defineField({
+          name: "portrait",
+          title: "Portrait",
+          type: "imageAlt",
+          validation: (Rule) => Rule.required()
+        })
+      ],
       validation: (Rule) => Rule.required(),
       group: "infos"
     }),

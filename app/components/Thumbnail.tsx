@@ -22,6 +22,8 @@ export default function Thumbnail({
   isFeatured = false,
   isGrid = false
 }: ThumbnailProps) {
+  const cover =
+    sizes.w > sizes.h ? project.covers.landscape : project.covers.portrait;
   return (
     <div
       className={cn(
@@ -36,11 +38,7 @@ export default function Thumbnail({
     >
       <Image
         className="absolute z-10 h-full w-full object-contain transition-transform duration-300 ease-out group-focus-within/thumbnail:scale-103 group-hover/thumbnail:scale-103"
-        src={urlFor(project.cover)
-          .width(sizes.w)
-          .height(sizes.h)
-          .fit("crop")
-          .url()}
+        src={urlFor(cover).width(sizes.w).height(sizes.h).fit("crop").url()}
         alt=""
         width={sizes.w}
         height={sizes.h}
@@ -89,14 +87,16 @@ export default function Thumbnail({
               <p className="text-sm text-creme">{project.client.name}</p>
             )}
           </div>
-          <div className="grid transition-[grid-template-rows] duration-300 group-focus-within/thumbnail:grid-rows-[1fr] group-hover/thumbnail:grid-rows-[1fr] sm:grid-rows-[0fr]">
-            <div className="overflow-hidden font-serif text-base leading-tight text-balance text-creme transition-opacity duration-600 group-focus-within/thumbnail:opacity-100 group-hover/thumbnail:opacity-100 sm:opacity-0">
-              <h3 className="">{project.title}</h3>
-              {project.subtitle && (
-                <p className="opacity-50">{project.subtitle}</p>
-              )}
+          {isGrid && (
+            <div className="grid transition-[grid-template-rows] duration-300 group-focus-within/thumbnail:grid-rows-[1fr] group-hover/thumbnail:grid-rows-[1fr] sm:grid-rows-[0fr]">
+              <div className="overflow-hidden font-serif text-base leading-tight text-balance text-creme transition-opacity duration-600 group-focus-within/thumbnail:opacity-100 group-hover/thumbnail:opacity-100 sm:opacity-0">
+                <h3 className="">{project.title}</h3>
+                {project.subtitle && (
+                  <p className="opacity-50">{project.subtitle}</p>
+                )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
 
