@@ -50,6 +50,7 @@ export default function ProjectsGrid({
                   key={item.project.slug}
                   project={item.project}
                   sizes={sizes}
+                  isGrid={true}
                 />
               );
             }}

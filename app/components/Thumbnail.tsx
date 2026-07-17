@@ -12,13 +12,15 @@ type ThumbnailProps = {
     h: number;
   };
   isFeatured?: boolean;
+  isGrid?: boolean;
 };
 
 export default function Thumbnail({
   project,
   className,
   sizes,
-  isFeatured = false
+  isFeatured = false,
+  isGrid = false
 }: ThumbnailProps) {
   return (
     <div
@@ -71,14 +73,31 @@ export default function Thumbnail({
         )}
       </div>
 
-      {!isFeatured && project.client && project.client.logo && (
-        <Image
-          src={urlFor(project.client.logo).width(64).url()}
-          alt={project.client.name}
-          width={64}
-          height={64}
-          className="z-20 ms-4 mb-4 size-7 rounded-full bg-ardoise object-contain"
-        />
+      {!isFeatured && (
+        <div className="z-20 flex w-full flex-col gap-3 bg-linear-to-t from-noir-profond to-transparent p-4 pt-12">
+          <div className="flex items-center gap-4">
+            {project.client.logo && (
+              <Image
+                src={urlFor(project.client.logo).width(64).url()}
+                alt={project.client.name}
+                width={64}
+                height={64}
+                className="size-7 rounded-full bg-ardoise"
+              />
+            )}
+            {isGrid && (
+              <p className="text-sm text-creme">{project.client.name}</p>
+            )}
+          </div>
+          <div className="grid transition-[grid-template-rows] duration-300 group-focus-within/thumbnail:grid-rows-[1fr] group-hover/thumbnail:grid-rows-[1fr] sm:grid-rows-[0fr]">
+            <div className="overflow-hidden font-serif text-base leading-tight text-balance text-creme transition-opacity duration-600 group-focus-within/thumbnail:opacity-100 group-hover/thumbnail:opacity-100 sm:opacity-0">
+              <h3 className="">{project.title}</h3>
+              {project.subtitle && (
+                <p className="opacity-50">{project.subtitle}</p>
+              )}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Link */}

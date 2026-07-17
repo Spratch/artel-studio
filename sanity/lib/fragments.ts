@@ -22,6 +22,8 @@ export const customBlockFragment = `[count(children[text != ""]) > 0]{
 
 export const projectThumbnailFragment = `{
   ${slugFragment},
+  title,
+  subtitle,
   cover,
   "tags": services[]->{
     name

@@ -3,6 +3,7 @@
 :root {
   --h-header: calc(var(--spacing) * 16);
   --h-section: clamp(22rem, calc(100svh - var(--h-header) - 0.75rem), 54rem);
+  interpolate-size: allow-keywords;
 }
 
 @theme {
