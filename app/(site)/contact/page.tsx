@@ -134,7 +134,7 @@ export default async function Contact({
           </div>
         </section>
 
-        <Logo className="footer-logo fixed bottom-[-7vw] z-0 mask-b-from-20% mask-b-to-80% fill-transparent stroke-creme stroke-1 pr-3 sm:px-7" />
+        <Logo className="footer-logo fixed bottom-[-7vw] z-0 w-[calc(100vw-24px)] mask-b-from-20% mask-b-to-80% fill-transparent stroke-creme stroke-1 pt-px sm:px-7" />
       </main>
       <PreviewScrollGate preview={preview} />
     </>
