@@ -404,12 +404,13 @@ export const projectSchema = defineType({
     select: {
       title: "title",
       client: "client.name",
-      cover: "cover"
+      landscapeCover: "covers.landscape",
+      portraitCover: "covers.portrait"
     },
     prepare: (value) => ({
       title: value.title,
       subtitle: value.client,
-      media: value.cover
+      media: value.landscapeCover || value.portraitCover
     })
   }
 });

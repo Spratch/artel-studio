@@ -148,8 +148,6 @@ export const sectionFragment = `{
   )
 }`;
 
-// && hasPage == true
-
 export const pageColorsFragment = `
   "pageColors": pageColors{
     "backgroundColor": primary->{

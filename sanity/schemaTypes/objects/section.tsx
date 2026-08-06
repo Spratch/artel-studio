@@ -252,7 +252,7 @@ export default defineType({
       name: "services",
       title: "Services",
       description:
-        "Si aucun service n'est sélectionné, tous les services ayant une page dédiée seront affichés (sauf celui de la page courante)",
+        "Si aucun service n'est sélectionné, tous les services seront affichés (sauf celui de la page courante)",
       type: "array",
       of: [{ type: "reference", to: [{ type: "service" }] }],
       group: "content",
@@ -641,7 +641,9 @@ export default defineType({
             { type: "about" },
             { type: "projects" },
             { type: "project" },
-            { type: "service" }
+            { type: "service" },
+            { type: "contact" },
+            { type: "legal" }
           ],
           description: "Page du site vers laquelle le bouton redirige",
           validation: (Rule) => Rule.required()
