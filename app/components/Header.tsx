@@ -1,5 +1,6 @@
 import { getHeaderSettings } from "@/sanity/lib/getters";
 import Link from "next/link";
+import HeaderLink from "./HeaderLink";
 import Logo from "./Logo";
 
 export default async function Header() {
@@ -14,15 +15,12 @@ export default async function Header() {
       </Link>
 
       {navigation && (
-        <nav className="flex h-full grow items-center justify-end rounded-md bg-(--background-color) px-4 text-(--text-color) ">
+        <nav className="flex h-full grow items-center justify-end rounded-md bg-(--background-color) px-4 text-(--text-color)">
           {navigation.map((item) => (
-            <Link
+            <HeaderLink
               key={item.slug}
-              href={`/${item.slug}`}
-              className="ml-6 text-sm font-medium"
-            >
-              {item.title}
-            </Link>
+              item={item}
+            />
           ))}
         </nav>
       )}
