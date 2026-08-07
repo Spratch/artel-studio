@@ -14,7 +14,7 @@ export default async function Projects({
 
   return (
     <main
-      className={`projects-page flex min-h-screen flex-col gap-16 overflow-x-hidden bg-(--background-color) px-3 pt-(--h-header) pb-3 text-(--text-color) sm:gap-20`}
+      className={`projects-page flex min-h-screen flex-col gap-16 overflow-x-hidden bg-(--background-color) px-3 pt-(--h-header) pb-3 text-(--text-color) sm:gap-48`}
       style={
         {
           "--background-color": page.pageColors.backgroundColor.value,

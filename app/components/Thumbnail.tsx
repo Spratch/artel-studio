@@ -72,7 +72,7 @@ export default function Thumbnail({
       </div>
 
       {!isFeatured && (
-        <div className="z-20 flex w-full flex-col gap-3 bg-linear-to-t from-noir-profond to-transparent p-4 pt-12">
+        <div className="z-20 flex w-full flex-col gap-0 bg-linear-to-t from-noir-profond to-transparent p-4 pt-12 transition-[gap] duration-300 group-focus-within/thumbnail:gap-3 group-hover/thumbnail:gap-3">
           <div className="flex items-center gap-4">
             {project.client.logo && (
               <Image
