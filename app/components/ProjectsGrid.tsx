@@ -15,6 +15,7 @@ export default function ProjectsGrid({
     <>
       {rows.map((row, i) => {
         if (row.layout === "3") {
+          // Section row
           return (
             <GridRow<SectionItem>
               key={i}
@@ -45,15 +46,19 @@ export default function ProjectsGrid({
               const sizes = row.layout.includes("2")
                 ? { w: 1010, h: 750 }
                 : { w: 500, h: 750 };
+              const mobileSizes =
+                sizes.w > sizes.h ? sizes : { w: 750, h: 500 };
               return (
                 <Thumbnail
                   key={item.project.slug}
                   project={item.project}
                   sizes={sizes}
+                  mobileSizes={mobileSizes}
                   isGrid={true}
                 />
               );
             }}
+            isThumbnail={true}
           />
         );
       })}

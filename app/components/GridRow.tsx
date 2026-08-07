@@ -1,27 +1,38 @@
 import { ProjectQueryResult } from "@/sanity.types";
 import { Get } from "@sanity/codegen";
-import { getGridItemIndexes } from "../utils";
+import { cn, getGridItemIndexes } from "../utils";
 
-const SPAN_CLASS: Record<string, string> = {
-  "1": "col-span-3 sm:col-span-2",
-  "2": "col-span-6 sm:col-span-4",
-  "3": "col-span-6"
+const SPAN_CLASS = (isThumbnail: boolean): Record<string, string> => {
+  return {
+    "1": !isThumbnail
+      ? "col-span-3 sm:col-span-2"
+      : "col-span-6 sm:col-span-3 md:col-span-2",
+    "2": !isThumbnail ? "col-span-6 sm:col-span-4" : "col-span-6 md:col-span-4",
+    "3": "col-span-6"
+  };
 };
 
 export default function GridRow<T>({
   layout,
   items,
-  renderItem
+  renderItem,
+  isThumbnail = false
 }: {
   layout: Get<ProjectQueryResult, "pageContent", number, "layout">;
   items: T[];
   renderItem: (item: T, index: number) => React.ReactNode;
+  isThumbnail?: boolean;
 }) {
   const tokens = layout.split("-");
   const itemIndexes = getGridItemIndexes(tokens);
 
   return (
-    <div className="grid grid-cols-6 gap-x-2.5">
+    <div
+      className={cn(
+        "grid grid-cols-6 gap-x-2.5",
+        isThumbnail ? "max-sm:gap-y-2.5" : ""
+      )}
+    >
       {tokens.map((token, i) => {
         if (token === "0") {
           return (
@@ -38,7 +49,7 @@ export default function GridRow<T>({
         return (
           <div
             key={i}
-            className={SPAN_CLASS[token]}
+            className={SPAN_CLASS(isThumbnail)[token]}
           >
             {renderItem(item, itemIndex!)}
           </div>

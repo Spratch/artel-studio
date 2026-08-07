@@ -11,6 +11,7 @@ type ThumbnailProps = {
     w: number;
     h: number;
   };
+  mobileSizes?: { w: number; h: number };
   isFeatured?: boolean;
   isGrid?: boolean;
 };
@@ -19,26 +20,50 @@ export default function Thumbnail({
   project,
   className,
   sizes,
+  mobileSizes = sizes,
   isFeatured = false,
   isGrid = false
 }: ThumbnailProps) {
-  const cover =
+  const desktopCover =
     sizes.w > sizes.h ? project.covers.landscape : project.covers.portrait;
+  const mobileCover =
+    mobileSizes.w > mobileSizes.h
+      ? project.covers.landscape
+      : project.covers.portrait;
+  const coverClass =
+    "absolute z-10 h-full w-full object-contain transition-transform duration-300 ease-out group-focus-within/thumbnail:scale-103 group-hover/thumbnail:scale-103";
   return (
     <div
       className={cn(
-        "group/thumbnail pointer-events-none relative flex aspect-(--ratio) flex-col justify-between overflow-hidden rounded-xl bg-ardoise",
+        "group/thumbnail pointer-events-none relative flex aspect-(--ratio-mobile) flex-col justify-between overflow-hidden rounded-xl bg-ardoise sm:aspect-(--ratio-desktop)",
         className
       )}
       style={
         {
-          "--ratio": (sizes.w / sizes.h).toString()
+          "--ratio-mobile": (mobileSizes.w / mobileSizes.h).toString(),
+          "--ratio-desktop": (sizes.w / sizes.h).toString()
         } as React.CSSProperties
       }
     >
       <Image
-        className="absolute z-10 h-full w-full object-contain transition-transform duration-300 ease-out group-focus-within/thumbnail:scale-103 group-hover/thumbnail:scale-103"
-        src={urlFor(cover).width(sizes.w).height(sizes.h).fit("crop").url()}
+        className={cn(coverClass, "sm:hidden")}
+        src={urlFor(mobileCover)
+          .width(mobileSizes.w)
+          .height(mobileSizes.h)
+          .fit("crop")
+          .url()}
+        alt=""
+        width={mobileSizes.w}
+        height={mobileSizes.h}
+        loading={isFeatured ? "eager" : "lazy"}
+      />
+      <Image
+        className={cn(coverClass, "hidden sm:block")}
+        src={urlFor(desktopCover)
+          .width(sizes.w)
+          .height(sizes.h)
+          .fit("crop")
+          .url()}
         alt=""
         width={sizes.w}
         height={sizes.h}
@@ -72,7 +97,7 @@ export default function Thumbnail({
       </div>
 
       {!isFeatured && (
-        <div className="z-20 flex w-full flex-col gap-0 bg-linear-to-t from-noir-profond to-transparent p-4 pt-12 transition-[gap] duration-300 group-focus-within/thumbnail:gap-3 group-hover/thumbnail:gap-3">
+        <div className="z-20 flex w-full flex-col bg-linear-to-t from-noir-profond to-transparent p-4 pt-12 transition-[gap] duration-300 max-sm:gap-2 sm:gap-0 sm:group-focus-within/thumbnail:gap-3 sm:group-hover/thumbnail:gap-3">
           <div className="flex items-center gap-4">
             {project.client.logo && (
               <Image
@@ -80,16 +105,18 @@ export default function Thumbnail({
                 alt={project.client.name}
                 width={64}
                 height={64}
-                className="size-7 rounded-full bg-ardoise"
+                className="size-5 rounded-full bg-ardoise sm:size-7"
               />
             )}
             {isGrid && (
-              <p className="text-sm text-creme">{project.client.name}</p>
+              <p className="text-2xs/tight text-creme sm:text-sm/tight">
+                {project.client.name}
+              </p>
             )}
           </div>
           {isGrid && (
             <div className="grid transition-[grid-template-rows] duration-300 group-focus-within/thumbnail:grid-rows-[1fr] group-hover/thumbnail:grid-rows-[1fr] sm:grid-rows-[0fr]">
-              <div className="overflow-hidden font-serif text-base leading-tight text-balance text-creme transition-opacity duration-600 group-focus-within/thumbnail:opacity-100 group-hover/thumbnail:opacity-100 sm:opacity-0">
+              <div className="overflow-hidden font-serif text-xs/tight leading-tight text-balance text-creme transition-opacity duration-600 group-focus-within/thumbnail:opacity-100 group-hover/thumbnail:opacity-100 sm:text-base/tight sm:opacity-0">
                 <h3 className="">{project.title}</h3>
                 {project.subtitle && (
                   <p className="opacity-50">{project.subtitle}</p>
