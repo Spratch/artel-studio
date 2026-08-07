@@ -70,7 +70,7 @@ export default async function Section({ section }: SectionProps) {
               )}
 
               {section.subtitle && (
-                <p className="text-3xl">
+                <p className="text-2xl/tight md:max-w-[42ch] md:text-3xl">
                   {section.subtitle.split(/\[\[(.*?)\]\]/).map((s, i) => (
                     <span
                       key={s + i}
@@ -83,7 +83,9 @@ export default async function Section({ section }: SectionProps) {
               )}
 
               {!section.subtitle && section.contentType !== "experience" && (
-                <h2 className="text-3xl">{section.title}</h2>
+                <h2 className="text-2xl/tight md:max-w-[42ch] md:text-3xl">
+                  {section.title}
+                </h2>
               )}
             </div>
 
@@ -133,7 +135,7 @@ export default async function Section({ section }: SectionProps) {
           <>
             {section.content.type === "projects" &&
               section.content.projects && (
-                <div className="-ms-3 no-scrollbar flex w-screen gap-2.5 overflow-x-scroll px-7 pb-4">
+                <div className="-ms-3 no-scrollbar flex w-screen gap-2.5 overflow-x-scroll px-7 pt-6 pb-4 md:pt-12">
                   {section.content.projects.map((project, i) => (
                     <Thumbnail
                       key={project.slug + i}
