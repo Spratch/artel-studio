@@ -14,9 +14,13 @@ export default async function Projects({
 
   return (
     <main
-      data-page-bg={page.pageColors.backgroundColor.slug}
-      data-page-text={page.pageColors.textColor.slug}
-      className={`service-page flex min-h-screen flex-col gap-16 overflow-x-hidden bg-(--background-color) px-3 pt-(--h-header) pb-3 text-(--text-color) sm:gap-20`}
+      className={`projects-page flex min-h-screen flex-col gap-16 overflow-x-hidden bg-(--background-color) px-3 pt-(--h-header) pb-3 text-(--text-color) sm:gap-20`}
+      style={
+        {
+          "--background-color": page.pageColors.backgroundColor.value,
+          "--text-color": page.pageColors.textColor.value
+        } as React.CSSProperties
+      }
     >
       <Section
         section={{

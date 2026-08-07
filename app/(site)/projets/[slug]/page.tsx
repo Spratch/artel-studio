@@ -26,8 +26,6 @@ export default async function Project({
   return (
     <>
       <main
-        data-page-bg={project.pageColors.backgroundColor.slug}
-        data-page-text={project.pageColors.textColor.slug}
         className={`service-page flex min-h-screen flex-col gap-16 overflow-x-hidden bg-(--background-color) px-3 pt-(--h-header) pb-3 text-(--text-color) sm:gap-20`}
         style={
           {
