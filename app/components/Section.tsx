@@ -100,13 +100,13 @@ export default async function Section({ section }: SectionProps) {
               <Link
                 href={section.button.page.slug}
                 title={section.button.page.title}
-                className={`flex ${section.button.position === "bottom" ? "flex-row-reverse" : "flex-row"} items-center justify-end gap-6`}
+                className={`group/button flex w-fit ${section.button.position === "bottom" ? "flex-row-reverse" : "ml-auto flex-row"} items-center justify-end gap-6 underline-offset-2 hover:underline`}
               >
                 {section.button.label}
 
-                <span className="relative aspect-square h-11 rounded-md bg-(--section-button-bg)">
-                  <span className="absolute inset-x-3 top-1/2 h-[1.5px] -translate-y-1/2 bg-(--section-button-fg)"></span>
-                  <span className="absolute inset-y-3 left-1/2 w-[1.5px] -translate-x-1/2 bg-(--section-button-fg)"></span>
+                <span className="relative aspect-square h-11 rounded-md bg-(--section-button-bg) transition-colors group-focus-within/button:bg-(--section-button-fg) group-hover/button:bg-(--section-button-fg)">
+                  <span className="absolute inset-x-3 top-1/2 h-[1.5px] -translate-y-1/2 bg-(--section-button-fg) transition-colors group-focus-within/button:bg-(--section-button-bg) group-hover/button:bg-(--section-button-bg)"></span>
+                  <span className="absolute inset-y-3 left-1/2 w-[1.5px] -translate-x-1/2 bg-(--section-button-fg) transition-colors group-focus-within/button:bg-(--section-button-bg) group-hover/button:bg-(--section-button-bg)"></span>
                 </span>
               </Link>
             </div>
