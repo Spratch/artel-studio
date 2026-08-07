@@ -85,7 +85,10 @@ export default function Thumbnail({
             {project.tags.slice(0, 3).map((tag) => (
               <span
                 className={cn(
-                  "overflow-hidden rounded-lg border border-creme/20 bg-ardoise/15 px-2 py-1 text-nowrap backdrop-blur-xs max-sm:max-w-[14ch] max-sm:text-ellipsis max-sm:last:hidden sm:px-3 sm:py-1.5"
+                  "overflow-hidden rounded-lg border border-creme/20 bg-ardoise/15 px-2 py-1 text-nowrap backdrop-blur-xs max-sm:max-w-[20ch] max-sm:text-ellipsis sm:px-3 sm:py-1.5",
+                  isFeatured
+                    ? "first:block max-sm:hidden"
+                    : "max-sm:nth-3:hidden"
                 )}
                 key={tag.name}
               >
@@ -98,7 +101,7 @@ export default function Thumbnail({
 
       {!isFeatured && (
         <div className="z-20 flex w-full flex-col bg-linear-to-t from-noir-profond to-transparent p-4 pt-12 transition-[gap] duration-300 max-sm:gap-2 sm:gap-0 sm:group-focus-within/thumbnail:gap-3 sm:group-hover/thumbnail:gap-3">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             {project.client.logo && (
               <Image
                 src={urlFor(project.client.logo).width(64).url()}
@@ -109,7 +112,7 @@ export default function Thumbnail({
               />
             )}
             {isGrid && (
-              <p className="text-2xs/tight text-creme sm:text-sm/tight">
+              <p className="text-xs/tight text-creme sm:text-sm/tight">
                 {project.client.name}
               </p>
             )}
