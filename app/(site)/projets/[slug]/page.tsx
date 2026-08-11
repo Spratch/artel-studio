@@ -64,7 +64,10 @@ export default async function Project({
                 className="font-serif text-sm"
               >
                 {service.hasPage ? (
-                  <Link href={`/services/${service.slug}`}>
+                  <Link
+                    href={`/services/${service.slug}`}
+                    className="underline-offset-2 outline-0 hover:underline focus-visible:underline"
+                  >
                     {service.name} ↝
                   </Link>
                 ) : (
@@ -115,6 +118,7 @@ export default async function Project({
                           href={typeface.url}
                           target="_blank"
                           rel="noopener noreferrer"
+                          className="underline-offset-2 outline-0 hover:underline focus-visible:underline"
                         >
                           {typeface.foundry}
                         </Link>

@@ -21,10 +21,10 @@ export default async function Footer() {
       <div className="col-span-1 flex flex-col gap-6 sm:gap-10">
         <h3>Contact</h3>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col items-start gap-5 text-sm">
           {footer.contact.email && (
             <Link
-              className="text-sm"
+              className="underline-offset-2 outline-0 hover:underline focus-visible:underline"
               href={`mailto:${footer.contact.email}`}
             >
               {footer.contact.email.replace("@", "(at)")}
@@ -33,7 +33,7 @@ export default async function Footer() {
 
           {footer.contact.phone && (
             <Link
-              className="text-sm"
+              className="underline-offset-2 outline-0 hover:underline focus-visible:underline"
               href={`tel:${footer.contact.phone}`}
             >
               {footer.contact.phone}
@@ -42,7 +42,7 @@ export default async function Footer() {
 
           {footer.contact.address && (
             <Link
-              className="text-sm whitespace-pre-line"
+              className="whitespace-pre-line underline-offset-2 outline-0 hover:underline focus-visible:underline"
               href={`https://maps.google.com/?q=${footer.contact.address.replace(/\s+/g, "+")}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -75,7 +75,7 @@ export default async function Footer() {
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="lowercase"
+                className="lowercase underline-offset-2 outline-0 hover:underline focus-visible:underline"
               >
                 {social.name}
               </Link>

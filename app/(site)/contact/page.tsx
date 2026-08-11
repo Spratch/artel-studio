@@ -49,10 +49,10 @@ export default async function Contact({
                     <div className="flex flex-col gap-7">
                       <h3 className="font-serif text-3xl">Contact</h3>
 
-                      <div className="flex flex-col">
+                      <div className="flex flex-col items-start text-sm">
                         {infos.contact.email && (
                           <Link
-                            className="text-sm"
+                            className="underline-offset-2 outline-0 hover:underline focus-visible:underline"
                             href={`mailto:${infos.contact.email}`}
                           >
                             {infos.contact.email.replace("@", "(at)")}
@@ -61,7 +61,7 @@ export default async function Contact({
 
                         {infos.contact.phone && (
                           <Link
-                            className="text-sm"
+                            className="underline-offset-2 outline-0 hover:underline focus-visible:underline"
                             href={`tel:${infos.contact.phone}`}
                           >
                             {infos.contact.phone}
@@ -70,7 +70,7 @@ export default async function Contact({
 
                         {infos.contact.address && (
                           <Link
-                            className="text-sm whitespace-pre-line"
+                            className="whitespace-pre-line underline-offset-2 outline-0 hover:underline focus-visible:underline"
                             href={`https://maps.google.com/?q=${infos.contact.address.replace(/\s+/g, "+")}`}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -85,14 +85,14 @@ export default async function Contact({
                       <div className="flex flex-col gap-7">
                         <h3 className="font-serif text-3xl">Social</h3>
 
-                        <div className="flex flex-col text-sm">
+                        <div className="flex flex-col items-start text-sm">
                           {infos.socials.map((social) => (
                             <Link
                               key={social.name}
                               href={social.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="lowercase"
+                              className="lowercase underline-offset-2 outline-0 hover:underline focus-visible:underline"
                             >
                               {social.name}
                             </Link>

@@ -9,7 +9,7 @@ export default async function Header() {
     <header className="fixed top-0 z-40 flex h-(--h-header) w-full items-center justify-between gap-2.5 px-3 py-3 font-serif sm:px-7">
       <Link
         href="/"
-        className="flex h-full items-center justify-center rounded-md bg-(--background-color) px-4"
+        className="flex h-full items-center justify-center rounded-md bg-(--background-color) px-4 outline-0 transition-colors hover:[--text-color:var(--color-rouge)] focus-visible:[--text-color:var(--color-rouge)]"
       >
         <Logo className="h-5 fill-(--text-color)" />
       </Link>
