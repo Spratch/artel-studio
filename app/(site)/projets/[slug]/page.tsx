@@ -207,6 +207,7 @@ export default async function Project({
                           width={sizes.w}
                           height={sizes.h}
                           loading="lazy"
+                          className="rounded-[5px]"
                         />
                       );
                     }
