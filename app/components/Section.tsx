@@ -102,7 +102,7 @@ export default async function Section({ section }: SectionProps) {
               <Link
                 href={section.button.page.slug}
                 title={section.button.page.title}
-                className={`group/button flex w-fit ${section.button.position === "bottom" ? "flex-row-reverse" : "ml-auto flex-row"} items-center justify-end gap-6 underline-offset-2 hover:underline`}
+                className={`group/button flex w-fit outline-0 ${section.button.position === "bottom" ? "flex-row-reverse" : "ml-auto flex-row"} items-center justify-end gap-6 underline-offset-2 hover:underline focus-visible:underline`}
               >
                 {section.button.label}
 
@@ -175,7 +175,7 @@ export default async function Section({ section }: SectionProps) {
                             {exp.project ? (
                               <Link
                                 href={`/projets/${exp.project}`}
-                                className="text-(--section-experience)"
+                                className="text-(--section-experience) underline underline-offset-3 outline-0 hover:decoration-dashed focus-visible:decoration-dashed"
                               >
                                 {exp.title}
                               </Link>
@@ -240,16 +240,16 @@ function Desctiption({ description }: DescriptionProps) {
         } as React.CSSProperties
       }
     >
-      <div className="text-balance">
+      <div className="pt text-balance">
         <PortableText value={description.col1} />
       </div>
       {description.layout.columns > 1 && description.col2 && (
-        <div className="text-balance">
+        <div className="pt text-balance">
           <PortableText value={description.col2} />
         </div>
       )}
       {description.layout.columns > 2 && description.col3 && (
-        <div className="text-balance">
+        <div className="pt text-balance">
           <PortableText value={description.col3} />
         </div>
       )}

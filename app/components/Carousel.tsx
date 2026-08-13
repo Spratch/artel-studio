@@ -93,10 +93,10 @@ export default function Carousel({
       </div>
 
       {isMultiple && (
-        <div className="embla__dots absolute inset-x-2 top-2 flex h-1 gap-1 transition-[height] hover:h-1.5">
+        <div className="embla__dots absolute inset-x-2 top-2 flex h-1 gap-1 transition-[height] focus-within:h-1.5 hover:h-1.5">
           {scrollSnaps.map((_, index) => (
             <button
-              className="embla__dot h-full flex-1 cursor-pointer overflow-hidden rounded-full bg-creme/50 transition-colors duration-300 ease-out hover:bg-creme"
+              className="embla__dot h-full flex-1 cursor-pointer overflow-hidden rounded-full bg-creme/50 outline-0 transition-colors duration-300 ease-out hover:bg-creme focus-visible:bg-creme"
               key={index}
               onClick={() => goTo(index)}
             >

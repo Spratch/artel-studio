@@ -157,7 +157,7 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
           {item.hasPage && (
             <Link
               href={`/services/${item.slug}`}
-              className="-ml-px flex aspect-square h-14.5 shrink-0 items-center justify-center rounded-[38px] border border-(--section-services) bg-(--section-bg) transition-all group-data-dragging/service:border-(--item-color) group-data-dragging/service:bg-(--item-color) group-data-dragging/service:opacity-0 hover:rounded-s-none hover:rounded-e-(--border-radius) hover:border-(--item-color) hover:bg-(--item-color) hover:text-noir-profond focus-visible:rounded-s-none focus-visible:rounded-e-(--border-radius) focus-visible:border-(--item-color) focus-visible:bg-(--item-color) focus-visible:text-noir-profond sm:h-19"
+              className="-ml-px flex aspect-square h-14.5 shrink-0 items-center justify-center rounded-[38px] border border-(--section-services) bg-(--section-bg) outline-0 transition-all group-data-dragging/service:border-(--item-color) group-data-dragging/service:bg-(--item-color) group-data-dragging/service:opacity-0 hover:rounded-s-none hover:rounded-e-(--border-radius) hover:border-(--item-color) hover:bg-(--item-color) hover:text-noir-profond focus-visible:rounded-s-none focus-visible:rounded-e-(--border-radius) focus-visible:border-(--item-color) focus-visible:bg-(--item-color) focus-visible:text-noir-profond sm:h-19"
               onPointerDown={(e) => e.stopPropagation()}
             >
               ↝
