@@ -55,7 +55,7 @@ export default function Carousel({
 
   return (
     <div
-      className={`embla relative aspect-(--ratio) max-h-[calc(var(--h-section)-2rem)] overflow-hidden rounded-md max-sm:mx-auto ${orientation === "landscape" && "w-full"}`}
+      className={`embla relative aspect-(--ratio) max-h-[calc(var(--h-section)-2rem)] min-w-full overflow-hidden rounded-md max-sm:mx-auto ${orientation === "landscape" && "w-full"}`}
       style={
         {
           "--ratio": orientation === "portrait" ? "2/3" : "16/9"
