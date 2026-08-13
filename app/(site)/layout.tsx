@@ -48,7 +48,7 @@ export default async function RootLayout({
       className={`antialiased`}
     >
       <body
-        className={`${sagace.className} bg-(--background-color) antialiased`}
+        className={`${sagace.className} overflow-x-hidden bg-(--background-color) antialiased`}
       >
         <link
           rel="stylesheet"
