@@ -8,7 +8,7 @@ export default async function Footer() {
   if (!footer) return null;
   return (
     <footer
-      className="relative flex min-h-(--h-section) grid-cols-6 flex-col content-start gap-x-2.5 gap-y-10 overflow-hidden bg-(--footer-bg) px-3 pt-16 pb-44 font-serif text-(--footer-text) sm:grid sm:gap-y-17 sm:px-7 sm:pt-34 sm:pb-96 xl:pb-180"
+      className="relative flex min-h-(--h-section) grid-cols-6 flex-col content-start gap-x-2.5 gap-y-10 overflow-hidden bg-(--footer-bg) px-3 pt-16 pb-44 font-serif text-(--footer-text) sm:grid sm:max-h-screen sm:gap-y-17 sm:px-7 sm:pt-34 sm:pb-96 xl:pb-180"
       style={
         {
           "--footer-bg": footer.colors.backgroundColor,
