@@ -34,21 +34,21 @@ export default async function Project({
           } as React.CSSProperties
         }
       >
-        <section className="mx-auto w-full max-w-7xl overflow-hidden rounded-[1.875rem]">
+        <section className="mx-auto w-full max-w-[1920px] overflow-hidden rounded-[1.875rem]">
           <Image
             src={urlFor(project.covers.landscape)
-              .width(1280)
-              .height(720)
+              .width(1920)
+              .height(1280)
               .fit("crop")
               .url()}
             alt={project.covers.landscape.alt}
-            width={1280}
-            height={720}
+            width={1920}
+            height={1280}
             loading="eager"
           />
         </section>
 
-        <section className="mx-auto grid max-w-7xl grid-cols-6 gap-x-2.5 gap-y-16 py-5 sm:gap-y-24">
+        <section className="mx-auto grid max-w-[1920px] grid-cols-6 gap-x-2.5 gap-y-16 py-5 sm:gap-y-24">
           <div className="col-span-6 flex flex-col gap-5 sm:col-span-4 sm:col-start-3 sm:pr-4">
             <h1 className="font-serif text-base sm:text-lg">{project.title}</h1>
             {project.introduction && (
@@ -146,7 +146,7 @@ export default async function Project({
         </section>
 
         {project.pageContent && (
-          <section className="mx-auto flex min-h-(--h-section) max-w-7xl flex-col gap-y-2.5">
+          <section className="mx-auto flex min-h-(--h-section) max-w-[1920px] flex-col gap-y-2.5">
             <h2
               className="sr-only"
               id="page-content"
@@ -193,8 +193,8 @@ export default async function Project({
                     }
                     if (element.type === "imageAlt") {
                       const sizes = row.layout.includes("2")
-                        ? { w: 1010, h: 750 }
-                        : { w: 500, h: 750 };
+                        ? { w: 1276.67, h: 950 }
+                        : { w: 633.33, h: 950 };
                       return (
                         <Image
                           key={index}
