@@ -64,7 +64,7 @@ export default async function Section({ section }: SectionProps) {
           <div
             className={`col-span-3 flex flex-col gap-10 ${section.description?.layout.position === "bottom" ? "h-full justify-between" : "justify-start"} ${!section.content && "sticky top-16"} ${!section.content && section.button?.position === "bottom" ? "pb-16" : ""}`}
           >
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-2 sm:gap-5">
               {(section.subtitle || section.contentType === "experience") && (
                 <h2 className="font-serif">{section.title}</h2>
               )}
