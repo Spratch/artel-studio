@@ -87,7 +87,7 @@ export default function Thumbnail({
                 className={cn(
                   "overflow-hidden rounded-lg border border-creme/20 bg-ardoise/15 px-2 py-1 text-nowrap backdrop-blur-xs max-sm:max-w-[20ch] max-sm:text-ellipsis sm:px-3 sm:py-1.5",
                   isFeatured
-                    ? "first:block max-sm:hidden"
+                    ? "first:block max-md:hidden"
                     : "max-sm:nth-3:hidden"
                 )}
                 key={tag.name}
