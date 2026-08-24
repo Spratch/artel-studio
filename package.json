@@ -13,7 +13,6 @@
     "create:colors": "tsx ./create-colors.ts"
   },
   "dependencies": {
-    "@mux/mux-background-video": "^0.2.3",
     "@mux/mux-video-react": "^0.31.2",
     "@sanity/asset-utils": "^2.3.0",
     "@sanity/cli": "^6.7.0",

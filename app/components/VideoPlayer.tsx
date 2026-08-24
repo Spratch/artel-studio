@@ -18,11 +18,17 @@ declare global {
   }
 }
 
-export default function VideoPlayer({ video }: { video: string }) {
+export default function VideoPlayer({
+  video,
+  isBg
+}: {
+  video: string;
+  isBg?: boolean;
+}) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -101,6 +107,29 @@ export default function VideoPlayer({ video }: { video: string }) {
       videoRef.current.currentTime = seekTime;
     }
   };
+
+  if (isBg) {
+    return (
+      <div className="size-full">
+        <MuxVideo
+          playbackId={video}
+          className="size-full object-cover"
+          ref={videoRef}
+          onClick={handlePlayPause}
+          onTimeUpdate={handleTimeUpdate}
+          onEnded={handleVideoEnd}
+          onLoadedMetadata={handleLoadedMetadata}
+          onCanPlay={() => setIsLoaded(true)}
+          minResolution="540p"
+          autoPlay
+          muted
+          playsInline
+          disableTracking
+          loop
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-full max-h-full w-full max-w-full flex-col items-center justify-center">

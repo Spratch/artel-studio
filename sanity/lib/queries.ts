@@ -86,7 +86,10 @@ const contactQuery = defineQuery(`*[_type == "contact"][0]{
       "textColor": textColor->value
     },
     sentence,
-    gallery
+    "gallery": gallery[]{
+      ...,
+      "playbackId": coalesce(asset->playbackId, "")
+    }
 }`);
 
 const serviceQuery =

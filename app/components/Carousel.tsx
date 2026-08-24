@@ -10,6 +10,7 @@ import { useReducedMotion } from "motion/react";
 import { Image } from "next-sanity/image";
 import { useEffect, useState } from "react";
 import { ContentResultType } from "../types";
+import VideoPlayer from "./VideoPlayer";
 
 type CarouselProps = {
   medias: ContentResultType<"medias", "medias">;
@@ -74,7 +75,7 @@ export default function Carousel({
               key={media._key}
               className="embla__slide h-full min-w-0 shrink-0 grow-0 basis-full"
             >
-              {media._type === "imageAlt" && (
+              {media._type === "imageAlt" ? (
                 <Image
                   src={urlFor(media)
                     .width(dimensions.width)
@@ -85,6 +86,11 @@ export default function Carousel({
                   width={dimensions.width}
                   height={dimensions.height}
                   className={`h-full w-full object-cover`}
+                />
+              ) : (
+                <VideoPlayer
+                  video={media.playbackId}
+                  isBg={true}
                 />
               )}
             </div>

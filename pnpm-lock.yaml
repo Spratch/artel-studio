@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@mux/mux-background-video':
-        specifier: ^0.2.3
-        version: 0.2.3
       '@mux/mux-video-react':
         specifier: ^0.31.2
         version: 0.31.2(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -1687,9 +1684,6 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-
-  '@mux/mux-background-video@0.2.3':
-    resolution: {integrity: sha512-J5e8KxvdAvHTDVYBI3iuiyKn6P3JYmYiCgIaxTgN/E3L/DXSSUoaP8Tuifbt/q8bJQatBXQ6IBBsOtGKVJN/JA==}
 
   '@mux/mux-data-google-ima@0.3.17':
     resolution: {integrity: sha512-4wpH6dYybyZhqLn9qGn/+67Z8MZnQRAdqTFEEZw2bx61M9q01uPYYHxd8qwOnYtUGEeafsdTwVHVxKHGD3oc1A==}
@@ -8677,8 +8671,6 @@ snapshots:
       - typescript
       - utf-8-validate
       - vue-tsc
-
-  '@mux/mux-background-video@0.2.3': {}
 
   '@mux/mux-data-google-ima@0.3.17':
     dependencies:

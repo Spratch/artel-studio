@@ -57,7 +57,10 @@ export const sectionFragment = `{
   ...select(
     _type == "mediasSection" => {
       _type,
-      "medias": medias[]
+      "medias": medias[]{
+        ...,
+        "playbackId": coalesce(asset->playbackId, "")
+      }
     },
     _type == "section" => {
       _type,
@@ -113,7 +116,10 @@ export const sectionFragment = `{
         },
         contentType == "medias" => {
           "type": "medias",
-          "medias": medias[]
+          "medias": medias[]{
+            ...,
+            "playbackId": coalesce(asset->playbackId, "")
+          }
         },
         contentType == "reviews" => {
           "type": "reviews",
