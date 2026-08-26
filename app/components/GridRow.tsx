@@ -29,7 +29,7 @@ export default function GridRow<T>({
   return (
     <div
       className={cn(
-        "grid grid-cols-6 gap-x-2.5",
+        "grid grid-cols-6 gap-2.5",
         isThumbnail ? "max-sm:gap-y-2.5" : ""
       )}
     >
