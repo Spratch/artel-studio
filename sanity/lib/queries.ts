@@ -169,6 +169,13 @@ const projectQuery =
             "type": "imageAlt",
             "imageAlt": @
           },
+          _type == "mux.video" => {
+            "type": "video",
+            "video": @{
+              ...,
+              "playbackId": coalesce(asset->playbackId, "")
+            }
+          },
           (_type == "review" || _type == "reference") => {
             "type": "review",
             "review": @->${reviewFragment}

@@ -4,8 +4,10 @@ import {
   CaseIcon,
   CommentIcon,
   InfoOutlineIcon,
-  TiersIcon
+  TiersIcon,
+  VideoIcon
 } from "@sanity/icons";
+import Image from "next/image";
 import {
   ALL_FIELDS_GROUP,
   defineArrayMember,
@@ -261,7 +263,9 @@ export const projectSchema = defineType({
               element2: "elements.1._type",
               first: "elements.0",
               reviewTitle: "elements.0.text.0.children.0.text",
-              reviewPerson: "elements.0.person.name"
+              reviewPerson: "elements.0.person.name",
+              videoTitle: "elements.0.asset.filename",
+              videoPBId: "elements.0.asset.playbackId"
             },
             prepare: (value) => {
               const layout = value.layout || "non défini";
@@ -274,16 +278,27 @@ export const projectSchema = defineType({
               const elementTitle = {
                 textCol: value.first.title,
                 imageAlt: value.first.alt,
+                "mux.video": value.videoTitle,
                 review: value.reviewTitle
               };
               const elementTypes = {
                 textCol: "Texte",
                 imageAlt: "Image",
+                "mux.video": "Vidéo",
                 review: `Témoignage (${value.reviewPerson})`
               };
+              const videoImg = () => (
+                <Image
+                  src={`https://image.mux.com/${value.videoPBId}/thumbnail.webp?time=0`}
+                  alt=""
+                  width={100}
+                  height={100}
+                />
+              );
               const elementMedia = {
                 textCol: BlockContentIcon,
                 imageAlt: value.first,
+                "mux.video": videoImg,
                 review: CommentIcon
               };
 
@@ -362,6 +377,11 @@ export const projectSchema = defineType({
                 defineArrayMember({
                   title: "Image",
                   type: "imageAlt"
+                }),
+                defineArrayMember({
+                  title: "Vidéo",
+                  icon: VideoIcon,
+                  type: "mux.video"
                 }),
                 defineArrayMember({
                   name: "review",

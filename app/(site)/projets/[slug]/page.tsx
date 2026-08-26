@@ -1,5 +1,6 @@
 import GridRow from "@/app/components/GridRow";
 import { PreviewScrollGate } from "@/app/components/PreviewScrollGate";
+import VideoPlayer from "@/app/components/VideoPlayer";
 import { getProjectPage } from "@/sanity/lib/getters";
 import { urlFor } from "@/sanity/lib/image";
 import { PortableText } from "next-sanity";
@@ -211,6 +212,28 @@ export default async function Project({
                         />
                       );
                     }
+
+                    if (element.type === "video") {
+                      const sizes = row.layout.includes("2")
+                        ? { w: 1276.67, h: 950 }
+                        : { w: 633.33, h: 950 };
+                      return (
+                        <div
+                          className="size-full overflow-hidden rounded-[5px]"
+                          style={{
+                            maxHeight: sizes.h,
+                            maxWidth: sizes.w
+                          }}
+                        >
+                          <VideoPlayer
+                            key={index}
+                            video={element.video.playbackId}
+                            isBg={true}
+                          />
+                        </div>
+                      );
+                    }
+
                     return null;
                   }}
                 />

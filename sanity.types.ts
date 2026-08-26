@@ -80,10 +80,29 @@ export type ServiceReference = {
   [internalGroqTypeReferenceTo]?: "service";
 };
 
+export type ContactReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "contact";
+};
+
+export type LegalReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "legal";
+};
+
 export type Button = {
   label: string;
   page:
-    AboutReference | ProjectsReference | ProjectReference | ServiceReference;
+    | AboutReference
+    | ProjectsReference
+    | ProjectReference
+    | ServiceReference
+    | ContactReference
+    | LegalReference;
   position: "top" | "bottom";
 };
 
@@ -369,34 +388,6 @@ export type Person = {
   company?: ClientReference;
 };
 
-export type Legal = {
-  _id: string;
-  _type: "legal";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  slug: Slug;
-  content: CustomBlock;
-};
-
-export type Contact = {
-  _id: string;
-  _type: "contact";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title: string;
-  slug: Slug;
-  pageColors: PageColors;
-  sectionColors: {
-    backgroundColor: ColorRef;
-    textColor: ColorRef;
-  };
-  sentence: string;
-  gallery?: Medias;
-};
-
 export type Home = {
   _id: string;
   _type: "home";
@@ -477,6 +468,34 @@ export type Service = {
   >;
 };
 
+export type Legal = {
+  _id: string;
+  _type: "legal";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  content: CustomBlock;
+};
+
+export type Contact = {
+  _id: string;
+  _type: "contact";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title: string;
+  slug: Slug;
+  pageColors: PageColors;
+  sectionColors: {
+    backgroundColor: ColorRef;
+    textColor: ColorRef;
+  };
+  sentence: string;
+  gallery?: Medias;
+};
+
 export type TypefaceReference = {
   _ref: string;
   _type: "reference";
@@ -536,6 +555,9 @@ export type Project = {
         } & ImageAlt)
       | ({
           _key: string;
+        } & MuxVideo)
+      | ({
+          _key: string;
         } & ReviewReference)
     >;
     _type: "row";
@@ -570,20 +592,6 @@ export type MuxVideoAssetReference = {
 export type MuxVideo = {
   _type: "mux.video";
   asset?: MuxVideoAssetReference;
-};
-
-export type LegalReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "legal";
-};
-
-export type ContactReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "contact";
 };
 
 export type Settings = {
@@ -846,6 +854,8 @@ export type AllSanitySchemaTypes =
   | ProjectsReference
   | ProjectReference
   | ServiceReference
+  | ContactReference
+  | LegalReference
   | Button
   | Colors
   | ReviewsObjectSettings
@@ -878,19 +888,17 @@ export type AllSanitySchemaTypes =
   | Typeface
   | Foundry
   | Person
-  | Legal
-  | Contact
   | Home
   | About
   | Projects
   | Service
+  | Legal
+  | Contact
   | TypefaceReference
   | Project
   | Client
   | MuxVideoAssetReference
   | MuxVideo
-  | LegalReference
-  | ContactReference
   | Settings
   | OtherColor
   | PaletteColor
@@ -2316,7 +2324,7 @@ export type ProjectsPageQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: projectQuery
-// Query: *[_type == "project" && slug.current == $slug][0]{    title,    "slug": slug.current,      "pageColors": pageColors{    "backgroundColor": primary->{      "slug": slug.current,      value    },    "textColor": secondary->{      "slug": slug.current,      value    },  }  ,    covers,    introduction,    "services": services[]->{      name,      "slug": slug.current,      hasPage    },    "client": client->name,    date,    "credits": credits[]{      service,      "contributors": contributors[]->name    },    "typefaces": typefaces[]->{      name,      "foundry": foundry->name,      "url": foundry->link    },    sectors,    "pageContent": pageContent[]{      _key,      layout,      "elements": elements[]{        ...select(          _type == "textCol" => {              "type": "textCol",              title,              "body": body[count(children[text != ""]) > 0]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }}          },          _type == "imageAlt" => {            "type": "imageAlt",            "imageAlt": @          },          (_type == "review" || _type == "reference") => {            "type": "review",            "review": @->{  "person": person->{    name,    position,  },  "client": client->name,  "slug": slug.current,  "text": text[count(children[text != ""]) > 0]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }}}          }        )      }    }  }
+// Query: *[_type == "project" && slug.current == $slug][0]{    title,    "slug": slug.current,      "pageColors": pageColors{    "backgroundColor": primary->{      "slug": slug.current,      value    },    "textColor": secondary->{      "slug": slug.current,      value    },  }  ,    covers,    introduction,    "services": services[]->{      name,      "slug": slug.current,      hasPage    },    "client": client->name,    date,    "credits": credits[]{      service,      "contributors": contributors[]->name    },    "typefaces": typefaces[]->{      name,      "foundry": foundry->name,      "url": foundry->link    },    sectors,    "pageContent": pageContent[]{      _key,      layout,      "elements": elements[]{        ...select(          _type == "textCol" => {              "type": "textCol",              title,              "body": body[count(children[text != ""]) > 0]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }}          },          _type == "imageAlt" => {            "type": "imageAlt",            "imageAlt": @          },          _type == "mux.video" => {            "type": "video",            "video": @{              ...,              "playbackId": coalesce(asset->playbackId, "")            }          },          (_type == "review" || _type == "reference") => {            "type": "review",            "review": @->{  "person": person->{    name,    position,  },  "client": client->name,  "slug": slug.current,  "text": text[count(children[text != ""]) > 0]{  ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": *[_id == ^._ref][0].slug.current,      "refType": *[_id == ^._ref][0]._type    }  }}}          }        )      }    }  }
 export type ProjectQueryResult = {
   title: string;
   slug: string;
@@ -2438,6 +2446,15 @@ export type ProjectQueryResult = {
             }>;
           };
         }
+      | {
+          type: "video";
+          video: {
+            _key: string;
+            _type: "mux.video";
+            asset?: MuxVideoAssetReference;
+            playbackId: string | "";
+          };
+        }
     > | null;
   }> | null;
 } | null;
@@ -2455,6 +2472,6 @@ declare module "@sanity/client" {
     '*[_type == "contact"][0]{\n    title,\n    \n  "pageColors": pageColors{\n    "backgroundColor": primary->{\n      "slug": slug.current,\n      value\n    },\n    "textColor": secondary->{\n      "slug": slug.current,\n      value\n    },\n  }\n  ,\n    sectionColors{\n      "backgroundColor": backgroundColor->value,\n      "textColor": textColor->value\n    },\n    sentence,\n    "gallery": gallery[]{\n      ...,\n      "playbackId": coalesce(asset->playbackId, "")\n    }\n}': ContactQueryResult;
     '*[_type == "service" && slug.current == $slug][0]{\n  name,\n  "slug": slug.current,\n  ...select(\n    hasPage == false => {\n      "hasPage": false\n    },\n    hasPage == true => {\n      "hasPage": true,\n      \n  "pageColors": pageColors{\n    "backgroundColor": primary->{\n      "slug": slug.current,\n      value\n    },\n    "textColor": secondary->{\n      "slug": slug.current,\n      value\n    },\n  }\n  ,\n      introTitle,\n      "introduction": introduction[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n      introMedia,\n      "description": description{\n  layout,\n  "col1": column1[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  "col2": column2[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  "col3": column3[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n},\n      "sections": sections[]{\n  _key,\n  _type,\n  ...select(\n    _type == "mediasSection" => {\n      _type,\n      "medias": medias[]{\n        ...,\n        "playbackId": coalesce(asset->playbackId, "")\n      }\n    },\n    _type == "section" => {\n      _type,\n      title,\n      subtitle,\n      "colors": colors{\n        "backgroundColor": backgroundColor->value,\n        "textColor": textColor->value,\n        "servicesColor": servicesColor->value,\n        "reviewsColor": reviewsColor->value,\n        "experienceColor": experienceColor->value,\n        "methodStepColor": methodStepColor->value,\n        "methodTitleColor": methodTitleColor->value,\n        "buttonBgColor": buttonBgColor->value,\n        "buttonFgColor": buttonFgColor->value\n      },\n      "button": button{\n        label,\n        "page": page->{\n          "title": coalesce(title, name),\n          "slug": select(\n            _type == "project" => "projet/" + slug.current,\n            title != null => slug.current,\n            name != null => "services/" + slug.current,\n          )\n        },\n        position\n      },\n      "description": description{\n  layout,\n  "col1": column1[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  "col2": column2[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  "col3": column3[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n},\n      contentType,\n      "content": select(\n        contentType == "method" => {\n          "type": "method",\n          "method": methodObject.method,\n          "settings": coalesce(methodObject.settings, {\n            "direction": "mixed",\n            "speedRange": {"min":26,"max":46},\n            "gapRange": {"min":20,"max":96}\n          }),\n        },\n        contentType == "experience" => {\n          "type": "experience",\n          "expCategories": experiences[]{\n            title,\n            "experiences": experiences[]{\n              date,\n              title,\n              "services": services[]->name,\n              description,\n              "project": project->slug.current\n            }\n          }\n        },\n        contentType == "medias" => {\n          "type": "medias",\n          "medias": medias[]{\n            ...,\n            "playbackId": coalesce(asset->playbackId, "")\n          }\n        },\n        contentType == "reviews" => {\n          "type": "reviews",\n          "settings": coalesce(reviewsObject.settings, {\n            "direction": "mixed",\n            "speedRange": {"min":26,"max":46},\n            "gapRange": {"min":20,"max":96}\n          }),\n          "reviews": reviewsObject.reviews[]->{\n  "person": person->{\n    name,\n    position,\n  },\n  "client": client->name,\n  "slug": slug.current,\n  "text": text[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n}\n}\n        },\n        contentType == "projects" => {\n          "type": "projects",\n          "projects": projects[]->{\n  "slug": slug.current,\n  title,\n  subtitle,\n  covers,\n  "tags": services[]->{\n    name\n  },\n  "client": client->{\n    name,\n    logo\n  }\n}\n        },\n        contentType == "services" => {\n          "type": "services",\n          "services": coalesce(\n            services[]->{\n              name,\n              "slug": slug.current,\n              hasPage\n            },\n            *[_type == "service" && !(_id == ^.^._id)]{\n              name,\n              "slug": slug.current,\n              hasPage\n            }\n          )\n        }\n      )\n    }\n  )\n}\n    }\n  )\n}': ServiceQueryResult;
     '*[_type == "projects"][0]{\n  title,\n  "slug": slug.current,\n  \n  "pageColors": pageColors{\n    "backgroundColor": primary->{\n      "slug": slug.current,\n      value\n    },\n    "textColor": secondary->{\n      "slug": slug.current,\n      value\n    },\n  }\n  ,\n  subtitle,\n  "projectsList": projectsList[]{\n    ...select(\n      _type == "reference" => {\n        "type": "project",\n        "project": @->{\n  "slug": slug.current,\n  title,\n  subtitle,\n  covers,\n  "tags": services[]->{\n    name\n  },\n  "client": client->{\n    name,\n    logo\n  }\n}\n      },\n      _type == "section" => {\n        "type": "section",\n        "section": @{\n  _key,\n  _type,\n  ...select(\n    _type == "mediasSection" => {\n      _type,\n      "medias": medias[]{\n        ...,\n        "playbackId": coalesce(asset->playbackId, "")\n      }\n    },\n    _type == "section" => {\n      _type,\n      title,\n      subtitle,\n      "colors": colors{\n        "backgroundColor": backgroundColor->value,\n        "textColor": textColor->value,\n        "servicesColor": servicesColor->value,\n        "reviewsColor": reviewsColor->value,\n        "experienceColor": experienceColor->value,\n        "methodStepColor": methodStepColor->value,\n        "methodTitleColor": methodTitleColor->value,\n        "buttonBgColor": buttonBgColor->value,\n        "buttonFgColor": buttonFgColor->value\n      },\n      "button": button{\n        label,\n        "page": page->{\n          "title": coalesce(title, name),\n          "slug": select(\n            _type == "project" => "projet/" + slug.current,\n            title != null => slug.current,\n            name != null => "services/" + slug.current,\n          )\n        },\n        position\n      },\n      "description": description{\n  layout,\n  "col1": column1[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  "col2": column2[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n  "col3": column3[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n},\n},\n      contentType,\n      "content": select(\n        contentType == "method" => {\n          "type": "method",\n          "method": methodObject.method,\n          "settings": coalesce(methodObject.settings, {\n            "direction": "mixed",\n            "speedRange": {"min":26,"max":46},\n            "gapRange": {"min":20,"max":96}\n          }),\n        },\n        contentType == "experience" => {\n          "type": "experience",\n          "expCategories": experiences[]{\n            title,\n            "experiences": experiences[]{\n              date,\n              title,\n              "services": services[]->name,\n              description,\n              "project": project->slug.current\n            }\n          }\n        },\n        contentType == "medias" => {\n          "type": "medias",\n          "medias": medias[]{\n            ...,\n            "playbackId": coalesce(asset->playbackId, "")\n          }\n        },\n        contentType == "reviews" => {\n          "type": "reviews",\n          "settings": coalesce(reviewsObject.settings, {\n            "direction": "mixed",\n            "speedRange": {"min":26,"max":46},\n            "gapRange": {"min":20,"max":96}\n          }),\n          "reviews": reviewsObject.reviews[]->{\n  "person": person->{\n    name,\n    position,\n  },\n  "client": client->name,\n  "slug": slug.current,\n  "text": text[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n}\n}\n        },\n        contentType == "projects" => {\n          "type": "projects",\n          "projects": projects[]->{\n  "slug": slug.current,\n  title,\n  subtitle,\n  covers,\n  "tags": services[]->{\n    name\n  },\n  "client": client->{\n    name,\n    logo\n  }\n}\n        },\n        contentType == "services" => {\n          "type": "services",\n          "services": coalesce(\n            services[]->{\n              name,\n              "slug": slug.current,\n              hasPage\n            },\n            *[_type == "service" && !(_id == ^.^._id)]{\n              name,\n              "slug": slug.current,\n              hasPage\n            }\n          )\n        }\n      )\n    }\n  )\n}\n      }\n    )\n  }\n}': ProjectsPageQueryResult;
-    '*[_type == "project" && slug.current == $slug][0]{\n    title,\n    "slug": slug.current,\n    \n  "pageColors": pageColors{\n    "backgroundColor": primary->{\n      "slug": slug.current,\n      value\n    },\n    "textColor": secondary->{\n      "slug": slug.current,\n      value\n    },\n  }\n  ,\n    covers,\n    introduction,\n    "services": services[]->{\n      name,\n      "slug": slug.current,\n      hasPage\n    },\n    "client": client->name,\n    date,\n    "credits": credits[]{\n      service,\n      "contributors": contributors[]->name\n    },\n    "typefaces": typefaces[]->{\n      name,\n      "foundry": foundry->name,\n      "url": foundry->link\n    },\n    sectors,\n    "pageContent": pageContent[]{\n      _key,\n      layout,\n      "elements": elements[]{\n        ...select(\n          _type == "textCol" => {\n              "type": "textCol",\n              title,\n              "body": body[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n}\n          },\n          _type == "imageAlt" => {\n            "type": "imageAlt",\n            "imageAlt": @\n          },\n          (_type == "review" || _type == "reference") => {\n            "type": "review",\n            "review": @->{\n  "person": person->{\n    name,\n    position,\n  },\n  "client": client->name,\n  "slug": slug.current,\n  "text": text[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n}\n}\n          }\n        )\n      }\n    }\n  }\n': ProjectQueryResult;
+    '*[_type == "project" && slug.current == $slug][0]{\n    title,\n    "slug": slug.current,\n    \n  "pageColors": pageColors{\n    "backgroundColor": primary->{\n      "slug": slug.current,\n      value\n    },\n    "textColor": secondary->{\n      "slug": slug.current,\n      value\n    },\n  }\n  ,\n    covers,\n    introduction,\n    "services": services[]->{\n      name,\n      "slug": slug.current,\n      hasPage\n    },\n    "client": client->name,\n    date,\n    "credits": credits[]{\n      service,\n      "contributors": contributors[]->name\n    },\n    "typefaces": typefaces[]->{\n      name,\n      "foundry": foundry->name,\n      "url": foundry->link\n    },\n    sectors,\n    "pageContent": pageContent[]{\n      _key,\n      layout,\n      "elements": elements[]{\n        ...select(\n          _type == "textCol" => {\n              "type": "textCol",\n              title,\n              "body": body[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n}\n          },\n          _type == "imageAlt" => {\n            "type": "imageAlt",\n            "imageAlt": @\n          },\n          _type == "mux.video" => {\n            "type": "video",\n            "video": @{\n              ...,\n              "playbackId": coalesce(asset->playbackId, "")\n            }\n          },\n          (_type == "review" || _type == "reference") => {\n            "type": "review",\n            "review": @->{\n  "person": person->{\n    name,\n    position,\n  },\n  "client": client->name,\n  "slug": slug.current,\n  "text": text[count(children[text != ""]) > 0]{\n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": *[_id == ^._ref][0].slug.current,\n      "refType": *[_id == ^._ref][0]._type\n    }\n  }\n}\n}\n          }\n        )\n      }\n    }\n  }\n': ProjectQueryResult;
   }
 }
