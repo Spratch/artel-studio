@@ -230,6 +230,21 @@ export default defineType({
       group: "content"
     }),
     defineField({
+      name: "projectsLayout",
+      title: "Affichage des projets",
+      type: "string",
+      description: "En vrac, ne pas mettre plus de 4 projets",
+      options: {
+        list: [
+          { title: "Vrac", value: "vrac" },
+          { title: "Liste", value: "list" }
+        ]
+      },
+      initialValue: "vrac",
+      group: "content",
+      hidden: ({ parent }) => parent?.contentType !== "projects"
+    }),
+    defineField({
       name: "projects",
       title: "Projets",
       type: "array",
@@ -244,6 +259,14 @@ export default defineType({
             (!value || value.length === 0)
           ) {
             return "Veuillez fournir au moins un projet.";
+          }
+          if (
+            (context.parent as { projectsLayout: string })?.projectsLayout ===
+              "vrac" &&
+            value &&
+            value.length > 4
+          ) {
+            return "En vrac, ne pas mettre plus de 4 projets.";
           }
           return true;
         })

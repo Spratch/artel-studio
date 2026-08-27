@@ -44,6 +44,7 @@ export default async function Projects({
           contentType: null,
           content: {
             type: "projects",
+            projectsLayout: null,
             projects: null
           }
         }}

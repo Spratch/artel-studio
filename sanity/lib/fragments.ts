@@ -132,6 +132,7 @@ export const sectionFragment = `{
         },
         contentType == "projects" => {
           "type": "projects",
+          projectsLayout,
           "projects": projects[]->${projectThumbnailFragment}
         },
         contentType == "services" => {

@@ -13,6 +13,7 @@ type ThumbnailProps = {
   };
   mobileSizes?: { w: number; h: number };
   isFeatured?: boolean;
+  isVrac?: boolean;
   isGrid?: boolean;
 };
 
@@ -22,6 +23,7 @@ export default function Thumbnail({
   sizes,
   mobileSizes = sizes,
   isFeatured = false,
+  isVrac = false,
   isGrid = false
 }: ThumbnailProps) {
   const desktopCover =
@@ -88,6 +90,7 @@ export default function Thumbnail({
                   "overflow-hidden rounded-lg border border-creme/20 bg-ardoise/15 px-2 py-1 text-nowrap backdrop-blur-xs max-sm:max-w-[20ch] max-sm:text-ellipsis sm:px-3 sm:py-1.5",
                   isFeatured
                     ? "first:block max-md:hidden"
+                    : isVrac ? "first:block max-xl:hidden"
                     : "max-sm:nth-3:hidden"
                 )}
                 key={tag.name}

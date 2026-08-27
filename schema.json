@@ -905,6 +905,23 @@
           },
           "optional": true
         },
+        "projectsLayout": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "vrac"
+              },
+              {
+                "type": "string",
+                "value": "list"
+              }
+            ]
+          },
+          "optional": true
+        },
         "projects": {
           "type": "objectAttribute",
           "value": {

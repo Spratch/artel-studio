@@ -12,6 +12,13 @@ type SectionProps = {
   section: SectionType;
 };
 
+const VRAC_POSITIONS = [
+  { x: "43", y: "33", r: "-5" },
+  { x: "63", y: "52", r: "3" },
+  { x: "82", y: "37", r: "-1" },
+  { x: "22", y: "60", r: "5" }
+];
+
 export default async function Section({ section }: SectionProps) {
   const paletteColors = (await getPaletteColors()).filter(
     (color) =>
@@ -134,7 +141,8 @@ export default async function Section({ section }: SectionProps) {
         ) && (
           <>
             {section.content.type === "projects" &&
-              section.content.projects && (
+              section.content.projects &&
+              section.content.projectsLayout === "list" && (
                 <div className="-ms-3 no-scrollbar flex w-screen gap-2.5 overflow-x-scroll px-7 pt-6 pb-4 md:pt-12">
                   {section.content.projects.map((project, i) => (
                     <Thumbnail
@@ -145,6 +153,35 @@ export default async function Section({ section }: SectionProps) {
                       isGrid={true}
                     />
                   ))}
+                </div>
+              )}
+
+            {section.content.type === "projects" &&
+              section.content.projects &&
+              section.content.projectsLayout !== "list" && (
+                <div className="relative min-h-(--h-section)">
+                  {section.content.projects.map((project, i) => {
+                    const pos = VRAC_POSITIONS[i % VRAC_POSITIONS.length];
+                    return (
+                      <div
+                        key={project.slug + i}
+                        style={{
+                          position: "absolute",
+                          top: `${pos.y}%`,
+                          left: `${pos.x}%`,
+                          transform: `translate(-50%, -50%) rotate(${pos.r}deg)`
+                        }}
+                      >
+                        <Thumbnail
+                          project={project}
+                          sizes={{ w: 500, h: 750 }}
+                          className="h-70 shrink-0 sm:h-120 md:h-135 xl:h-180"
+                          isGrid={true}
+                          isVrac={true}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               )}
 
