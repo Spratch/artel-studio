@@ -13,8 +13,8 @@ type SectionProps = {
 };
 
 const VRAC_POSITIONS = [
-  { x: "43", y: "33", r: "-5" },
-  { x: "63", y: "52", r: "3" },
+  { x: "43", y: "45", r: "-5" },
+  { x: "63", y: "33", r: "3" },
   { x: "82", y: "37", r: "-1" },
   { x: "22", y: "60", r: "5" }
 ];
@@ -171,6 +171,7 @@ export default async function Section({ section }: SectionProps) {
                           left: `${pos.x}%`,
                           transform: `translate(-50%, -50%) rotate(${pos.r}deg)`
                         }}
+                        className="transition-transform focus-within:-rotate-1 hover:-rotate-1"
                       >
                         <Thumbnail
                           project={project}

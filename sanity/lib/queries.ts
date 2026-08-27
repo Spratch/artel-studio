@@ -182,6 +182,11 @@ const projectQuery =
           }
         )
       }
+    },
+    "relatedProjects": relatedProjects{
+      title,
+      subtitle,
+      "projects": projects[]->${projectThumbnailFragment}
     }
   }
 `);

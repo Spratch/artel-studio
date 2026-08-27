@@ -418,6 +418,66 @@ export const projectSchema = defineType({
           ]
         })
       ]
+    }),
+    defineField({
+      name: "relatedProjects",
+      title: "Projets liés",
+      type: "object",
+      description:
+        "La section en bas de page pour recommander des projets similaires.",
+      group: "page",
+      validation: (Rule) => Rule.required(),
+      fields: [
+        defineField({
+          name: "title",
+          title: "Titre",
+          type: "string",
+          initialValue: "Autres projets",
+          description:
+            "Titre de la section, apparaît soit en grand sans-serif,\nsoit en petit et en serif si un sous-titre est renseigné",
+          validation: (Rule) => Rule.required()
+        }),
+        defineField({
+          name: "subtitle",
+          title: "Sous-titre",
+          type: "string",
+          description: "Sous-titre de la section, apparaît en grand sans-serif"
+        }),
+        defineField({
+          name: "projects",
+          title: "Projets",
+          type: "array",
+          description: "Sélection des projets recommandés, maximum 4",
+          of: [
+            defineArrayMember({
+              name: "project",
+              title: "Projet",
+              type: "reference",
+              to: [{ type: "project" }],
+              options: {
+                filter: ({ document, parent }) => {
+                  const refs = (parent as { _ref?: string }[])
+                    .map((m) => m._ref)
+                    .filter(Boolean) as string[];
+
+                  const currentId = document?._id?.replace(/^drafts\./, "");
+                  const excludedIds = currentId ? [...refs, currentId] : refs;
+
+                  if (excludedIds.length === 0) {
+                    return { filter: "true" };
+                  }
+
+                  const idList = excludedIds.map((id) => `"${id}"`).join(", ");
+                  return {
+                    filter: `!(_id in [${idList}])`
+                  };
+                }
+              }
+            })
+          ],
+          validation: (Rule) => Rule.required().min(1).max(4)
+        })
+      ]
     })
   ],
   preview: {

@@ -1,5 +1,6 @@
 import GridRow from "@/app/components/GridRow";
 import { PreviewScrollGate } from "@/app/components/PreviewScrollGate";
+import Section from "@/app/components/Section";
 import VideoPlayer from "@/app/components/VideoPlayer";
 import { getProjectPage } from "@/sanity/lib/getters";
 import { urlFor } from "@/sanity/lib/image";
@@ -240,6 +241,35 @@ export default async function Project({
               );
             })}
           </section>
+        )}
+        {project.relatedProjects && (
+          <Section
+            section={{
+              _type: "section",
+              _key: "",
+              button: null,
+              colors: {
+                backgroundColor: project.pageColors.backgroundColor.value,
+                textColor: project.pageColors.textColor.value,
+                buttonBgColor: null,
+                buttonFgColor: null,
+                experienceColor: null,
+                methodStepColor: null,
+                methodTitleColor: null,
+                reviewsColor: null,
+                servicesColor: null
+              },
+              contentType: "projects",
+              content: {
+                type: "projects",
+                projectsLayout: "vrac",
+                projects: project.relatedProjects.projects
+              },
+              description: null,
+              subtitle: project.relatedProjects.subtitle,
+              title: project.relatedProjects.title
+            }}
+          />
         )}
       </main>
       <PreviewScrollGate preview={preview} />
