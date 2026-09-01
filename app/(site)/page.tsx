@@ -20,7 +20,7 @@ export default async function Home({
       <main
         data-page-bg={home.pageColors.backgroundColor.slug}
         data-page-text={home.pageColors.textColor.slug}
-        className="flex flex-col gap-3 bg-(--background-color) px-3 pt-(--h-header) pb-3 text-(--text-color) **:[path]:fill-(--color-logo)"
+        className="flex flex-col gap-3 bg-(--background-color) px-3 pt-(--h-header) pb-3 text-(--text-color) **:[.logo_path]:fill-(--color-logo)"
         style={
           {
             "--color-logo": home.logoColor
@@ -35,7 +35,7 @@ export default async function Home({
             } as React.CSSProperties
           }
         >
-          <Logo className="absolute inset-x-0 bottom-2 z-0" />
+          <Logo className="logo absolute inset-x-0 bottom-2 z-0" />
           <div className="relative z-10 mx-4 grid h-full grid-cols-6 items-center gap-2.5">
             {home.intro.type === "project"
               ? home.intro.project && (

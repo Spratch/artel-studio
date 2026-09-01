@@ -6,6 +6,7 @@ import { EmblaCarouselType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import ClassNames from "embla-carousel-class-names";
 import useEmblaCarousel from "embla-carousel-react";
+import { Pause, Play } from "iconoir-react";
 import { useReducedMotion } from "motion/react";
 import { Image } from "next-sanity/image";
 import { useEffect, useState } from "react";
@@ -35,11 +36,22 @@ export default function Carousel({
     carouselPlugins
   );
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
-  const { selectedIndex, duration, tick } = useAutoplayProgress(emblaApi);
+  const { selectedIndex, duration, tick, isPlaying } =
+    useAutoplayProgress(emblaApi);
 
   const goTo = (index: number) => emblaApi?.scrollTo(index);
   const setupSnaps = (emblaApi: EmblaCarouselType) =>
     setScrollSnaps(emblaApi.scrollSnapList());
+
+  const togglePlay = () => {
+    const autoplay = emblaApi?.plugins()?.autoplay;
+    if (!autoplay) return;
+    if (autoplay.isPlaying()) {
+      autoplay.stop();
+    } else {
+      autoplay.play();
+    }
+  };
 
   useEffect(() => {
     if (!emblaApi || !isMultiple) return;
@@ -110,12 +122,28 @@ export default function Carousel({
                 <span
                   key={tick}
                   className="embla__dot-progress block h-full rounded-full bg-creme"
-                  style={{ animationDuration: `${duration}ms` }}
+                  style={{
+                    animationDuration: `${duration}ms`,
+                    animationPlayState: isPlaying ? "running" : "paused"
+                  }}
                 />
               ) : null}
             </button>
           ))}
         </div>
+      )}
+
+      {isMultiple && (
+        <button
+          className="absolute bottom-1.5 left-1.5 flex size-8 items-center justify-center rounded-sm bg-creme/45 outline-0 transition-colors hover:bg-creme/65 focus-visible:bg-creme/65"
+          onClick={togglePlay}
+        >
+          {isPlaying ? (
+            <Pause className="**:[path]:stroke-creme" />
+          ) : (
+            <Play className="**:[path]:stroke-creme" />
+          )}
+        </button>
       )}
     </div>
   );

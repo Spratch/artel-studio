@@ -2,7 +2,7 @@
   "name": "artel-studio",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@11.22.0",
+  "packageManager": "pnpm@11.24.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -28,6 +28,7 @@
     "embla-carousel-class-names": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
     "gsap": "^3.15.0",
+    "iconoir-react": "^7.12.1",
     "motion": "^12.43.0",
     "next": "16.3.2",
     "next-sanity": "^13.3.3",

@@ -5,6 +5,7 @@ export function useAutoplayProgress(emblaApi?: EmblaCarouselType) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [duration, setDuration] = useState(0);
   const [tick, setTick] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -20,7 +21,12 @@ export function useAutoplayProgress(emblaApi?: EmblaCarouselType) {
       setDuration(autoplay.timeUntilNext() ?? 0);
       setTick((t) => t + 1);
     };
+    const onPlay = () => setIsPlaying(true);
+    const onStop = () => setIsPlaying(false);
+
     emblaApi.on("autoplay:timerset", onTimerSet);
+    emblaApi.on("autoplay:play", onPlay);
+    emblaApi.on("autoplay:stop", onStop);
 
     return () => {
       emblaApi.off("select", onSelect);
@@ -28,5 +34,5 @@ export function useAutoplayProgress(emblaApi?: EmblaCarouselType) {
     };
   }, [emblaApi]);
 
-  return { selectedIndex, duration, tick };
+  return { selectedIndex, duration, tick, isPlaying };
 }

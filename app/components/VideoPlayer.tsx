@@ -1,6 +1,7 @@
 "use client";
 
 import MuxVideo from "@mux/mux-video-react";
+import { Pause, Play, SoundHigh, SoundOff } from "iconoir-react";
 import { useRef, useState } from "react";
 
 declare global {
@@ -132,24 +133,16 @@ export default function VideoPlayer({
   }
 
   return (
-    <div className="flex h-full max-h-full w-full max-w-full flex-col items-center justify-center">
+    <div className="flex h-full max-h-full w-full max-w-full flex-col items-center justify-center **:[path]:stroke-creme">
       <div className="group pointer-events-auto relative max-h-full w-auto max-w-full">
         {/* Play button */}
         {!isPlaying && (
           <div className="pointer-events-none absolute top-0 flex h-full w-full items-center justify-center">
-            <svg
-              className="scaling"
-              width="24"
-              height="24"
-              xmlns="http://www.w3.org/2000/svg"
-              fillRule="evenodd"
-              clipRule="evenodd"
-            >
-              <path
-                d="M23 12l-22 12v-24l22 12zm-21 10.315l18.912-10.315-18.912-10.315v20.63z"
-                className="fill-creme!"
-              />
-            </svg>
+            <Play
+              className="transition-[scale,opacity] group-hover:scale-90 group-hover:opacity-75"
+              width="32"
+              height="32"
+            />
           </div>
         )}
 
@@ -182,10 +175,18 @@ export default function VideoPlayer({
         >
           <div className="col-span-10 col-start-1 my-3 flex items-center gap-3 px-4 text-xs text-creme xl:col-span-6 xl:col-start-3 xl:px-0">
             {/* Play/Pause & Mute/Unmute buttons */}
-            <button onClick={handlePlayPause}>
-              {isPlaying ? "Pause" : "Play"}
+            <button
+              onClick={handlePlayPause}
+              className="outline-0 transition-opacity hover:opacity-65 focus-visible:opacity-65"
+            >
+              {isPlaying ? <Pause /> : <Play />}
             </button>
-            <button onClick={handleMute}>{isMuted ? "Unmute" : "Mute"}</button>
+            <button
+              onClick={handleMute}
+              className="outline-0 transition-opacity hover:opacity-65 focus-visible:opacity-65"
+            >
+              {isMuted ? <SoundHigh /> : <SoundOff />}
+            </button>
 
             {/* Display time in mm:ss */}
             {/*<span className="font-normal text-nowrap">
@@ -225,13 +226,14 @@ export default function VideoPlayer({
 
             {/* Fullscreen button */}
             <button
+              className="group/fullscreen outline-0"
               onClick={isFullscreen ? handleExitFullscreen : handleFullscreen}
             >
               <svg
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
-                className="stroke-creme transition-transform hover:scale-110 **:[path]:fill-none"
+                className="stroke-creme transition-transform group-hover/fullscreen:scale-110 group-focus-visible/fullscreen:scale-110 **:[path]:fill-none"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >

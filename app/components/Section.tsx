@@ -1,5 +1,6 @@
 import { getPaletteColors } from "@/sanity/lib/getters";
 import type { Get } from "@sanity/codegen";
+import { Plus } from "iconoir-react";
 import { PortableText } from "next-sanity";
 import Link from "next/link";
 import { ContentResultType, SectionType } from "../types";
@@ -113,9 +114,12 @@ export default async function Section({ section }: SectionProps) {
               >
                 {section.button.label}
 
-                <span className="relative aspect-square h-11 rounded-md bg-(--section-button-bg) transition-colors group-focus-within/button:bg-(--section-button-fg) group-hover/button:bg-(--section-button-fg)">
-                  <span className="absolute inset-x-3 top-1/2 h-[1.5px] -translate-y-1/2 bg-(--section-button-fg) transition-colors group-focus-within/button:bg-(--section-button-bg) group-hover/button:bg-(--section-button-bg)"></span>
-                  <span className="absolute inset-y-3 left-1/2 w-[1.5px] -translate-x-1/2 bg-(--section-button-fg) transition-colors group-focus-within/button:bg-(--section-button-bg) group-hover/button:bg-(--section-button-bg)"></span>
+                <span className="relative flex aspect-square h-11 items-center justify-center rounded-md bg-(--section-button-bg) transition-colors group-focus-within/button:bg-(--section-button-fg) group-hover/button:bg-(--section-button-fg)">
+                  <Plus
+                    className="**:[path]:stroke-(--section-button-fg) **:[path]:transition-colors group-focus-within/button:**:[path]:stroke-(--section-button-bg) group-hover/button:**:[path]:stroke-(--section-button-bg)"
+                    width="32"
+                    height="32"
+                  />
                 </span>
               </Link>
             </div>
