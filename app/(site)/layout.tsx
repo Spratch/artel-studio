@@ -1,5 +1,9 @@
 import "@/app/globals.css";
-import { getLayoutSettings, getPaletteColors } from "@/sanity/lib/getters";
+import {
+  getHeaderSettings,
+  getLayoutSettings,
+  getPaletteColors
+} from "@/sanity/lib/getters";
 import type { Metadata } from "next";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -42,6 +46,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const paletteColors = await getPaletteColors();
+  const navigation = await getHeaderSettings();
+
   return (
     <html
       lang="fr"
@@ -75,7 +81,7 @@ export default async function RootLayout({
             }
           `}
         </style>
-        <Header />
+        <Header navigation={navigation} />
         {children}
         <Footer />
       </body>
