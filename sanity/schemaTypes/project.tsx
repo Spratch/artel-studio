@@ -273,7 +273,7 @@ export const projectSchema = defineType({
                 value.element1,
                 value.element2
               ].filter(Boolean);
-              const titleLayoutPrefix = `${layout.replaceAll("0", "▒ ").replaceAll("1", "▓ ").replaceAll("-", "").replaceAll("2", "▓▓\xa0")} • `;
+              const titleLayoutPrefix = `${layout.replaceAll("0", "▒ ").replaceAll("1", "▓ ").replaceAll("-", "").replaceAll("2", "▓▓\xa0").replaceAll("3", "▓▓▓\xa0")} • `;
 
               const elementTitle = {
                 textCol: value.first.title,

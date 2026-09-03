@@ -196,7 +196,9 @@ export default async function Project({
                     if (element.type === "imageAlt") {
                       const sizes = row.layout.includes("2")
                         ? { w: 1276.67, h: 950 }
-                        : { w: 633.33, h: 950 };
+                        : row.layout.includes("3")
+                          ? { w: 1920, h: 950 }
+                          : { w: 633.33, h: 950 };
                       return (
                         <Image
                           key={index}
@@ -217,7 +219,9 @@ export default async function Project({
                     if (element.type === "video") {
                       const sizes = row.layout.includes("2")
                         ? { w: 1276.67, h: 950 }
-                        : { w: 633.33, h: 950 };
+                        : row.layout.includes("3")
+                          ? { w: 1920, h: 950 }
+                          : { w: 633.33, h: 950 };
                       return (
                         <div
                           className="size-full overflow-hidden rounded-[5px]"
