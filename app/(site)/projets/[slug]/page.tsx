@@ -50,7 +50,7 @@ export default async function Project({
           />
         </section>
 
-        <section className="mx-auto grid max-w-[1920px] grid-cols-6 gap-x-2.5 gap-y-16 py-5 sm:gap-y-24">
+        <section className="mx-auto grid w-full max-w-[1920px] grid-cols-6 gap-x-2.5 gap-y-16 py-5 sm:gap-y-24">
           <div className="col-span-6 flex flex-col gap-5 sm:col-span-4 sm:col-start-3 sm:pr-4">
             <h1 className="font-serif text-base sm:text-lg">{project.title}</h1>
             {project.introduction && (
@@ -96,14 +96,11 @@ export default async function Project({
                   className="contents"
                 >
                   <h3 className="col-start-1">{credit.service}</h3>
-                  {credit.contributors.map((person) => (
-                    <p
-                      key={person}
-                      className="sm:col-span-2"
-                    >
-                      {person}
-                    </p>
-                  ))}
+                  <ul className="sm:col-span-2">
+                    {credit.contributors.map((person) => (
+                      <p key={person}>{person}</p>
+                    ))}
+                  </ul>
                 </div>
               ))}
             {project.typefaces && (
@@ -195,7 +192,7 @@ export default async function Project({
                     }
                     if (element.type === "imageAlt") {
                       const sizes = row.layout.includes("2")
-                        ? { w: 1276.67, h: 950 }
+                        ? { w: 1276.67, h: 851 }
                         : row.layout.includes("3")
                           ? { w: 1920, h: 950 }
                           : { w: 633.33, h: 950 };
@@ -218,7 +215,7 @@ export default async function Project({
 
                     if (element.type === "video") {
                       const sizes = row.layout.includes("2")
-                        ? { w: 1276.67, h: 950 }
+                        ? { w: 1276.67, h: 851 }
                         : row.layout.includes("3")
                           ? { w: 1920, h: 950 }
                           : { w: 633.33, h: 950 };
