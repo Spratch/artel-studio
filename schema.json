@@ -2795,16 +2795,84 @@
             "landscape": {
               "type": "objectAttribute",
               "value": {
-                "type": "inline",
-                "name": "imageAlt"
+                "type": "object",
+                "attributes": {
+                  "type": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "union",
+                      "of": [
+                        {
+                          "type": "string",
+                          "value": "image"
+                        },
+                        {
+                          "type": "string",
+                          "value": "video"
+                        }
+                      ]
+                    },
+                    "optional": false
+                  },
+                  "image": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "imageAlt"
+                    },
+                    "optional": true
+                  },
+                  "video": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "mux.video"
+                    },
+                    "optional": true
+                  }
+                }
               },
               "optional": false
             },
             "portrait": {
               "type": "objectAttribute",
               "value": {
-                "type": "inline",
-                "name": "imageAlt"
+                "type": "object",
+                "attributes": {
+                  "type": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "union",
+                      "of": [
+                        {
+                          "type": "string",
+                          "value": "image"
+                        },
+                        {
+                          "type": "string",
+                          "value": "video"
+                        }
+                      ]
+                    },
+                    "optional": false
+                  },
+                  "image": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "imageAlt"
+                    },
+                    "optional": true
+                  },
+                  "video": {
+                    "type": "objectAttribute",
+                    "value": {
+                      "type": "inline",
+                      "name": "mux.video"
+                    },
+                    "optional": true
+                  }
+                }
               },
               "optional": false
             }
@@ -3150,6 +3218,60 @@
     }
   },
   {
+    "type": "type",
+    "name": "mux.videoAsset.reference",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_ref": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          }
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "reference"
+          }
+        },
+        "_weak": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      },
+      "dereferencesTo": "mux.videoAsset"
+    }
+  },
+  {
+    "name": "mux.video",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "mux.video"
+          }
+        },
+        "asset": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "mux.videoAsset.reference"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "name": "client",
     "type": "document",
     "attributes": {
@@ -3245,60 +3367,6 @@
           }
         },
         "optional": true
-      }
-    }
-  },
-  {
-    "type": "type",
-    "name": "mux.videoAsset.reference",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_ref": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          }
-        },
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "reference"
-          }
-        },
-        "_weak": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      },
-      "dereferencesTo": "mux.videoAsset"
-    }
-  },
-  {
-    "name": "mux.video",
-    "type": "type",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "mux.video"
-          }
-        },
-        "asset": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "mux.videoAsset.reference"
-          },
-          "optional": true
-        }
       }
     }
   },

@@ -3,6 +3,7 @@ import { urlFor } from "@/sanity/lib/image";
 import { Image } from "next-sanity/image";
 import Link from "next/link";
 import { cn } from "../utils";
+import VideoPlayer from "./VideoPlayer";
 
 type ThumbnailProps = {
   project: NonNullable<NonNullable<HomePageQueryResult>["intro"]["project"]>;
@@ -47,30 +48,65 @@ export default function Thumbnail({
         } as React.CSSProperties
       }
     >
-      <Image
-        className={cn(coverClass, "sm:hidden")}
-        src={urlFor(mobileCover)
-          .width(mobileSizes.w)
-          .height(mobileSizes.h)
-          .fit("crop")
-          .url()}
-        alt=""
-        width={mobileSizes.w}
-        height={mobileSizes.h}
-        loading={isFeatured ? "eager" : "lazy"}
-      />
-      <Image
-        className={cn(coverClass, "hidden sm:block")}
-        src={urlFor(desktopCover)
-          .width(sizes.w)
-          .height(sizes.h)
-          .fit("crop")
-          .url()}
-        alt=""
-        width={sizes.w}
-        height={sizes.h}
-        loading={isFeatured ? "eager" : "lazy"}
-      />
+      {mobileCover.type === "image" && mobileCover.image ? (
+        <Image
+          className={cn(coverClass, "sm:hidden")}
+          src={urlFor(mobileCover.image)
+            .width(mobileSizes.w)
+            .height(mobileSizes.h)
+            .fit("crop")
+            .url()}
+          alt=""
+          width={mobileSizes.w}
+          height={mobileSizes.h}
+          loading={isFeatured ? "eager" : "lazy"}
+        />
+      ) : (
+        mobileCover.video && (
+          <div
+            className={cn(coverClass, "sm:hidden")}
+            style={{
+              maxHeight: mobileSizes.h,
+              maxWidth: mobileSizes.w
+            }}
+          >
+            <VideoPlayer
+              video={mobileCover.video.playbackId}
+              isBg={true}
+            />
+          </div>
+        )
+      )}
+
+      {desktopCover.type === "image" && desktopCover.image ? (
+        <Image
+          className={cn(coverClass, "hidden sm:block")}
+          src={urlFor(desktopCover.image)
+            .width(sizes.w)
+            .height(sizes.h)
+            .fit("crop")
+            .url()}
+          alt=""
+          width={sizes.w}
+          height={sizes.h}
+          loading={isFeatured ? "eager" : "lazy"}
+        />
+      ) : (
+        desktopCover.video && (
+          <div
+            className={cn(coverClass, "hidden sm:block")}
+            style={{
+              maxHeight: sizes.h,
+              maxWidth: sizes.w
+            }}
+          >
+            <VideoPlayer
+              video={desktopCover.video.playbackId}
+              isBg={true}
+            />
+          </div>
+        )
+      )}
 
       <div className="z-20 flex h-2/5 w-full items-start justify-between gap-2 bg-linear-to-b from-noir-profond to-noir-profond/0 py-2 ps-2.5 pe-2 text-creme sm:py-4 sm:ps-4.5 sm:pe-4">
         {isFeatured && (
@@ -90,8 +126,9 @@ export default function Thumbnail({
                   "overflow-hidden rounded-lg border border-creme/20 bg-ardoise/15 px-2 py-1 text-nowrap backdrop-blur-xs max-sm:max-w-[20ch] max-sm:text-ellipsis sm:px-3 sm:py-1.5",
                   isFeatured
                     ? "first:block max-md:hidden"
-                    : isVrac ? "first:block max-xl:hidden"
-                    : "max-sm:nth-3:hidden"
+                    : isVrac
+                      ? "first:block max-xl:hidden"
+                      : "max-sm:nth-3:hidden"
                 )}
                 key={tag.name}
               >

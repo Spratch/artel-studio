@@ -122,13 +122,117 @@ export const projectSchema = defineType({
         defineField({
           name: "landscape",
           title: "Paysage",
-          type: "imageAlt",
+          type: "object",
+          fields: [
+            defineField({
+              name: "type",
+              title: "Type de contenu",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Image", value: "image" },
+                  { title: "Vidéo", value: "video" }
+                ],
+                layout: "dropdown"
+              },
+              description:
+                "Choisir si la couverture paysage est une image ou une vidéo",
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "image",
+              title: "Image",
+              type: "imageAlt",
+              hidden: ({ parent }) => parent?.type !== "image",
+              validation: (Rule) =>
+                Rule.custom((value, context) => {
+                  if (
+                    (context.parent as { type: string })?.type === "image" &&
+                    !value
+                  ) {
+                    return "Veuillez fournir une image de couverture.";
+                  }
+                  return true;
+                })
+            }),
+            defineField({
+              name: "video",
+              title: "Vidéo",
+              type: "mux.video",
+              options: {
+                collapsible: false
+              },
+              hidden: ({ parent }) => parent?.type !== "video",
+              validation: (Rule) =>
+                Rule.custom((value, context) => {
+                  if (
+                    (context.parent as { type: string })?.type === "video" &&
+                    !value
+                  ) {
+                    return "Veuillez fournir une vidéo.";
+                  }
+                  return true;
+                })
+            })
+          ],
           validation: (Rule) => Rule.required()
         }),
         defineField({
           name: "portrait",
           title: "Portrait",
-          type: "imageAlt",
+          type: "object",
+          fields: [
+            defineField({
+              name: "type",
+              title: "Type de contenu",
+              type: "string",
+              options: {
+                list: [
+                  { title: "Image", value: "image" },
+                  { title: "Vidéo", value: "video" }
+                ],
+                layout: "dropdown"
+              },
+              description:
+                "Choisir si la couverture portrait est une image ou une vidéo",
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: "image",
+              title: "Image",
+              type: "imageAlt",
+              hidden: ({ parent }) => parent?.type !== "image",
+              validation: (Rule) =>
+                Rule.custom((value, context) => {
+                  if (
+                    (context.parent as { type: string })?.type === "image" &&
+                    !value
+                  ) {
+                    return "Veuillez fournir une image de couverture.";
+                  }
+                  return true;
+                })
+            }),
+            defineField({
+              name: "video",
+              title: "Vidéo",
+              type: "mux.video",
+              options: {
+                collapsible: false
+              },
+              hidden: ({ parent }) => parent?.type !== "video",
+              validation: (Rule) =>
+                Rule.custom((value, context) => {
+                  if (
+                    (context.parent as { type: string })?.type === "video" &&
+                    !value
+                  ) {
+                    return "Veuillez fournir une vidéo.";
+                  }
+                  return true;
+                })
+            })
+          ],
           validation: (Rule) => Rule.required()
         })
       ],
@@ -484,8 +588,8 @@ export const projectSchema = defineType({
     select: {
       title: "title",
       client: "client.name",
-      landscapeCover: "covers.landscape",
-      portraitCover: "covers.portrait"
+      landscapeCover: "covers.landscape.image",
+      portraitCover: "covers.portrait.image"
     },
     prepare: (value) => ({
       title: value.title,

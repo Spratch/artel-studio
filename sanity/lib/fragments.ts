@@ -24,7 +24,24 @@ export const projectThumbnailFragment = `{
   ${slugFragment},
   title,
   subtitle,
-  covers,
+  "covers": covers{
+    "landscape": landscape{
+      type,
+      image,
+      "video": video{
+        ...,
+        "playbackId": coalesce(asset->playbackId, "")
+      }
+    },
+    "portrait": portrait{
+      type,
+      image,
+      "video": video{
+        ...,
+        "playbackId": coalesce(asset->playbackId, "")
+      }
+    }
+  },
   "tags": services[]->{
     name
   },

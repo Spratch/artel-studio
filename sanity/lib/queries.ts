@@ -136,7 +136,24 @@ const projectQuery =
     title,
     ${slugFragment},
     ${pageColorsFragment},
-    covers,
+    "covers": covers{
+      "landscape": landscape{
+        type,
+        image,
+        "video": video{
+          ...,
+          "playbackId": coalesce(asset->playbackId, "")
+        }
+      },
+      "portrait": portrait{
+        type,
+        image,
+        "video": video{
+          ...,
+          "playbackId": coalesce(asset->playbackId, "")
+        }
+      }
+    },
     introduction,
     "services": services[]->{
       name,

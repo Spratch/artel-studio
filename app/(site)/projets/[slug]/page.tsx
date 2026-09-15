@@ -37,17 +37,35 @@ export default async function Project({
         }
       >
         <section className="mx-auto w-full max-w-[1920px] overflow-hidden rounded-[1.875rem]">
-          <Image
-            src={urlFor(project.covers.landscape)
-              .width(1920)
-              .height(1280)
-              .fit("crop")
-              .url()}
-            alt={project.covers.landscape.alt}
-            width={1920}
-            height={1280}
-            loading="eager"
-          />
+          {project.covers.landscape.type === "image" &&
+          project.covers.landscape.image ? (
+            <Image
+              src={urlFor(project.covers.landscape.image)
+                .width(1920)
+                .height(1280)
+                .fit("crop")
+                .url()}
+              alt={project.covers.landscape.image.alt}
+              width={1920}
+              height={1280}
+              loading="eager"
+            />
+          ) : (
+            project.covers.landscape.video && (
+              <div
+                className="size-full overflow-hidden"
+                style={{
+                  maxHeight: 1280,
+                  maxWidth: 1920
+                }}
+              >
+                <VideoPlayer
+                  video={project.covers.landscape.video.playbackId}
+                  isBg={true}
+                />
+              </div>
+            )
+          )}
         </section>
 
         <section className="mx-auto grid w-full max-w-[1920px] grid-cols-6 gap-x-2.5 gap-y-16 py-5 sm:gap-y-24">
