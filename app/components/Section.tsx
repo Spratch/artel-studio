@@ -78,7 +78,7 @@ export default async function Section({ section }: SectionProps) {
               )}
 
               {section.subtitle && (
-                <p className="text-2xl/tight md:max-w-[42ch] md:text-3xl">
+                <p className="text-2xl/tight text-balance md:max-w-[42ch] md:text-3xl">
                   {section.subtitle.split(/\[\[(.*?)\]\]/).map((s, i) => (
                     <span
                       key={s + i}
@@ -91,7 +91,7 @@ export default async function Section({ section }: SectionProps) {
               )}
 
               {!section.subtitle && section.contentType !== "experience" && (
-                <h2 className="text-2xl/tight md:max-w-[42ch] md:text-3xl">
+                <h2 className="text-2xl/tight text-balance md:max-w-[42ch] md:text-3xl">
                   {section.title}
                 </h2>
               )}
