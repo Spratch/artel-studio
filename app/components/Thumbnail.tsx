@@ -93,13 +93,7 @@ export default function Thumbnail({
         />
       ) : (
         desktopCover.video && (
-          <div
-            className={cn(coverClass, "hidden sm:block")}
-            style={{
-              maxHeight: sizes.h,
-              maxWidth: sizes.w
-            }}
-          >
+          <div className={cn(coverClass, "hidden sm:block")}>
             <VideoPlayer
               video={desktopCover.video.playbackId}
               isBg={true}
