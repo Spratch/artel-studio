@@ -2,7 +2,7 @@
   "name": "artel-studio",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@11.24.0",
+  "packageManager": "pnpm@12.8.1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -34,7 +34,7 @@
     "next-sanity": "^13.3.3",
     "react": "19.2.7",
     "react-dom": "19.2.7",
-    "sanity": "^6.10.1",
+    "sanity": "^6.17.0",
     "sanity-plugin-iframe-pane": "^5.0.35",
     "sanity-plugin-mux-input": "^3.0.0",
     "sanity-plugin-utils": "2.0.1",
