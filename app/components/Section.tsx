@@ -14,10 +14,10 @@ type SectionProps = {
 };
 
 const VRAC_POSITIONS = [
-  { x: "43", y: "45", r: "-5" },
-  { x: "63", y: "33", r: "3" },
-  { x: "82", y: "37", r: "-1" },
-  { x: "22", y: "60", r: "5" }
+  { x: "43", y: "45", r: "-5", z: "1" },
+  { x: "63", y: "33", r: "3", z: "2" },
+  { x: "22", y: "60", r: "5", z: "0" },
+  { x: "82", y: "37", r: "-1", z: "3" }
 ];
 
 export default async function Section({ section }: SectionProps) {
@@ -170,12 +170,12 @@ export default async function Section({ section }: SectionProps) {
                       <div
                         key={project.slug + i}
                         style={{
-                          position: "absolute",
                           top: `${pos.y}%`,
                           left: `${pos.x}%`,
-                          transform: `translate(-50%, -50%) rotate(${pos.r}deg)`
+                          zIndex: pos.z,
+                          transform: `rotate(${pos.r}deg)`
                         }}
-                        className="transition-transform focus-within:-rotate-1 hover:-rotate-1"
+                        className="relative w-fit transition-transform focus-within:-rotate-1 hover:-rotate-1 max-sm:top-auto! max-sm:left-auto! max-sm:mx-auto sm:absolute sm:-translate-1/2"
                       >
                         <Thumbnail
                           project={project}
