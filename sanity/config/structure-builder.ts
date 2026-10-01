@@ -18,7 +18,7 @@ export const sli = (
 ) => {
   const [id, title, Icon, type] = args;
   return type === "list"
-    ? S.documentTypeListItem(id).icon(Icon).title(title)
+    ? S.documentTypeListItem(id).icon(Icon).title(title).showCount()
     : S.listItem()
         .title(title)
         .icon(Icon)
