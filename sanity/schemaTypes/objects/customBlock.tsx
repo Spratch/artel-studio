@@ -1,4 +1,4 @@
-import { SchemaIcon } from "@sanity/icons";
+import { SchemaIcon } from "@sanity/icons/Schema";
 import { Stack } from "@sanity/ui";
 import { defineType, type ArrayOfObjectsInputProps } from "sanity";
 

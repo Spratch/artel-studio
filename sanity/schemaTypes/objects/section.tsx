@@ -2,16 +2,14 @@
 
 import { Section } from "@/sanity.types";
 import { getClient } from "@/sanity/config/client-config";
-import {
-  ArrowTopRightIcon,
-  AsteriskIcon,
-  BlockContentIcon,
-  BlockElementIcon,
-  DropIcon,
-  EmptyIcon,
-  OlistIcon,
-  StringIcon
-} from "@sanity/icons";
+import { ArrowTopRightIcon } from "@sanity/icons/ArrowTopRight";
+import { AsteriskIcon } from "@sanity/icons/Asterisk";
+import { BlockContentIcon } from "@sanity/icons/BlockContent";
+import { BlockElementIcon } from "@sanity/icons/BlockElement";
+import { DropIcon } from "@sanity/icons/Drop";
+import { EmptyIcon } from "@sanity/icons/Empty";
+import { OlistIcon } from "@sanity/icons/Olist";
+import { StringIcon } from "@sanity/icons/String";
 import { Flex, Text } from "@sanity/ui";
 import { useEffect, useState } from "react";
 import {

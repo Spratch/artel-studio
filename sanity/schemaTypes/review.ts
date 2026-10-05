@@ -1,4 +1,4 @@
-import { CommentIcon } from "@sanity/icons";
+import { CommentIcon } from "@sanity/icons/Comment";
 import { defineField, defineType, SanityDocument } from "sanity";
 import { getClient } from "../config/client-config";
 

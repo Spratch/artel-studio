@@ -1,4 +1,6 @@
-import { CaseIcon, DocumentTextIcon, InfoOutlineIcon } from "@sanity/icons";
+import { CaseIcon } from "@sanity/icons/Case";
+import { DocumentTextIcon } from "@sanity/icons/DocumentText";
+import { InfoOutlineIcon } from "@sanity/icons/InfoOutline";
 import { ALL_FIELDS_GROUP, defineField, defineType } from "sanity";
 
 export const serviceSchema = defineType({

@@ -1,11 +1,9 @@
 "use client";
 
-import {
-  DatabaseIcon,
-  DocumentsIcon,
-  SortIcon,
-  VideoIcon
-} from "@sanity/icons";
+import { DatabaseIcon } from "@sanity/icons/Database";
+import { DocumentsIcon } from "@sanity/icons/Documents";
+import { SortIcon } from "@sanity/icons/Sort";
+import { VideoIcon } from "@sanity/icons/Video";
 import { frFRLocale } from "@sanity/locale-fr-fr";
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";

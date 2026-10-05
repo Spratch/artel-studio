@@ -1,9 +1,7 @@
-import {
-  EarthGlobeIcon,
-  InfoOutlineIcon,
-  MenuIcon,
-  SplitHorizontalIcon
-} from "@sanity/icons";
+import { EarthGlobeIcon } from "@sanity/icons/EarthGlobe";
+import { InfoOutlineIcon } from "@sanity/icons/InfoOutline";
+import { MenuIcon } from "@sanity/icons/Menu";
+import { SplitHorizontalIcon } from "@sanity/icons/SplitHorizontal";
 import {
   ALL_FIELDS_GROUP,
   defineArrayMember,

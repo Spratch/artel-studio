@@ -1,12 +1,10 @@
-import {
-  CaseIcon,
-  ComponentIcon,
-  ControlsIcon,
-  DocumentsIcon,
-  EnvelopeIcon,
-  HomeIcon,
-  InfoOutlineIcon
-} from "@sanity/icons";
+import { CaseIcon } from "@sanity/icons/Case";
+import { ComponentIcon } from "@sanity/icons/Component";
+import { ControlsIcon } from "@sanity/icons/Controls";
+import { DocumentsIcon } from "@sanity/icons/Documents";
+import { EnvelopeIcon } from "@sanity/icons/Envelope";
+import { HomeIcon } from "@sanity/icons/Home";
+import { InfoOutlineIcon } from "@sanity/icons/InfoOutline";
 import type { StructureResolver } from "sanity/structure";
 import { sli, type StructureListItemType } from "./config/structure-builder";
 

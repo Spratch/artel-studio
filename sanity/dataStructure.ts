@@ -1,13 +1,11 @@
-import {
-  CaseIcon,
-  CommentIcon,
-  DropIcon,
-  HomeIcon,
-  StringIcon,
-  TextIcon,
-  TiersIcon,
-  UsersIcon
-} from "@sanity/icons";
+import { CaseIcon } from "@sanity/icons/Case";
+import { CommentIcon } from "@sanity/icons/Comment";
+import { DropIcon } from "@sanity/icons/Drop";
+import { HomeIcon } from "@sanity/icons/Home";
+import { StringIcon } from "@sanity/icons/String";
+import { TextIcon } from "@sanity/icons/Text";
+import { TiersIcon } from "@sanity/icons/Tiers";
+import { UsersIcon } from "@sanity/icons/Users";
 import type { StructureResolver } from "sanity/structure";
 import { sli, type StructureListItemType } from "./config/structure-builder";
 

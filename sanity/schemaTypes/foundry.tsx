@@ -1,4 +1,5 @@
-import { HomeIcon, StringIcon } from "@sanity/icons";
+import { HomeIcon } from "@sanity/icons/Home";
+import { StringIcon } from "@sanity/icons/String";
 import Image from "next/image";
 import { defineField, defineType } from "sanity";
 

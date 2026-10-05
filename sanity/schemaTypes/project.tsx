@@ -1,12 +1,10 @@
 import { LAYOUTS } from "@/lib/layouts";
-import {
-  BlockContentIcon,
-  CaseIcon,
-  CommentIcon,
-  InfoOutlineIcon,
-  TiersIcon,
-  VideoIcon
-} from "@sanity/icons";
+import { BlockContentIcon } from "@sanity/icons/BlockContent";
+import { CaseIcon } from "@sanity/icons/Case";
+import { CommentIcon } from "@sanity/icons/Comment";
+import { InfoOutlineIcon } from "@sanity/icons/InfoOutline";
+import { TiersIcon } from "@sanity/icons/Tiers";
+import { VideoIcon } from "@sanity/icons/Video";
 import Image from "next/image";
 import {
   ALL_FIELDS_GROUP,
