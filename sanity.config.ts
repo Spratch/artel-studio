@@ -42,7 +42,7 @@ const tools = [
   }),
   umamiTool({
     title: "Statistiques",
-    url: "http://artel-studio-umami-80af75-188-245-214-83.sslip.io/script.js"
+    url: "http://artel-studio-umami-80af75-188-245-214-83.sslip.io/share/DzghQx8L0RaWBwDW"
   })
 ];
 
