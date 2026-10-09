@@ -5,6 +5,7 @@ import {
   getPaletteColors
 } from "@/sanity/lib/getters";
 import type { Metadata } from "next";
+import Script from "next/script";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { sagace } from "../fonts";
@@ -85,6 +86,11 @@ export default async function RootLayout({
         {children}
         <Footer />
       </body>
+      <Script
+        src="http://artel-studio-umami-80af75-188-245-214-83.sslip.io/script.js"
+        data-website-id="your-website-id"
+        strategy="afterInteractive"
+      />
     </html>
   );
 }

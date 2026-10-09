@@ -37,6 +37,7 @@
     "sanity": "^6.17.0",
     "sanity-plugin-iframe-pane": "^5.0.35",
     "sanity-plugin-mux-input": "^3.0.0",
+    "sanity-plugin-umami-analytics-tool": "^1.1.1",
     "sanity-plugin-utils": "2.0.1",
     "tailwind-merge": "^3.6.0"
   },
