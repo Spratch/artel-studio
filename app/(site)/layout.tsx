@@ -5,6 +5,7 @@ import {
   getPaletteColors
 } from "@/sanity/lib/getters";
 import type { Metadata } from "next";
+import Script from "next/script";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { sagace } from "../fonts";
@@ -85,6 +86,11 @@ export default async function RootLayout({
         {children}
         <Footer />
       </body>
+      <Script
+        src="https://analytics.josephclenet.fr/script.js"
+        data-website-id="c3c5ec18-80b5-4f0c-a350-a982ed1012a7"
+        strategy="afterInteractive"
+      />
     </html>
   );
 }

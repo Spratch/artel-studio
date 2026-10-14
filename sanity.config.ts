@@ -8,6 +8,7 @@ import { frFRLocale } from "@sanity/locale-fr-fr";
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { muxInput } from "sanity-plugin-mux-input";
+import { umamiTool } from "sanity-plugin-umami-analytics-tool";
 import { structureTool } from "sanity/structure";
 import { defaultDocumentNode } from "./sanity/config/defaultDocumentNode";
 import { dataStructure } from "./sanity/dataStructure";
@@ -38,6 +39,10 @@ const tools = [
       title: "Vidéos",
       icon: VideoIcon
     }
+  }),
+  umamiTool({
+    title: "Statistiques",
+    url: "https://analytics.josephclenet.fr/share/yghQntOKUCKU8DtJ"
   })
 ];
 
