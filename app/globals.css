@@ -57,6 +57,22 @@ main.contact-page + footer {
   }
 }
 
+@utility text-outline-* {
+  --outline-color: --value(--color-*);
+  --thickness: 4px;
+  --negative: calc(var(--thickness) * -1);
+
+  text-shadow:
+    var(--thickness) 0 0 var(--outline-color),
+    var(--negative) 0 0 var(--outline-color),
+    0 var(--thickness) 0 var(--outline-color),
+    0 var(--negative) 0 var(--outline-color),
+    var(--thickness) var(--thickness) 0 var(--outline-color),
+    var(--negative) var(--negative) 0 var(--outline-color),
+    var(--thickness) var(--negative) 0 var(--outline-color),
+    var(--negative) var(--thickness) 0 var(--outline-color);
+}
+
 @keyframes carousel-dot-progress {
   from {
     width: 0%;

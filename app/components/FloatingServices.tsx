@@ -8,13 +8,14 @@ import { useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { ContentResultType } from "../types";
-import { generateServicesLayout } from "../utils";
+import { cn, generateServicesLayout } from "../utils";
 
 gsap.registerPlugin(Draggable, InertiaPlugin);
 
 type FloatingServicesProps = {
   items: (ContentResultType<"services", "services">[number] & {
     color: string;
+    size?: string;
   })[];
 };
 
@@ -74,7 +75,7 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
         if (!el || !layout[i]) return;
 
         gsap.set(el, {
-          x: layout[i].x / 1.2,
+          x: layout[i].x,
           y: layout[i].y,
           rotation: layout[i].rotation,
           "--border-radius": `${layout[i].borderRadius}px`
@@ -150,7 +151,10 @@ export default function FloatingServices({ items }: FloatingServicesProps) {
               "--item-color": item.color
             } as React.CSSProperties
           }
-          className="group/service flex font-serif text-xl text-(--section-services) transition-opacity duration-500 sm:text-3xl"
+          className={cn(
+            "group/service flex font-serif text-xl text-(--section-services) transition-opacity duration-500 sm:text-3xl",
+            item.size
+          )}
         >
           <div className="h-14.5 rounded-(--border-radius) border border-(--section-services) bg-(--section-bg) px-5 py-3 transition-all group-hover/service:border-(--item-color) group-has-[a:focus-visible]/service:rounded-e-none group-has-[a:hover]/service:rounded-e-none group-data-dragging/service:border-(--item-color) group-data-dragging/service:bg-(--item-color) group-data-dragging/service:text-noir-profond hover:bg-(--item-color) hover:text-noir-profond sm:h-19 sm:px-7 sm:pt-4.5 sm:pb-5">
             {item.name}

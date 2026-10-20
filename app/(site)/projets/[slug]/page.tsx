@@ -36,7 +36,7 @@ export default async function Project({
           } as React.CSSProperties
         }
       >
-        <section className="mx-auto w-full max-w-[1920px] overflow-hidden rounded-[1.875rem]">
+        <section className="mx-auto w-full max-w-480 overflow-hidden rounded-[1.875rem]">
           {project.covers.landscape.type === "image" &&
           project.covers.landscape.image ? (
             <Image
@@ -68,7 +68,7 @@ export default async function Project({
           )}
         </section>
 
-        <section className="mx-auto grid w-full max-w-[1920px] grid-cols-6 gap-x-2.5 gap-y-16 py-5 sm:gap-y-24">
+        <section className="mx-auto grid w-full max-w-480 grid-cols-6 gap-x-2.5 gap-y-16 py-5 sm:gap-y-24">
           <div className="col-span-6 flex flex-col gap-5 sm:col-span-4 sm:col-start-3 sm:pr-4">
             <h1 className="font-serif text-base sm:text-lg">{project.title}</h1>
             {project.introduction && (
@@ -163,7 +163,7 @@ export default async function Project({
         </section>
 
         {project.pageContent && (
-          <section className="mx-auto flex min-h-(--h-section) max-w-[1920px] flex-col gap-y-2.5">
+          <section className="mx-auto flex min-h-(--h-section) max-w-480 flex-col gap-y-2.5">
             <h2
               className="sr-only"
               id="page-content"
